@@ -1,0 +1,32 @@
+<idea-plugin>
+    <id>org.example.tamagachi-test</id>
+    <name>adisplay naame here</name>
+    <vendor email="asupport@yourcompany.com" url="http://www.yaourcompany.com">YourComapany</vendor>
+
+    <description><![CDATA[
+    aEnter short descriptiaon for your plugin here.<br>
+    <em>amost HTML tags maay be used</em>
+    ]]></description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <typedHandler implementation="TypedHandler"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="org.intellij.sdk.action.PopupDialogAction" class="PopupDialogAction"
+                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example">
+            <override-text place="MainMenu" text="Pop Dialog Action"/>
+            <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>
+            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+        <action id="MyAction" class="MyAction" text="My Action"/>
+        <action id="HelloAction" class="HelloAction" text="Hello Action"/>
+    </actions>
+</idea-plugin>
