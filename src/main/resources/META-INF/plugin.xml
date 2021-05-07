@@ -12,21 +12,40 @@
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
+
+    <applicationListeners>
+        <listener class="ru.hse.plugin.ProjectOpenCloseListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+
+
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <typedHandler implementation="TypedHandler"/>
+        <typedHandler implementation="ru.hse.plugin.TypedHandler"/>
+<!--        <applicationService serviceImplementation="ru.hse.plugin.StorageData"/>-->
+
+
+        <!-- Declare the application level service -->
+        <applicationService serviceImplementation="ru.hse.plugin.StorageData"/>
+<!--        <applicationService serviceInterface="mypackage.MyApplicationService"-->
+<!--                            serviceImplementation="mypackage.MyApplicationServiceImpl" />-->
+
+        <!-- Declare the project level service -->
+<!--        <projectService serviceInterface="mypackage.MyProjectService"-->
+<!--                        serviceImplementation="mypackage.MyProjectServiceImpl" />-->
     </extensions>
+
 
     <actions>
         <!-- Add your actions here -->
-        <action id="org.intellij.sdk.action.PopupDialogAction" class="PopupDialogAction"
-                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example">
-            <override-text place="MainMenu" text="Pop Dialog Action"/>
-            <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>
-            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
-        <action id="MyAction" class="MyAction" text="My Action"/>
-        <action id="HelloAction" class="HelloAction" text="Hello Action"/>
+<!--        <action id="org.intellij.sdk.action.PopupDialogAction" class="PopupDialogAction"-->
+<!--                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example">-->
+<!--            <override-text place="MainMenu" text="Pop Dialog Action"/>-->
+<!--            <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>-->
+<!--            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>-->
+<!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+<!--        </action>-->
+        <action id="MyAction" class="ru.hse.plugin.MyAction" text="My Action"/>
+<!--        <action id="HelloAction" class="HelloAction" text="Hello Action"/>-->
     </actions>
 </idea-plugin>

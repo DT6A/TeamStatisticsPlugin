@@ -1,7 +1,5 @@
 package ru.hse.plugin;
 
-public class Metric {
+public interface Metric {
 
-    private final String name = "Egor";
-    public static String a = "KRASAVA";
 }

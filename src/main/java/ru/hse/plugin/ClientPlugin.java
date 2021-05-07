@@ -1,2 +1,4 @@
-package ru.hse.plugin;public class ClientPlugin {
+package ru.hse.plugin;
+
+public class ClientPlugin {
 }
