@@ -52,8 +52,12 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         StorageData that = (StorageData) o;
         return Objects.equals(metrics, that.metrics) && Objects.equals(userInfo, that.userInfo)
                 && Objects.equals(jsonSender, that.jsonSender);

@@ -1,9 +1,20 @@
 package ru.hse.plugin;
 
+import com.google.gson.JsonObject;
+import com.intellij.icons.AllIcons;
+import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONValue;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class JsonSender {
-    private URL url;
+    private final URL url;
 
     public JsonSender(URL url) {
         this.url = url;
@@ -11,5 +22,30 @@ public class JsonSender {
 
     public URL getUrl() {
         return url;
+    }
+
+    public boolean sendData(@NotNull Map<String, String> nameToMetric) {
+        // TODO Нормальный процесс обработки успеха/неудачи
+        try {
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);
+
+            byte[] out = JSONValue.toJSONString(nameToMetric).getBytes(StandardCharsets.UTF_8);
+            int length = out.length;
+
+            http.setFixedLengthStreamingMode(length);
+            http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            http.connect();
+            try (OutputStream os = http.getOutputStream()) {
+                os.write(out);
+            }
+        }
+        catch (IOException e) {
+            return false;
+        }
+        return true;
+
     }
 }
