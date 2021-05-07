@@ -1,2 +1,4 @@
-package ru.hse.plugin;public class LocalInfo {
+package ru.hse.plugin;
+
+public class LocalInfo {
 }
