@@ -18,6 +18,15 @@ import java.util.Objects;
         storages = {@Storage("StorageData.xml")}
 )
 public final class StorageData implements PersistentStateComponent<StorageData> { // TODO randme to Storage
+
+    /*
+     * как добавляются методы:
+     * они все статик, а если надо пользоваться полями (например полем metrics, то пишем так: getInstance().metrics
+     * на этом вроде бы всё...
+     */
+
+
+
     @OptionTag(converter = MetricConverter.class) // mb does not work..., mb not metric converter but list<metric> cnv
     public List<Metric> metrics = new ArrayList<>(); // mb Map<Metric name / Metric class --> Metric>
     @OptionTag(converter = UserInfoConverter.class)
