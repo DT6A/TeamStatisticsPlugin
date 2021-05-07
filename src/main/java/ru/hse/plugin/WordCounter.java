@@ -10,14 +10,21 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
 public class WordCounter implements Metric {
-
     private final String word;
     private final int length;
     private int numberOfOccurrences;
 
-    public WordCounter(String word) {
+    public WordCounter(String word, int numberOfOccurrences) {
+        // TODO no spaces in word
         this.word = word;
-        length = word.length();
+        this.length = word.length();
+        this.numberOfOccurrences = numberOfOccurrences;
+    }
+
+    public WordCounter(String word) {
+        this(word, 0);
+//        this.word = word;
+//        length = word.length();
     }
 
     @Override
@@ -25,6 +32,7 @@ public class WordCounter implements Metric {
         int offset = editor.getCaretModel().getOffset();
         Document document = editor.getDocument();
         // TODO +2 или +1....
+        // TODO зачем перенос? в 120 символов же вмещается
         String substring = document.getText(new TextRange(offset - length - 2,
                 offset + length + 2));
         for (int start = 0; start < substring.length() - length - 1; start++) {
@@ -40,7 +48,17 @@ public class WordCounter implements Metric {
     }
 
     @Override
+    public void clear() {
+        numberOfOccurrences = 0;
+    }
+
+    @Override
     public String getInfo() {
         return Integer.toString(numberOfOccurrences);
+    }
+
+    @Override
+    public String toString() {
+        return PluginConstants.WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }
 }
