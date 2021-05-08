@@ -27,7 +27,7 @@ public interface Metric {
             return null;
         }
 
-        String[] parts = metric.split("[ ]");
+        String[] parts = metric.split(" ");
 
         if (parts[0].equals(PluginConstants.WORD_COUNTER)) {
             if (parts.length != 3) throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
