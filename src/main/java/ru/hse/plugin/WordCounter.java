@@ -60,8 +60,14 @@ public class WordCounter implements Metric {
         return Integer.toString(numberOfOccurrences);
     }
 
+    @NotNull
+    @Override
+    public String getName() {
+        return PluginConstants.WORD_COUNTER + "(" + word + ")";
+    }
+
     @Override
     public String toString() {
-        return PluginConstants.WORD_COUNTER + " " + word + " " + numberOfOccurrences;
+        return getName() + " " + word + " " + numberOfOccurrences;
     }
 }

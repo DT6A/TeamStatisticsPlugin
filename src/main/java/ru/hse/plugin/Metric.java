@@ -18,6 +18,9 @@ public interface Metric {
     @Override
     String toString(); // TODO хз как явно говорить что это обязательно надо заовеерайдить
 
+    @NotNull
+    String getName(); // Формат: 'ИмяКласс(поля, какого, то, конструктора)'
+
     @Nullable // TODO mb notnull and throw if string is null
     static Metric fromString(@Nullable String metric) {
         if (metric == null) {

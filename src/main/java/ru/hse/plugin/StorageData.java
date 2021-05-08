@@ -1,20 +1,18 @@
 package ru.hse.plugin;
 
 import com.intellij.openapi.components.*;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.util.xmlb.XmlSerializationException;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.Storage;
-import org.jetbrains.annotations.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @State(
         name = "org.intellij.sdk.settings.StorageData",
@@ -46,10 +44,16 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     private static final Thread daemon = new Thread(() -> {
         try {
             while (!Thread.interrupted()) {
+//                var instance = StorageData.getInstance();
+//                if (instance.jsonSender.sendData(instance.getMetricsInfo())) {
+//                    instance.clearMetrics();
+//                }
+                // ------------------------------------------------------
                 System.out.println("                hello from daemon!");
                 for (var metric : StorageData.getInstance().metrics) {
                     System.out.println("                    " + metric);
                 }
+
                 TimeUnit.SECONDS.sleep(10);
             }
         } catch (InterruptedException e) { }
@@ -57,11 +61,20 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     public StorageData() {}
 
-    public static synchronized StorageData getInstance() { // mb synchronized, no hz...
+    public static synchronized StorageData getInstance() { // mb not synchronized, no hz...
         if (daemon.getState() == Thread.State.NEW) {
             daemon.start();
         }
         return ServiceManager.getService(StorageData.class);
+    }
+
+    @NotNull
+    public Map<String, String> getMetricsInfo() {
+        return metrics.stream().collect(Collectors.toMap(Metric::getName, Metric::getInfo));
+    }
+
+    public void clearMetrics() {
+        metrics.forEach(Metric::clear);
     }
 
     @Override
