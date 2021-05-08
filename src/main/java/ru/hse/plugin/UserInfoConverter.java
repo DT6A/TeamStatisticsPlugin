@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class UserInfoConverter extends Converter<UserInfo> {
     /*
-     * TODO: контролировать это в конструкторе UserInfo
      * assuming there is no spaces in login, password, id
      */
     @Override

@@ -30,11 +30,16 @@ public class WordCounter implements Metric {
 
         int offset = editor.getCaretModel().getOffset();
         Document document = editor.getDocument();
-        // TODO +2 или +1....
-        // TODO зачем перенос? в 120 символов же вмещается
-        // TODO хочется регистро неразличимо + substring каждый раз брать долго, кажется
-        // TODO TODO TODO TODO блять оно падает в крайних (буквально с краю документа) случаях...
-        // TODO Ищем слова 'Cock' и 'coq', дописываю "... Coc coq ..." -> "... Cock coq ..."
+        /**
+         * TODO +2 или +1....
+         *
+         * TODO зачем перенос? в 120 символов же вмещается
+         * TODO хочется регистро неразличимо + substring каждый раз брать долго, кажется
+         * TODO TODO TODO TODO блять оно падает в крайних (буквально с краю документа) случаях...
+         * TODO Ищем слова 'Cock' и 'coq', дописываю "... Coc coq ..." -> "... Cock coq ..."
+         *
+         * Перед исправлением смотри {@link:TypedHandler.java:39} (а как ссылки ставить)
+         */
         String substring = document.getText(new TextRange(offset - length - 2,
                 offset + length + 2));
         for (int start = 0; start < substring.length() - length - 1; start++) {
