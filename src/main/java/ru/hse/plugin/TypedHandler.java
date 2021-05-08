@@ -43,7 +43,7 @@ public class TypedHandler extends TypedHandlerDelegate {
 //        Messages.showInfoMessage("Nice cock!!!!!!!!!", "ATTENTiON");
         List<Metric> metrics = StorageData.getInstance().metrics;
         for (Metric metric : metrics) {
-            metric.update(project, editor, file);
+            metric.update(c, project, editor, file);
         }
         return Result.STOP;
     }

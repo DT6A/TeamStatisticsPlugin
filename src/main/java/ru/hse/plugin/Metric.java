@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 public interface Metric {
 
     // TODO почему boolean?
-    boolean update(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file);
+    boolean update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file);
 
     void clear();
 

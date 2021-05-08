@@ -9,25 +9,37 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+
+import static java.lang.Math.min;
+import static java.lang.Math.max;
+
 public class WordCounter implements Metric {
     private final String word;
     private final int length;
     private int numberOfOccurrences;
+    private static final Pattern CORRECT_WORD = Pattern.compile("[^a-zA-Z0-9_]");
 
     public WordCounter(String word, int numberOfOccurrences) {
-        // TODO no spaces in word
+        if (!CORRECT_WORD.matcher(word).matches()) {
+            // TODO Падает если пробрасывать исключение
+            //throw new WeNeedNameException("Incorrect word for counting");
+        }
         this.word = word;
         this.length = word.length();
         this.numberOfOccurrences = numberOfOccurrences;
     }
 
-    public WordCounter(String word) {
+    public WordCounter(String word)  {
         this(word, 0);
     }
 
     @Override
-    public boolean update(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
-
+    public boolean update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+        if (!word.contains(String.valueOf(charTyped))) {
+            return false;
+        }
         int offset = editor.getCaretModel().getOffset();
         Document document = editor.getDocument();
         /**
@@ -40,16 +52,12 @@ public class WordCounter implements Metric {
          *
          * Перед исправлением смотри {@link:TypedHandler.java:39} (а как ссылки ставить)
          */
-        String substring = document.getText(new TextRange(offset - length - 2,
-                offset + length + 2));
-        for (int start = 0; start < substring.length() - length - 1; start++) {
-            if (substring.charAt(start) == ' ' &&
-                    substring.charAt(start + length + 1) == ' ') {
-                // TODO добавил тут 1 символ в подстроку, вроде так и надо, но вдруг нет (??)
-                if (substring.substring(start + 1, start + length + 1).equals(word)) {
-                    numberOfOccurrences++;
-                    return true;
-                }
+        StringTokenizer tokens = new StringTokenizer(document.getText(new TextRange(max(0, offset - length - 2),
+                min(document.getTextLength(), offset + length + 2))));
+        while (tokens.hasMoreTokens()) {
+            if (tokens.nextToken().equals(word)) {
+                numberOfOccurrences++;
+                return true;
             }
         }
         return false;
