@@ -52,6 +52,7 @@ public class WordCounter implements Metric {
          *
          * Перед исправлением смотри {@link:TypedHandler.java:39} (а как ссылки ставить)
          */
+
         StringTokenizer tokens = new StringTokenizer(document.getText(new TextRange(max(0, offset - length - 2),
                 min(document.getTextLength(), offset + length + 2))));
         while (tokens.hasMoreTokens()) {
@@ -81,6 +82,6 @@ public class WordCounter implements Metric {
 
     @Override
     public String toString() {
-        return getName() + " " + word + " " + numberOfOccurrences;
+        return PluginConstants.WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }
 }

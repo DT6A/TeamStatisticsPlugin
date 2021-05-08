@@ -11,8 +11,13 @@ public class CharCounter implements Metric {
 
     public static final CharCounter LINE_COUNTER = new CharCounter('\n');
 
-    public CharCounter(char character) {
+    public CharCounter(char character, int numberOfOccurrences) {
         this.character = character;
+        this.numberOfOccurrences = numberOfOccurrences;
+    }
+
+    public CharCounter(char character) {
+        this(character, 0);
     }
 
     @Override
@@ -36,6 +41,11 @@ public class CharCounter implements Metric {
 
     @Override
     public @NotNull String getName() {
-        return null;
+        return PluginConstants.CHAR_COUNTER + "(" + Character.getNumericValue(character) + ")";
+    }
+
+    @Override
+    public String toString() {
+        return PluginConstants.CHAR_COUNTER + " " + Character.getNumericValue(character) + " " + numberOfOccurrences;
     }
 }

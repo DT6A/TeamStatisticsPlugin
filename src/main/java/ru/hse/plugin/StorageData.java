@@ -26,7 +26,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      * на этом вроде бы всё...
      */
 
-    @OptionTag(converter = ListMetricConverter.class )
+    @OptionTag(converter = ListMetricConverter.class)
     public List<Metric> metrics = List.of(new WordCounter("Cock"), new WordCounter("coq"));
     @OptionTag(converter = UserInfoConverter.class)
     public UserInfo userInfo = new UserInfo("Login", "pa$$word", 0);
@@ -54,10 +54,14 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                     System.out.println("                    " + metric);
                 }
 
-                TimeUnit.SECONDS.sleep(10);
+                TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
             }
         } catch (InterruptedException e) { }
     });
+
+    static {
+        daemon.setDaemon(true); // Но что эт значит...
+    }
 
     public StorageData() {}
 
