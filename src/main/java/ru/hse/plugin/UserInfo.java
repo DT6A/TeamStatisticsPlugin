@@ -8,6 +8,12 @@ public class UserInfo {
     private long id;
 
     public UserInfo(String login, String password, long id) {
+        if (login.matches(".*[ \t\n].*") || password.matches(".*[ \t\n].*")) {
+            throw new RuntimeException("Illegal symbols in login or password");
+            // TODO как-нибудь разумнее искать совпадение 1 символа + разделить (видимо)
+            //      на разные случаие эксепшн (НО хочется чтобы это тупо на сервере проверялось)
+        }
+
         this.login = login;
         this.password = password;
         this.id = id;

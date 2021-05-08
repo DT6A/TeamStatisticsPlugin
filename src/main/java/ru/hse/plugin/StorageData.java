@@ -9,15 +9,18 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.Storage;
 import org.jetbrains.annotations.Nullable;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @State(
         name = "org.intellij.sdk.settings.StorageData",
         storages = {@Storage("StorageData.xml")}
 )
-public final class StorageData implements PersistentStateComponent<StorageData> { // TODO randme to Storage
+public final class StorageData implements PersistentStateComponent<StorageData> { // TODO rename to Storage
 
     /*
      * как добавляются методы:
@@ -25,18 +28,39 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      * на этом вроде бы всё...
      */
 
-
-
-    @OptionTag(converter = MetricConverter.class) // mb does not work..., mb not metric converter but list<metric> cnv
-    public List<Metric> metrics = new ArrayList<>(); // mb Map<Metric name / Metric class --> Metric>
+    @OptionTag(converter = ListMetricConverter.class )
+    public List<Metric> metrics = List.of(new WordCounter("Cock"), new WordCounter("coq"));
     @OptionTag(converter = UserInfoConverter.class)
     public UserInfo userInfo = new UserInfo("Login", "pa$$word", 0);
     @OptionTag(converter = JsonSenderConverter.class)
-    public JsonSender jsonSender = new JsonSender(null);
+    public JsonSender jsonSender;
+
+    {
+        try {
+            jsonSender = new JsonSender(new URL("https://www.example.com/docs/resource1.html"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final Thread daemon = new Thread(() -> {
+        try {
+            while (!Thread.interrupted()) {
+                System.out.println("                hello from daemon!");
+                for (var metric : StorageData.getInstance().metrics) {
+                    System.out.println("                    " + metric);
+                }
+                TimeUnit.SECONDS.sleep(10);
+            }
+        } catch (InterruptedException e) { }
+    });
 
     public StorageData() {}
 
-    public static StorageData getInstance() { // mb synchronized, no hz...
+    public static synchronized StorageData getInstance() { // mb synchronized, no hz...
+        if (daemon.getState() == Thread.State.NEW) {
+            daemon.start();
+        }
         return ServiceManager.getService(StorageData.class);
     }
 

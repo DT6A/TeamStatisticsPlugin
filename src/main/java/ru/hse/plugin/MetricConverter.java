@@ -7,11 +7,15 @@ import org.jetbrains.annotations.Nullable;
 public class MetricConverter extends Converter<Metric> {
     @Override
     public @Nullable Metric fromString(@Nullable @NonNls String s) {
-        return null;
+        return Metric.fromString(s);
     }
 
     @Override
     public @Nullable String toString(@Nullable Metric metric) {
-        return null;
+        if (metric == null) {
+            return null;
+        }
+
+        return metric.toString();
     }
 }

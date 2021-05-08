@@ -23,22 +23,25 @@ public class WordCounter implements Metric {
 
     public WordCounter(String word) {
         this(word, 0);
-//        this.word = word;
-//        length = word.length();
     }
 
     @Override
     public boolean update(@NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+
         int offset = editor.getCaretModel().getOffset();
         Document document = editor.getDocument();
         // TODO +2 или +1....
         // TODO зачем перенос? в 120 символов же вмещается
+        // TODO хочется регистро неразличимо + substring каждый раз брать долго, кажется
+        // TODO TODO TODO TODO блять оно падает в крайних (буквально с краю документа) случаях...
+        // TODO Ищем слова 'Cock' и 'coq', дописываю "... Coc coq ..." -> "... Cock coq ..."
         String substring = document.getText(new TextRange(offset - length - 2,
                 offset + length + 2));
         for (int start = 0; start < substring.length() - length - 1; start++) {
             if (substring.charAt(start) == ' ' &&
                     substring.charAt(start + length + 1) == ' ') {
-                if (substring.substring(start + 1, start + length).equals(word)) {
+                // TODO добавил тут 1 символ в подстроку, вроде так и надо, но вдруг нет (??)
+                if (substring.substring(start + 1, start + length + 1).equals(word)) {
                     numberOfOccurrences++;
                     return true;
                 }
