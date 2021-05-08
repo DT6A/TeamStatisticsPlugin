@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class CharCounter implements Metric {
     private final char character;
     private int numberOfOccurrences;
-
-    public static final CharCounter LINE_COUNTER = new CharCounter('\n');
-
+    // TODO test
     public CharCounter(char character, int numberOfOccurrences) {
         this.character = character;
         this.numberOfOccurrences = numberOfOccurrences;
@@ -21,12 +19,10 @@ public class CharCounter implements Metric {
     }
 
     @Override
-    public boolean update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (charTyped == character) {
             numberOfOccurrences++;
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -41,6 +37,7 @@ public class CharCounter implements Metric {
 
     @Override
     public @NotNull String getName() {
+        //return "lines";
         return PluginConstants.CHAR_COUNTER + "(" + Character.getNumericValue(character) + ")";
     }
 

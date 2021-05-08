@@ -2,8 +2,7 @@ package ru.hse.plugin;
 
 public class WeNeedNameException extends Exception {
 
-    public WeNeedNameException() {
-    }
+    public WeNeedNameException() { }
 
     public WeNeedNameException(String message) {
         super(message);

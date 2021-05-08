@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Map;
 
 public class JsonSender {
@@ -26,12 +27,14 @@ public class JsonSender {
 
     public boolean sendData(@NotNull Map<String, String> nameToMetric) {
         // TODO Нормальный процесс обработки успеха/неудачи
+        // TODO add user_id
+        nameToMetric.put("user_id", "1");
         try {
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("POST");
             http.setDoOutput(true);
-
+            System.out.println(JSONValue.toJSONString(nameToMetric));
             byte[] out = JSONValue.toJSONString(nameToMetric).getBytes(StandardCharsets.UTF_8);
             int length = out.length;
 

@@ -27,7 +27,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    public List<Metric> metrics = List.of(new WordCounter("Cock"), new WordCounter("coq"));
+    public List<Metric> metrics = List.of(new WordCounter("coq"));
     @OptionTag(converter = UserInfoConverter.class)
     public UserInfo userInfo = new UserInfo("Login", "pa$$word", 0);
     @OptionTag(converter = JsonSenderConverter.class)
@@ -35,7 +35,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     {
         try {
-            jsonSender = new JsonSender(new URL("https://www.example.com/docs/resource1.html"));
+            jsonSender = new JsonSender(new URL("http://127.0.0.1:8000/post/"));
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -44,23 +44,24 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     private static final Thread daemon = new Thread(() -> {
         try {
             while (!Thread.interrupted()) {
-//                var instance = StorageData.getInstance();
-//                if (instance.jsonSender.sendData(instance.getMetricsInfo())) {
-//                    instance.clearMetrics();
-//                }
-                // ------------------------------------------------------
                 System.out.println("                hello from daemon!");
                 for (var metric : StorageData.getInstance().metrics) {
                     System.out.println("                    " + metric);
                 }
+                var instance = StorageData.getInstance();
+                if (instance.jsonSender.sendData(instance.getMetricsInfo())) {
+                    instance.clearMetrics();
+                }
+                // ------------------------------------------------------
+
 
                 TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
             }
-        } catch (InterruptedException e) { }
+        } catch (InterruptedException ignored) { }
     });
 
     static {
-        daemon.setDaemon(true); // Но что эт значит...
+        daemon.setDaemon(true); //TODO Но что эт значит...
     }
 
     public StorageData() {}

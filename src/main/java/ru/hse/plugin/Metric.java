@@ -8,8 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface Metric {
 
-    // TODO почему boolean?
-    boolean update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file);
+    void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file);
 
     void clear();
 
@@ -21,7 +20,7 @@ public interface Metric {
     @NotNull
     String getName(); // Формат: 'ИмяКласс(поля, какого, то, конструктора)'
 
-    @Nullable // TODO mb notnull and throw if string is null
+    @Nullable
     static Metric fromString(@Nullable String metric) {
         if (metric == null) {
             return null;

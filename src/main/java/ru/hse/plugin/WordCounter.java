@@ -1,9 +1,7 @@
 package ru.hse.plugin;
 
-import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiFile;
@@ -23,8 +21,7 @@ public class WordCounter implements Metric {
 
     public WordCounter(String word, int numberOfOccurrences) {
         if (!CORRECT_WORD.matcher(word).matches()) {
-            // TODO Падает если пробрасывать исключение
-            //throw new WeNeedNameException("Incorrect word for counting");
+            throw new RuntimeException("Incorrect word for counting");
         }
         this.word = word;
         this.length = word.length();
@@ -36,18 +33,16 @@ public class WordCounter implements Metric {
     }
 
     @Override
-    public boolean update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (!word.contains(String.valueOf(charTyped))) {
-            return false;
+            return;
         }
         int offset = editor.getCaretModel().getOffset();
         Document document = editor.getDocument();
         /**
          * TODO +2 или +1....
          *
-         * TODO зачем перенос? в 120 символов же вмещается
          * TODO хочется регистро неразличимо + substring каждый раз брать долго, кажется
-         * TODO TODO TODO TODO блять оно падает в крайних (буквально с краю документа) случаях...
          * TODO Ищем слова 'Cock' и 'coq', дописываю "... Coc coq ..." -> "... Cock coq ..."
          *
          * Перед исправлением смотри {@link:TypedHandler.java:39} (а как ссылки ставить)
@@ -58,10 +53,9 @@ public class WordCounter implements Metric {
         while (tokens.hasMoreTokens()) {
             if (tokens.nextToken().equals(word)) {
                 numberOfOccurrences++;
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     @Override

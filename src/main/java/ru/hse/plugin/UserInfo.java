@@ -3,9 +3,9 @@ package ru.hse.plugin;
 import java.util.Objects;
 
 public class UserInfo {
-    private String login;
-    private String password;
-    private long id;
+    private final String login;
+    private final String password;
+    private final long id;
 
     public UserInfo(String login, String password, long id) {
         if (login.matches(".*[ \t\n].*") || password.matches(".*[ \t\n].*")) {

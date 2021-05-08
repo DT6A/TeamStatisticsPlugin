@@ -45,7 +45,6 @@
 <!--            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>-->
 <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
 <!--        </action>-->
-        <action id="MyAction" class="ru.hse.plugin.MyAction" text="My Action"/>
 <!--        <action id="HelloAction" class="HelloAction" text="Hello Action"/>-->
     </actions>
 </idea-plugin>
