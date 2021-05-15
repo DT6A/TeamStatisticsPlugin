@@ -8,54 +8,54 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.util.PluginConstants;
 
+import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import static java.lang.Math.min;
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 
 public class WordCounter implements Metric {
     private final String word;
     private final int length;
+    private final boolean caseSensitive;
     private int numberOfOccurrences;
-    private static final Pattern CORRECT_WORD = Pattern.compile("[^a-zA-Z0-9_]{2,}");
+    private static final String CORRECT_WORD_REGEX = "[a-zA-Z0-9_]{2,}";
 
     public WordCounter(String word, int numberOfOccurrences) {
-//        if (!CORRECT_WORD.matcher(word).matches()) { // TODO тут бага, надо удалять папку билд, чтобы это тестить
-//            throw new RuntimeException("Incorrect word for counting");
-//        }
+        this(word, numberOfOccurrences, true);
+    }
+
+    public WordCounter(String word, int numberOfOccurrences, boolean caseSensitive) {
+        if (!word.matches(CORRECT_WORD_REGEX)) {
+            throw new RuntimeException("Incorrect word for counting");
+        }
+        if (!caseSensitive) {
+            word = word.toLowerCase(Locale.ROOT);
+        }
         this.word = word;
         this.length = word.length();
         this.numberOfOccurrences = numberOfOccurrences;
+        this.caseSensitive = caseSensitive;
     }
 
     public WordCounter(String word)  {
         this(word, 0);
     }
 
+    private static boolean isDelimiter(char symbol) {
+        return !(Character.isLetterOrDigit(symbol) || symbol == '_');
+    }
+
     @Override
     public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
-        if (!word.contains(String.valueOf(charTyped))) {
-            return;
-        }
-        int offset = editor.getCaretModel().getOffset();
-        Document document = editor.getDocument();
-        /**
-         * TODO +2 или +1....
-         *
-         * TODO хочется регистро неразличимо + substring каждый раз брать долго, кажется
-         * TODO Ищем слова 'Cock' и 'coq', дописываю "... Coc coq ..." -> "... Cock coq ..."
-         *
-         * Перед исправлением смотри {@link TypedHandler#charTyped} (а как ссылки ставить)
-         */
-
-        StringTokenizer tokens = new StringTokenizer(document.getText(new TextRange(max(0, offset - length - 2),
-                min(document.getTextLength(), offset + length + 2))));
-        while (tokens.hasMoreTokens()) {
-            if (tokens.nextToken().equals(word)) {
-                numberOfOccurrences++;
-                return;
-            }
+        // offset -- количество символов, от начала текста до каретки
+        boolean update = updateFromText(
+                charTyped,
+                editor.getDocument().getImmutableCharSequence(),
+                editor.getCaretModel().getOffset()
+        );
+        if (update) {
+            numberOfOccurrences++;
         }
     }
 
@@ -79,4 +79,63 @@ public class WordCounter implements Metric {
     public String toString() {
         return PluginConstants.WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }
+
+    private boolean updateFromText(char charTyped,
+                                   CharSequence text,
+                                   int offset) {
+
+        if (isDelimiter(charTyped)) {
+            // TODO what if 2 words
+            int pos = offset;
+            if (matchWordWithText(pos, text)) {
+                return true;
+            }
+            pos = offset - 2 - length;
+            if (pos < -1) {
+                return false;
+            }
+            if (pos != -1 && !isDelimiter(text.charAt(pos))) {
+                return false;
+            }
+            pos++;
+            return matchWordWithText(pos, text);
+        }
+        else {
+            StringTokenizer tokens = new StringTokenizer(text.subSequence(
+                    max(0, offset - length - 1),
+                    min(text.length(), offset + length)
+            ).toString());
+            while (tokens.hasMoreTokens()) {
+                String token = tokens.nextToken();
+                if (!caseSensitive) {
+                    token = token.toLowerCase(Locale.ROOT);
+                }
+                if (token.equals(word)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private boolean matchWordWithText(int posInText, CharSequence text) {
+        int indexAtWord = 0;
+        while (indexAtWord < word.length() && posInText < text.length()) {
+            char charText = text.charAt(posInText);
+            char charWord = word.charAt(indexAtWord);
+            if (!caseSensitive) {
+                charText = Character.toLowerCase(charText);
+            }
+            if (charText != charWord) {
+                return false;
+            }
+            posInText++;
+            indexAtWord++;
+        }
+        if (indexAtWord == word.length()) {
+            return posInText == text.length() || isDelimiter(text.charAt(posInText));
+        }
+        return false;
+    }
+
 }
