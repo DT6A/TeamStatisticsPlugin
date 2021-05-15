@@ -20,6 +20,11 @@
 
 
     <extensions defaultExtensionNs="com.intellij">
+
+        <applicationConfigurable parentId="tools" instance="ru.hse.plugin.SettingsConfigurable"
+                                 id="ru.hse.plugin.SettingsConfigurable"
+                                 displayName="Nikita Loh"/>
+
         <!-- Add your extensions here -->
         <typedHandler implementation="ru.hse.plugin.TypedHandler"/>
 <!--        <applicationService serviceImplementation="ru.hse.plugin.StorageData"/>-->
@@ -33,10 +38,25 @@
         <!-- Declare the project level service -->
 <!--        <projectService serviceInterface="mypackage.MyProjectService"-->
 <!--                        serviceImplementation="mypackage.MyProjectServiceImpl" />-->
+
+
     </extensions>
 
 
     <actions>
+        <action id="your.action.id" class="ru.hse.plugin.MyToolBarButton"
+                text="Some label" description="Action description" icon="/Drawable/32.png">
+            <add-to-group group-id="ToolbarRunGroup" anchor="first" />
+            <!-- TODO получше группу найти или еще как-нибудь, потому что так логически это убого -->
+        </action>
+
+
+<!--        <group id="TopMenu" text="InputBox" description="Handling user input demo">-->
+<!--            <add-to-group group-id="MainMenu" anchor="last"/>-->
+<!--            <action id="DisplayInputBox" class="ru.hse.plugin.Test01" text="InputBox Demo"/>-->
+<!--        </group>-->
+
+
         <!-- Add your actions here -->
 <!--        <action id="org.intellij.sdk.action.PopupDialogAction" class="PopupDialogAction"-->
 <!--                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example">-->

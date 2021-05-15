@@ -14,7 +14,8 @@ public class ProjectOpenCloseListener implements ProjectManagerListener {
      */
     @Override
     public void projectOpened(@NotNull Project project) {
-        System.out.println("fuck it opened");
+//        System.out.println("fuck it opened");
+        LoginDialogHandler.tryLogin();
     }
 
     /**
@@ -24,7 +25,7 @@ public class ProjectOpenCloseListener implements ProjectManagerListener {
      */
     @Override
     public void projectClosed(@NotNull Project project) {
-        System.out.println("fuck it closed");
+//        System.out.println("fuck it closed");
     }
 
 }

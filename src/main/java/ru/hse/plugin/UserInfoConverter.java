@@ -1,7 +1,6 @@
 package ru.hse.plugin;
 
 import com.intellij.util.xmlb.Converter;
-import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,11 +10,17 @@ public class UserInfoConverter extends Converter<UserInfo> {
      */
     @Override
     public @Nullable UserInfo fromString(@NotNull String value) {
-        String[] fields = value.split(" ");
-        if (fields.length != 3) {
-            throw new RuntimeException("Parse error: expected 3 spaces, found " + (fields.length - 1));
+        if (value.equals("true")) {
+            return new EmptyUserInfo(true);
+        } else if (value.equals("false")) {
+            return new EmptyUserInfo(false);
         }
-        return new UserInfo(fields[0], fields[1], Long.parseLong(fields[2]));
+        String[] fields = value.split(" ");
+        if (fields.length != 2) {
+            throw new RuntimeException("Parse error: expected 2 spaces or \"" +
+                    PluginConstants.EMPTY_USER_INFO + "\", found " + (fields.length - 1));
+        }
+        return new UserInfoHolder(fields[0], fields[1]);
     }
 
 
@@ -23,8 +28,9 @@ public class UserInfoConverter extends Converter<UserInfo> {
      * TODO: пароли надо как-то не так хранить,
      *       https://plugins.jetbrains.com/docs/intellij/persisting-sensitive-data.html#store-credentials
      */
+    @Nullable
     @Override
-    public @Nullable String toString(@NotNull UserInfo value) {
-        return value.getLogin() + " " + value.getPassword() + " " + value.getId();
+    public String toString(@NotNull UserInfo value) {
+        return value.toString();
     }
 }

@@ -17,12 +17,12 @@ public class WordCounter implements Metric {
     private final String word;
     private final int length;
     private int numberOfOccurrences;
-    private static final Pattern CORRECT_WORD = Pattern.compile("[^a-zA-Z0-9_]");
+    private static final Pattern CORRECT_WORD = Pattern.compile("[^a-zA-Z0-9_]{2,}");
 
     public WordCounter(String word, int numberOfOccurrences) {
-        if (!CORRECT_WORD.matcher(word).matches()) {
-            throw new RuntimeException("Incorrect word for counting");
-        }
+//        if (!CORRECT_WORD.matcher(word).matches()) { // TODO тут бага, надо удалять папку билд, чтобы это тестить
+//            throw new RuntimeException("Incorrect word for counting");
+//        }
         this.word = word;
         this.length = word.length();
         this.numberOfOccurrences = numberOfOccurrences;
@@ -45,7 +45,7 @@ public class WordCounter implements Metric {
          * TODO хочется регистро неразличимо + substring каждый раз брать долго, кажется
          * TODO Ищем слова 'Cock' и 'coq', дописываю "... Coc coq ..." -> "... Cock coq ..."
          *
-         * Перед исправлением смотри {@link:TypedHandler.java:39} (а как ссылки ставить)
+         * Перед исправлением смотри {@link TypedHandler#charTyped} (а как ссылки ставить)
          */
 
         StringTokenizer tokens = new StringTokenizer(document.getText(new TextRange(max(0, offset - length - 2),

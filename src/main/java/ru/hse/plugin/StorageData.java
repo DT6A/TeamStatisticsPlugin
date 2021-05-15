@@ -26,12 +26,17 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      * на этом вроде бы всё...
      */
 
+    // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    public List<Metric> metrics = List.of(new WordCounter("coq"));
+    @NotNull public List<Metric> metrics = List.of(new WordCounter("coq"));
+
     @OptionTag(converter = UserInfoConverter.class)
-    public UserInfo userInfo = new UserInfo("Login", "pa$$word", 0);
+    @NotNull public UserInfo userInfo = new EmptyUserInfo();
+
     @OptionTag(converter = JsonSenderConverter.class)
-    public JsonSender jsonSender;
+    @NotNull public JsonSender jsonSender;
+
+    public boolean doNotCollectAndSendInformation = false; // TODO support it!
 
     {
         try {
@@ -80,6 +85,17 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     public void clearMetrics() {
         metrics.forEach(Metric::clear);
+    }
+
+    public boolean setUserInfo(UserInfoHolder userInfo) {
+        this.userInfo = userInfo;
+        // TODO валидация и что-нибудь еще от сервера
+        return true;
+    }
+
+    public void setUserInfo(EmptyUserInfo emptyUserInfo) {
+        // mb send to server that you are signed out but mb not needed
+        userInfo = emptyUserInfo;
     }
 
     @Override

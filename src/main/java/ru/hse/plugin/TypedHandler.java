@@ -13,6 +13,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,7 +46,7 @@ public class TypedHandler extends TypedHandlerDelegate {
         for (Metric metric : metrics) {
             metric.update(c, project, editor, file);
         }
-        return Result.STOP;
+        return Result.CONTINUE;
     }
 
 }
