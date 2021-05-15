@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.common;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

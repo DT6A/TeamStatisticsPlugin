@@ -1,9 +1,9 @@
-package ru.hse.plugin;
+package ru.hse.plugin.common;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManagerListener;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.signin.LoginDialogHandler;
 
 public class ProjectOpenCloseListener implements ProjectManagerListener {
 

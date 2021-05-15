@@ -1,6 +1,7 @@
-package ru.hse.plugin;
+package ru.hse.plugin.signin;
 
 import com.intellij.openapi.ui.Messages;
+import ru.hse.plugin.storage.StorageData;
 
 public class LoginDialogHandler {
     private static boolean isFuckingWindowNecessary() {

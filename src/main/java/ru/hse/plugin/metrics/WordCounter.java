@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.metrics;
 
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.util.PluginConstants;
 
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;

@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.storage;
 
 import org.jetbrains.annotations.NotNull;
 

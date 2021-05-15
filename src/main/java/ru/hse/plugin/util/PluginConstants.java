@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.util;
 
 public final class PluginConstants {
     private PluginConstants() {}

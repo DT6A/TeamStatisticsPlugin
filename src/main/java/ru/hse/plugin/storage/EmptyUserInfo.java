@@ -1,4 +1,6 @@
-package ru.hse.plugin;
+package ru.hse.plugin.storage;
+
+import ru.hse.plugin.util.WeNeedNameException;
 
 public class EmptyUserInfo implements UserInfo {
     private boolean isLoginWindowNecessary;

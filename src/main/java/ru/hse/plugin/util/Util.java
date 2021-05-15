@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.util;
 
 import java.awt.*;
 import java.io.IOException;

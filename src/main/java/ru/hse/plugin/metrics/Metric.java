@@ -1,10 +1,11 @@
-package ru.hse.plugin;
+package ru.hse.plugin.metrics;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.hse.plugin.util.PluginConstants;
 
 public interface Metric {
 

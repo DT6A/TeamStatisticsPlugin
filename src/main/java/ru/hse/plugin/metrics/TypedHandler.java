@@ -1,21 +1,14 @@
-package ru.hse.plugin;
+package ru.hse.plugin.metrics;
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.TypedActionHandler;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.storage.StorageData;
 
-import javax.swing.*;
 import java.util.List;
-import java.util.Locale;
 
 public class TypedHandler extends TypedHandlerDelegate {
 

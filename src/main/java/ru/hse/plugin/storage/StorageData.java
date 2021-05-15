@@ -1,10 +1,16 @@
-package ru.hse.plugin;
+package ru.hse.plugin.storage;
 
 import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.Storage;
+import ru.hse.plugin.converters.JsonSenderConverter;
+import ru.hse.plugin.converters.UserInfoConverter;
+import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.converters.ListMetricConverter;
+import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.WordCounter;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -14,24 +14,24 @@
 
 
     <applicationListeners>
-        <listener class="ru.hse.plugin.ProjectOpenCloseListener"
+        <listener class="ru.hse.plugin.common.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
 
     <extensions defaultExtensionNs="com.intellij">
 
-        <applicationConfigurable parentId="tools" instance="ru.hse.plugin.SettingsConfigurable"
-                                 id="ru.hse.plugin.SettingsConfigurable"
+        <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
+                                 id="ru.hse.plugin.signin.SettingsConfigurable"
                                  displayName="Nikita Loh"/>
 
         <!-- Add your extensions here -->
-        <typedHandler implementation="ru.hse.plugin.TypedHandler"/>
-<!--        <applicationService serviceImplementation="ru.hse.plugin.StorageData"/>-->
+        <typedHandler implementation="ru.hse.plugin.metrics.TypedHandler"/>
+<!--        <applicationService serviceImplementation="ru.hse.plugin.storage.StorageData"/>-->
 
 
         <!-- Declare the application level service -->
-        <applicationService serviceImplementation="ru.hse.plugin.StorageData"/>
+        <applicationService serviceImplementation="ru.hse.plugin.storage.StorageData"/>
 <!--        <applicationService serviceInterface="mypackage.MyApplicationService"-->
 <!--                            serviceImplementation="mypackage.MyApplicationServiceImpl" />-->
 
@@ -44,7 +44,7 @@
 
 
     <actions>
-        <action id="your.action.id" class="ru.hse.plugin.MyToolBarButton"
+        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"
                 text="Some label" description="Action description" icon="/Drawable/32.png">
             <add-to-group group-id="ToolbarRunGroup" anchor="first" />
             <!-- TODO получше группу найти или еще как-нибудь, потому что так логически это убого -->

@@ -1,9 +1,9 @@
-package ru.hse.plugin;
+package ru.hse.plugin.signin;
 
 import com.intellij.openapi.options.Configurable;
-import com.intellij.openapi.options.ConfigurationException;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
+import ru.hse.plugin.storage.StorageData;
 
 import javax.swing.*;
 

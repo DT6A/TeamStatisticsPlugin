@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.signin;
 
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.components.JBLabel;
@@ -7,6 +7,11 @@ import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
+import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Util;
+import ru.hse.plugin.storage.EmptyUserInfo;
+import ru.hse.plugin.storage.StorageData;
+import ru.hse.plugin.storage.UserInfoHolder;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

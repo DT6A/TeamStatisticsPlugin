@@ -1,9 +1,10 @@
-package ru.hse.plugin;
+package ru.hse.plugin.metrics;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.util.PluginConstants;
 
 public class CharCounter implements Metric {
     private final char character;

@@ -1,4 +1,4 @@
-package ru.hse.plugin;
+package ru.hse.plugin.storage;
 
 import com.google.gson.JsonObject;
 import com.intellij.icons.AllIcons;
