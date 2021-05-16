@@ -25,14 +25,15 @@ class WordCounterTest {
                      int.class
              );
             method.setAccessible(true);
-            Assertions.assertTrue((boolean) method.invoke(wordCounter, 'H', "Hello", 1));
-            Assertions.assertFalse((boolean) method.invoke(wordCounter, 'B', "Bello Hello", 1));
-            Assertions.assertFalse((boolean) method.invoke(wordCounter, 'o', "Bello Hello", 5));
-            Assertions.assertFalse((boolean) method.invoke(wordCounter, 'o', "HelloHello", 5));
-            Assertions.assertFalse((boolean) method.invoke(wordCounter, 'B', "Hello Bello", 7));
-            Assertions.assertFalse((boolean) method.invoke(wordCounter, 'o', "DHello Bello", 6));
-            Assertions.assertTrue((boolean) method.invoke(wordCounter, ' ', "Hello Bello", 6));
-            Assertions.assertTrue((boolean) method.invoke(wordCounter, ' ', "Bello Hello", 6));
+            Assertions.assertEquals(1, method.invoke(wordCounter, 'H', "Hello", 1));
+            Assertions.assertEquals(0, method.invoke(wordCounter, 'B', "Bello Hello", 1));
+            Assertions.assertEquals(0, method.invoke(wordCounter, 'o', "Bello Hello", 5));
+            Assertions.assertEquals(0, method.invoke(wordCounter, 'o', "HelloHello", 5));
+            Assertions.assertEquals(0, method.invoke(wordCounter, 'B', "Hello Bello", 7));
+            Assertions.assertEquals(0, method.invoke(wordCounter, 'o', "DHello Bello", 6));
+            Assertions.assertEquals(1, method.invoke(wordCounter, ' ', "Hello Bello", 6));
+            Assertions.assertEquals(1, method.invoke(wordCounter, ' ', "Bello Hello", 6));
+            Assertions.assertEquals(2, method.invoke(wordCounter, ' ', "Hello Hello", 6));
         } catch (Exception e) {
             fail();
         }

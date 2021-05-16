@@ -49,14 +49,12 @@ public class WordCounter implements Metric {
     @Override
     public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         // offset -- количество символов, от начала текста до каретки
-        boolean update = updateFromText(
+        numberOfOccurrences += updateFromText(
                 charTyped,
                 editor.getDocument().getImmutableCharSequence(),
                 editor.getCaretModel().getOffset()
         );
-        if (update) {
-            numberOfOccurrences++;
-        }
+
     }
 
     @Override
@@ -80,25 +78,27 @@ public class WordCounter implements Metric {
         return PluginConstants.WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }
 
-    private boolean updateFromText(char charTyped,
+    private int updateFromText(char charTyped,
                                    CharSequence text,
                                    int offset) {
-
+        int deltaOccurrences = 0;
         if (isDelimiter(charTyped)) {
-            // TODO what if 2 words
             int pos = offset;
             if (matchWordWithText(pos, text)) {
-                return true;
+                deltaOccurrences++;
             }
             pos = offset - 2 - length;
             if (pos < -1) {
-                return false;
+                return deltaOccurrences;
             }
             if (pos != -1 && !isDelimiter(text.charAt(pos))) {
-                return false;
+                return deltaOccurrences;
             }
             pos++;
-            return matchWordWithText(pos, text);
+            if (matchWordWithText(pos, text)) {
+                deltaOccurrences++;
+            }
+            return deltaOccurrences;
         }
         else {
             StringTokenizer tokens = new StringTokenizer(text.subSequence(
@@ -111,10 +111,10 @@ public class WordCounter implements Metric {
                     token = token.toLowerCase(Locale.ROOT);
                 }
                 if (token.equals(word)) {
-                    return true;
+                    return 1;
                 }
             }
-            return false;
+            return 0;
         }
     }
 
