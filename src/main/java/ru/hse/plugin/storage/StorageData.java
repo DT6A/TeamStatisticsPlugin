@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.Storage;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
+import ru.hse.plugin.util.JsonConverter;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.metrics.Metric;
@@ -60,7 +61,8 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                     System.out.println("                    " + metric);
                 }
                 var instance = StorageData.getInstance();
-                if (instance.jsonSender.sendData(instance.getMetricsInfo())) {
+                byte[] data = JsonConverter.convertMetricInfo(instance.getMetricsInfo());
+                if (instance.jsonSender.sendData(data)) {
                     instance.clearMetrics();
                 }
                 // ------------------------------------------------------

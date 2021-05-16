@@ -25,17 +25,15 @@ public class JsonSender {
         return url;
     }
 
-    public boolean sendData(@NotNull Map<String, String> nameToMetric) {
+    public boolean sendData(@NotNull byte[] out) {
         // TODO Нормальный процесс обработки успеха/неудачи
         // TODO add user_id
-        nameToMetric.put("user_id", "1");
+
         try {
             URLConnection con = url.openConnection();
             HttpURLConnection http = (HttpURLConnection) con;
             http.setRequestMethod("POST");
             http.setDoOutput(true);
-            System.out.println(JSONValue.toJSONString(nameToMetric));
-            byte[] out = JSONValue.toJSONString(nameToMetric).getBytes(StandardCharsets.UTF_8);
             int length = out.length;
 
             http.setFixedLengthStreamingMode(length);
