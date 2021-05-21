@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.stream.Collectors;
 
 public class JsonSender {
     private final URL url;
@@ -44,11 +45,9 @@ public class JsonSender {
                 String token = null;
                 try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(http.getInputStream()))) {
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        JSONObject obj = new JSONObject(line);
-                        token = obj.getString("name");
-                    }
+                    String line = bufferedReader.lines().collect(Collectors.joining());
+                    JSONObject obj = new JSONObject(line);
+                    token = obj.getString("name");
                 } catch (JSONException e) {
                     throw new WeNeedNameException("There are no token in JSON", e);
                 }
