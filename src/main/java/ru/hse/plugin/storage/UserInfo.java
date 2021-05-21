@@ -2,8 +2,6 @@ package ru.hse.plugin.storage;
 
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.util.function.Supplier;
-
 public interface UserInfo {
     String getLogin() throws WeNeedNameException;
     String getPassword() throws WeNeedNameException;
@@ -35,5 +33,5 @@ public interface UserInfo {
     boolean isSignedIn();
     boolean isLoginWindowNecessary();
     void setWindowNecessity(boolean necessity);
-
+    void setToken(String token);
 }

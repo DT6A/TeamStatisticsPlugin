@@ -1,23 +1,22 @@
 package ru.hse.plugin.storage;
 
-import com.google.gson.JsonObject;
-import com.intellij.icons.AllIcons;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONValue;
+import org.json.JSONObject;
+import org.json.JSONException;
+import ru.hse.plugin.util.WeNeedNameException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Map;
 
 public class JsonSender {
     private final URL url;
 
-    public JsonSender(URL url) {
+    public JsonSender(@NotNull URL url) {
         this.url = url;
     }
 
@@ -25,13 +24,46 @@ public class JsonSender {
         return url;
     }
 
-    public boolean sendData(@NotNull byte[] out) {
-        // TODO Нормальный процесс обработки успеха/неудачи
-        // TODO add user_id
-
+    public boolean sendMetricInfo(byte[] out) {
         try {
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection) con;
+            HttpURLConnection http = createHttpURLConnection();
+            return sendData(http, out);
+        }
+        catch (IOException e) {
+            return false;
+        }
+    }
+
+    public String submitUserInfo(byte[] userInfo) throws WeNeedNameException {
+        try {
+            HttpURLConnection http = createHttpURLConnection();
+            if (!sendData(http, userInfo)) {
+                throw new WeNeedNameException("Cant submit user info");
+            }
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                String token = null;
+                try (BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(http.getInputStream()))) {
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        JSONObject obj = new JSONObject(line);
+                        token = obj.getString("name");
+                    }
+                } catch (JSONException e) {
+                    throw new WeNeedNameException("There are no token in JSON", e);
+                }
+                return token;
+            } else {
+                throw new WeNeedNameException("Cant submit user info");
+            }
+        }
+        catch (IOException e) {
+            throw new WeNeedNameException("Cant submit user info", e);
+        }
+    }
+
+    private boolean sendData(HttpURLConnection http, byte[] out) {
+        try {
             http.setRequestMethod("POST");
             http.setDoOutput(true);
             int length = out.length;
@@ -41,12 +73,17 @@ public class JsonSender {
             http.connect();
             try (OutputStream os = http.getOutputStream()) {
                 os.write(out);
+                os.flush();
             }
+            return http.getResponseCode() == HttpURLConnection.HTTP_OK;
         }
         catch (IOException e) {
             return false;
         }
-        return true;
+    }
 
+    private HttpURLConnection createHttpURLConnection() throws IOException {
+        URLConnection con = url.openConnection();
+        return (HttpURLConnection) con;
     }
 }

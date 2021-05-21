@@ -19,7 +19,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                         instance.getMetricsInfo(),
                         instance.userInfo.getTokenNoExcept()
                 );
-                if (instance.jsonSender.sendData(data)) {
+                if (instance.jsonSender.sendMetricInfo(data)) {
                     instance.clearMetrics();
                 }
                 // ------------------------------------------------------
@@ -100,9 +99,18 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
         metrics.forEach(Metric::clear);
     }
 
-    public boolean setUserInfo(UserInfoHolder userInfo) {
+    public boolean setUserInfo(UserInfoHolder userInfo)  {
         this.userInfo = userInfo;
-        // TODO валидация и что-нибудь еще от сервера
+        // TODO валидация
+        try {
+            var instance = StorageData.getInstance();
+            String token = instance.jsonSender.submitUserInfo(
+                    Serializer.convertUserInfo(userInfo)
+            );
+            this.userInfo.setToken(token);
+        } catch (WeNeedNameException e) {
+            return false;
+        }
         return true;
     }
 
