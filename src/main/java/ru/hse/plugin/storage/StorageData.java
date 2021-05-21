@@ -1,25 +1,25 @@
 package ru.hse.plugin.storage;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.components.Storage;
 import ru.hse.plugin.converters.JsonSenderConverter;
-import ru.hse.plugin.converters.UserInfoConverter;
-import ru.hse.plugin.util.Serializer;
-import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.converters.ListMetricConverter;
+import ru.hse.plugin.converters.UserInfoConverter;
+import ru.hse.plugin.metrics.AllCharCounter;
 import ru.hse.plugin.metrics.Metric;
-import ru.hse.plugin.metrics.WordCounter;
-import ru.hse.plugin.util.WeNeedNameException;
+import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Serializer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -37,7 +37,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> metrics = List.of(new WordCounter("coq"));
+    @NotNull public List<Metric> metrics = List.of(new AllCharCounter());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -85,10 +85,15 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     public StorageData() {}
 
     public static synchronized StorageData getInstance() { // mb not synchronized, no hz...
+        var instance = ServiceManager.getService(StorageData.class);
+        instance.tryStartDaemon();
+        return instance;
+    }
+
+    private void tryStartDaemon() {
         if (daemon.getState() == Thread.State.NEW) {
             daemon.start();
         }
-        return ServiceManager.getService(StorageData.class);
     }
 
     @NotNull
