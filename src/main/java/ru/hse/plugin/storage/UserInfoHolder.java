@@ -7,6 +7,7 @@ import java.util.Objects;
 public class UserInfoHolder implements UserInfo {
     @NotNull private final String login;
     @NotNull private final String password;
+    @NotNull private String token;
 
     public UserInfoHolder(@NotNull String login, @NotNull String password) {
         if (login.matches(".*[ \t\n].*") || password.matches(".*[ \t\n].*")) {
@@ -33,6 +34,11 @@ public class UserInfoHolder implements UserInfo {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @NotNull
+    public String getToken() {
+        return token;
     }
 
     @Override

@@ -7,17 +7,19 @@ import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.Storage;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
-import ru.hse.plugin.util.JsonConverter;
+import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.WordCounter;
+import ru.hse.plugin.util.WeNeedNameException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -61,7 +63,10 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                     System.out.println("                    " + metric);
                 }
                 var instance = StorageData.getInstance();
-                byte[] data = JsonConverter.convertMetricInfo(instance.getMetricsInfo());
+                byte[] data = Serializer.convertMetricInfo(
+                        instance.getMetricsInfo(),
+                        instance.userInfo.getTokenNoExcept()
+                );
                 if (instance.jsonSender.sendData(data)) {
                     instance.clearMetrics();
                 }

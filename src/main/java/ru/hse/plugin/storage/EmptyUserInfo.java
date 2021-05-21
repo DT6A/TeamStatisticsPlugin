@@ -24,6 +24,11 @@ public class EmptyUserInfo implements UserInfo {
     }
 
     @Override
+    public String getToken() throws WeNeedNameException {
+        throw new WeNeedNameException("User info is empty");
+    }
+
+    @Override
     public boolean isSignedIn() {
         return false;
     }
