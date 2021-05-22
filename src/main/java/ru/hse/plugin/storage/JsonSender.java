@@ -1,17 +1,22 @@
 package ru.hse.plugin.storage;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
+import ru.hse.plugin.metrics.CharCounter;
+import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.WordCounter;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JsonSender {
@@ -42,12 +47,12 @@ public class JsonSender {
                 throw new WeNeedNameException("Cant submit user info");
             }
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                String token = null;
+                String token;
                 try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(http.getInputStream()))) {
-                    String line = bufferedReader.lines().collect(Collectors.joining());
-                    JSONObject obj = new JSONObject(line);
-                    token = obj.getString("name");
+                    String json = bufferedReader.lines().collect(Collectors.joining());
+                    JSONObject obj = new JSONObject(json);
+                    token = obj.getString("token");
                 } catch (JSONException e) {
                     throw new WeNeedNameException("There are no token in JSON", e);
                 }
@@ -59,6 +64,39 @@ public class JsonSender {
         catch (IOException e) {
             throw new WeNeedNameException("Cant submit user info", e);
         }
+    }
+
+    public Set<Metric> getNewMetrics() {
+        Set<Metric> metrics = new HashSet<>();
+        try {
+            HttpURLConnection http = createHttpURLConnection();
+            http.setRequestMethod("GET");
+            if (http.getResponseCode() == 200) {
+                http.disconnect();
+                try (BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(http.getInputStream(), StandardCharsets.UTF_8)
+                )){
+                    String json = bufferedReader.lines().collect(Collectors.joining());
+                    JSONObject obj = new JSONObject(json);
+                    JSONArray charCounting = obj.getJSONArray("CHAR_COUNTING");
+                    JSONArray wordCounting = obj.getJSONArray("SUBSTRING_COUNTING");
+                    for (int i = 0; i < charCounting.length(); i++) {
+                        char character = charCounting.getString(i).charAt(0);
+                        CharCounter charCounter = new CharCounter(character);
+                        metrics.add(charCounter);
+                    }
+                    for (int i = 0; i < wordCounting.length(); i++) {
+                        String word = wordCounting.getString(i);
+                        WordCounter wordCounter = new WordCounter(word);
+                        metrics.add(wordCounter);
+                    }
+                }
+                return metrics;
+            }
+        } catch (IOException e) {
+            return metrics;
+        }
+        return null;
     }
 
     private boolean sendData(HttpURLConnection http, byte[] out) {

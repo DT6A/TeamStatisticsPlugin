@@ -6,19 +6,17 @@ import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.components.Storage;
 import ru.hse.plugin.converters.JsonSenderConverter;
+import ru.hse.plugin.converters.SetMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.PluginConstants;
-import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.WordCounter;
 import ru.hse.plugin.util.WeNeedNameException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -35,8 +33,8 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     // TODO mb do private, but nado chitat' kak serializovat'
-    @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> metrics = List.of(new WordCounter("coq"));
+    @OptionTag(converter = SetMetricConverter.class)
+    @NotNull public Set<Metric> metrics = new HashSet<>();
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -61,7 +59,10 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 for (var metric : StorageData.getInstance().metrics) {
                     System.out.println("                    " + metric);
                 }
+
                 var instance = StorageData.getInstance();
+                Set<Metric> newMetric = instance.jsonSender.getNewMetrics();
+                instance.metrics.addAll(newMetric);
                 byte[] data = Serializer.convertMetricInfo(
                         instance.getMetricsInfo(),
                         instance.userInfo.getTokenNoExcept()
@@ -70,7 +71,6 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                     instance.clearMetrics();
                 }
                 // ------------------------------------------------------
-
 
                 TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
             }

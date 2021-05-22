@@ -6,6 +6,8 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.util.PluginConstants;
 
+import java.util.Objects;
+
 public class CharCounter implements Metric {
     private final char character;
     private int numberOfOccurrences;
@@ -45,5 +47,22 @@ public class CharCounter implements Metric {
     @Override
     public String toString() {
         return PluginConstants.CHAR_COUNTER + " " + Character.getNumericValue(character) + " " + numberOfOccurrences;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CharCounter that = (CharCounter) o;
+        return character == that.character;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(character);
     }
 }

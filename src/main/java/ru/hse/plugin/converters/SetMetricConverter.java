@@ -7,23 +7,23 @@ import ru.hse.plugin.metrics.Metric;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ListMetricConverter extends Converter<List<Metric>> {
+public class SetMetricConverter extends Converter<Set<Metric>> {
 
     private final static Converter<Metric> metricConverter = new MetricConverter();
 
-    @Nullable
     @Override
-    public List<Metric> fromString(@NotNull String value) {
+    public @Nullable Set<Metric> fromString(@NotNull String value) {
         return Arrays.stream(value.split("\\$"))
                 .map(metricConverter::fromString)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public @Nullable String toString(@NotNull List<Metric> value) {
-        return value.stream()
+    public @Nullable String toString(@NotNull Set<Metric> value) {
+         return value.stream()
                 .map(metricConverter::toString)
                 .collect(Collectors.joining("$"));
     }
