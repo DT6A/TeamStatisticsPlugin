@@ -39,6 +39,21 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @OptionTag(converter = ListMetricConverter.class)
     @NotNull public List<Metric> metrics = List.of(new AllCharCounter());
 
+    /*
+        TODO я чуть-чуть хочу поменять логику и уже начал это делать
+             теперь мы храним диффы метрик и отправляем их (как и раньше)
+             но теперь мы храним накопленную метрику:
+                 clear diff-ов - добавляем в accumulated
+                 поддерживаем что diff[i] ~ accumulated[i]
+                    Видимо надо будет хранить сет отдельно private полем (ну и хуй с ним)
+                 при включение проекта пытаемся подсосать accumulated с сервера,
+                    явно не отправляем никогда, потому что набираем просто диффами
+                 мб что-то еще, хз
+     */
+
+    @OptionTag(converter = ListMetricConverter.class)
+    @NotNull public List<Metric> accumulated = List.of(new AllCharCounter()); // TODO rename metrics to diff
+
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
 
@@ -102,7 +117,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
-        metrics.forEach(Metric::clear);
+        metrics.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
     }
 
     public boolean setUserInfo(UserInfoHolder userInfo) {

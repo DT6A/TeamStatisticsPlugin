@@ -2,10 +2,13 @@ package ru.hse.plugin.metrics;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.PluginConstants;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class AllCharCounter implements Metric {
+public class AllCharCounter extends Metric {
     private final Map<Character, Integer> chars = new HashMap<>();
 
     public AllCharCounter() {}
@@ -55,6 +58,43 @@ public class AllCharCounter implements Metric {
     @Override
     public @NotNull String getName() {
         return PluginConstants.ALL_CHAR_COUNTER + "()";
+    }
+
+    @Override
+    public void mergeAndClear(Metric metric) {
+        AllCharCounter that = cast(metric, getClass());
+
+        for (var entry : that.chars.entrySet()) {
+            this.chars.computeIfPresent(entry.getKey(), (c, i) -> i + entry.getValue());
+            this.chars.computeIfAbsent(entry.getKey(), c -> entry.getValue());
+        }
+
+        that.clear();
+    }
+
+    @Override
+    public MetricJComponentWrapper makeComponent(Metric additional) {
+        return new MetricJComponentWrapper() {
+            private final JButton button = new JButton("Show");
+
+            {
+                button.addActionListener(e -> Messages.showInfoMessage("All symbols button pressed", "Info"));
+            }
+
+            @Override
+            public JComponent getComponent() {
+                return button;
+            }
+
+            @Override
+            public void update() { }
+        };
+    }
+
+    @NotNull
+    @Override
+    public String localStatisticString() {
+        return "All symbol counters";
     }
 
     @Override

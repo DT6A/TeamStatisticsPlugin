@@ -1,20 +1,20 @@
 package ru.hse.plugin.metrics;
 
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.component.CounterJComponentWrapper;
+import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.PluginConstants;
 
 import java.util.Locale;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
-import static java.lang.Math.*;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
-public class WordCounter implements Metric {
+public class WordCounter extends Metric {
     private final String word;
     private final int length;
     private final boolean caseSensitive;
@@ -71,6 +71,44 @@ public class WordCounter implements Metric {
     @Override
     public String getName() {
         return PluginConstants.WORD_COUNTER + "(" + word + ")";
+    }
+
+    @Override
+    public void mergeAndClear(Metric metric) {
+        WordCounter that = cast(metric, getClass());
+
+        if (!this.word.equals(that.word)) {
+            throw new RuntimeException("Metrics are expected to be same");
+        }
+
+        if (this.caseSensitive != that.caseSensitive) {
+            throw new RuntimeException("Metrics are expected to be same");
+        }
+
+        this.numberOfOccurrences += that.numberOfOccurrences;
+
+        that.clear();
+    }
+
+    @Override
+    public MetricJComponentWrapper makeComponent(Metric additional) {
+        return new CounterJComponentWrapper() {
+            @Override
+            protected int count() {
+                int counter = WordCounter.this.numberOfOccurrences;
+
+                var that = cast(additional, WordCounter.class);
+                counter += that.numberOfOccurrences;
+
+                return counter;
+            }
+        };
+    }
+
+    @NotNull
+    @Override
+    public String localStatisticString() {
+        return "Number of occurrences of \"" + word + "\"";
     }
 
     @Override
