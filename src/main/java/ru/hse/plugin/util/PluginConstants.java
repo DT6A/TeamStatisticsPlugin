@@ -5,6 +5,7 @@ public final class PluginConstants {
 
     public static final String WORD_COUNTER = "WordCounter";
     public static final String CHAR_COUNTER = "CharCounter";
+    public static final String ALL_CHAR_COUNTER = "AllCharCounter";
     public static final String EMPTY_USER_INFO = "EmptyUserInfo";
 
     public static final String REGISTRATION_LINK = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";

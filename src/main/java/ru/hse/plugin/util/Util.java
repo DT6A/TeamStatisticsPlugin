@@ -1,5 +1,10 @@
 package ru.hse.plugin.util;
 
+import com.intellij.ui.components.JBLabel;
+import com.intellij.util.ui.JBUI;
+import com.intellij.util.ui.UIUtil;
+
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
@@ -26,5 +31,21 @@ public class Util {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public static JLabel makeDefaultLabel(String text) {
+        final var label = new JBLabel(text);
+        label.setComponentStyle(UIUtil.ComponentStyle.LARGE);
+        label.setFontColor(UIUtil.FontColor.NORMAL);
+        label.setBorder(JBUI.Borders.empty(5));
+        return label;
+    }
+
+    public static JLabel makeSmallerLabel(String text) {
+        final var label = new JBLabel(text);
+        label.setComponentStyle(UIUtil.ComponentStyle.SMALL);
+        label.setFontColor(UIUtil.FontColor.BRIGHTER);
+        label.setBorder(JBUI.Borders.empty(5));
+        return label;
     }
 }

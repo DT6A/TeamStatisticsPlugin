@@ -4,11 +4,13 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.component.CounterJComponentWrapper;
+import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.PluginConstants;
 
 import java.util.Objects;
 
-public class CharCounter implements Metric {
+public class CharCounter extends Metric {
     private final char character;
     private int numberOfOccurrences;
     // TODO test
@@ -42,6 +44,40 @@ public class CharCounter implements Metric {
     public @NotNull String getName() {
         //return "lines";
         return PluginConstants.CHAR_COUNTER + "(" + Character.getNumericValue(character) + ")";
+    }
+
+    @Override
+    public void mergeAndClear(Metric metric) {
+        CharCounter that = cast(metric, getClass());
+
+        if (this.character != that.character) {
+            throw new RuntimeException("Metrics are expected to be same");
+        }
+
+        this.numberOfOccurrences += that.numberOfOccurrences;
+
+        that.clear();
+    }
+
+    @Override
+    public MetricJComponentWrapper makeComponent(Metric additional) {
+        return new CounterJComponentWrapper() {
+            @Override
+            protected int count() {
+                int counter = CharCounter.this.numberOfOccurrences;
+
+                var that = cast(additional, CharCounter.class);
+                counter += that.numberOfOccurrences;
+
+                return counter;
+            }
+        };
+    }
+
+    @NotNull
+    @Override
+    public String localStatisticString() {
+        return "Number of occurrences of '" + character + "'";
     }
 
     @Override
