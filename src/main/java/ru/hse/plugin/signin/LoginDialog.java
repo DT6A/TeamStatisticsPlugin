@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginDialog extends DialogWrapper implements ActionListener  {
+public class LoginDialog extends DialogWrapper implements ActionListener {
     private final String message;
     private final JTextField login = new JTextField();
     private final JPasswordField password = new JPasswordField();
@@ -88,7 +88,7 @@ public class LoginDialog extends DialogWrapper implements ActionListener  {
 
     // TODO вот тут странно отдается пустой token, это заглушка, надо бы тут что-то с сервером делать уже
     public UserInfoHolder getUserInfo() {
-        return new UserInfoHolder(login.getText(), password.getPassword(), "");
+        return new UserInfoHolder(login.getText(), password.getPassword(), "token");
     }
 
     public boolean doNotAskAgain() {

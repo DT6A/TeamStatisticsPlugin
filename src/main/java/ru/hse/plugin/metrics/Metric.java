@@ -42,7 +42,7 @@ public abstract class Metric {
     public abstract String localStatisticString();
 
     protected <T> T cast(Object metric, Class<T> clazz) {
-        if (!clazz.isInstance(metric)) {
+        if (clazz.isInstance(metric)) {
             return clazz.cast(metric);
         } else {
             throw new RuntimeException("Argument metric has to be instance of " + clazz.getSimpleName());

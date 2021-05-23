@@ -97,7 +97,7 @@ public class SettingsComponent implements ActionListener {
 
     // TODO Аналогично LoginDialog.java:89
     private UserInfoHolder getNewUserInfo() {
-        return new UserInfoHolder(loginField.getText(), passwordField.getPassword(), "");
+        return new UserInfoHolder(loginField.getText(), passwordField.getPassword(), "token");
     }
 
     private JPanel makePanel() {
