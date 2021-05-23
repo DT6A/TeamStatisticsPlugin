@@ -86,8 +86,9 @@ public class LoginDialog extends DialogWrapper implements ActionListener  {
         return label;
     }
 
+    // TODO вот тут странно отдается пустой token, это заглушка, надо бы тут что-то с сервером делать уже
     public UserInfoHolder getUserInfo() {
-        return new UserInfoHolder(login.getText(), password.getPassword());
+        return new UserInfoHolder(login.getText(), password.getPassword(), "");
     }
 
     public boolean doNotAskAgain() {

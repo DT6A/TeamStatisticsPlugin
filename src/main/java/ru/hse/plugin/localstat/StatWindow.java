@@ -40,7 +40,7 @@ public class StatWindow {
 
         for (int i = 0; i < size; i++) {
             var accumulated = StorageData.getInstance().accumulated.get(i);
-            var diff = StorageData.getInstance().metrics.get(i);
+            var diff = StorageData.getInstance().diffs.get(i);
 
             var wrapper = accumulated.makeComponent(diff);
             componentWrappers.add(wrapper);
