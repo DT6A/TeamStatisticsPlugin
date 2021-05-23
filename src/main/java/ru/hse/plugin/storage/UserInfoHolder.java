@@ -8,7 +8,7 @@ import java.util.StringJoiner;
 public class UserInfoHolder implements UserInfo {
     @NotNull private final String login;
     @NotNull private final String password;
-    @NotNull private String token = "123"; // TODO но никите :)
+    private String token;
 
     public UserInfoHolder(@NotNull String login, @NotNull String password) {
         if (login.matches(".*[ \t\n].*") || password.matches(".*[ \t\n].*")) {
@@ -54,6 +54,11 @@ public class UserInfoHolder implements UserInfo {
 
     @Override
     public void setWindowNecessity(boolean necessity) { }
+
+    @Override
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     @Override
     public boolean equals(Object o) {

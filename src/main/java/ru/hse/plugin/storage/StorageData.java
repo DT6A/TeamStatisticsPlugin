@@ -1,25 +1,28 @@
 package ru.hse.plugin.storage;
 
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.*;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.components.Storage;
 import ru.hse.plugin.converters.JsonSenderConverter;
-import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.AllCharCounter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.util.Serializer;
+import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.converters.ListMetricConverter;
+import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.WordCounter;
+import ru.hse.plugin.util.WeNeedNameException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -77,16 +80,16 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 for (var metric : StorageData.getInstance().metrics) {
                     System.out.println("                    " + metric);
                 }
+
                 var instance = StorageData.getInstance();
                 byte[] data = Serializer.convertMetricInfo(
                         instance.getMetricsInfo(),
                         instance.userInfo.getTokenNoExcept()
                 );
-                if (instance.jsonSender.sendData(data)) {
+                if (instance.jsonSender.sendMetricInfo(data)) {
                     instance.clearMetrics();
                 }
                 // ------------------------------------------------------
-
 
                 TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
             }
@@ -120,9 +123,18 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
         metrics.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
     }
 
-    public boolean setUserInfo(UserInfoHolder userInfo) {
+    public boolean setUserInfo(UserInfoHolder userInfo)  {
         this.userInfo = userInfo;
-        // TODO валидация и что-нибудь еще от сервера
+        // TODO валидация
+        try {
+            var instance = StorageData.getInstance();
+            String token = instance.jsonSender.submitUserInfo(
+                    Serializer.convertUserInfo(userInfo)
+            );
+            this.userInfo.setToken(token);
+        } catch (WeNeedNameException e) {
+            return false;
+        }
         return true;
     }
 

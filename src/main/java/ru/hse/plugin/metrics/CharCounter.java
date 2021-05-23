@@ -4,9 +4,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.metrics.component.CounterJComponentWrapper;
-import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.PluginConstants;
+
+import java.util.Objects;
 
 public class CharCounter extends Metric {
     private final char character;
@@ -81,5 +81,22 @@ public class CharCounter extends Metric {
     @Override
     public String toString() {
         return PluginConstants.CHAR_COUNTER + " " + Character.getNumericValue(character) + " " + numberOfOccurrences;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CharCounter that = (CharCounter) o;
+        return character == that.character;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(character);
     }
 }

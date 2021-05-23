@@ -9,6 +9,7 @@ import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.PluginConstants;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import static java.lang.Math.max;
@@ -117,8 +118,8 @@ public class WordCounter extends Metric {
     }
 
     private int updateFromText(char charTyped,
-                                   CharSequence text,
-                                   int offset) {
+                               CharSequence text,
+                               int offset) {
         int deltaOccurrences = 0;
         if (isDelimiter(charTyped)) {
             int pos = offset;
@@ -174,6 +175,23 @@ public class WordCounter extends Metric {
             return posInText == text.length() || isDelimiter(text.charAt(posInText));
         }
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        WordCounter that = (WordCounter) o;
+        return length == that.length && caseSensitive == that.caseSensitive && word.equals(that.word);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(word, length, caseSensitive);
     }
 
 }

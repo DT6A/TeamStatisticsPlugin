@@ -9,6 +9,7 @@ import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.storage.StorageData;
 
 import java.util.List;
+import java.util.Set;
 
 public class TypedHandler extends TypedHandlerDelegate {
 
@@ -35,7 +36,7 @@ public class TypedHandler extends TypedHandlerDelegate {
     //      (очев из ее названия)
     public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
 //        Messages.showInfoMessage("Nice cock!!!!!!!!!", "ATTENTiON");
-        List<Metric> metrics = StorageData.getInstance().metrics;
+        Set<Metric> metrics = StorageData.getInstance().metrics;
         for (Metric metric : metrics) {
             metric.update(c, project, editor, file);
         }
