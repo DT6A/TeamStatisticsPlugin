@@ -9,6 +9,12 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.BiFunction;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class Util {
     private Util() {}
@@ -47,5 +53,42 @@ public class Util {
         label.setFontColor(UIUtil.FontColor.BRIGHTER);
         label.setBorder(JBUI.Borders.empty(5));
         return label;
+    }
+
+    public static <A, B, C> Stream<C> zipWith(
+            Stream<? extends A> first,
+            Stream<? extends B> second,
+            BiFunction<A, B, ? extends C> zipper
+    ) {
+        var spliterator1 = first.spliterator();
+        var spliterator2 = second.spliterator();
+
+        int characteristics = spliterator1.characteristics() & spliterator2.characteristics() &
+                ~(Spliterator.DISTINCT | Spliterator.SORTED);
+
+        long size = ((characteristics & Spliterator.SIZED) != 0)
+                ? Math.min(spliterator1.getExactSizeIfKnown(), spliterator2.getExactSizeIfKnown())
+                : -1;
+
+        return StreamSupport.stream(
+                Spliterators.spliterator(new Iterator<>() {
+                         private final Iterator<A> iterator1 = Spliterators.iterator(spliterator1);
+                         private final Iterator<B> iterator2 = Spliterators.iterator(spliterator2);
+
+                         @Override
+                         public boolean hasNext() {
+                             return iterator1.hasNext() && iterator2.hasNext();
+                         }
+
+                         @Override
+                         public C next() {
+                            return zipper.apply(iterator1.next(), iterator2.next());
+                        }
+                    },
+                    size,
+                    characteristics
+                ),
+                first.isParallel() && second.isParallel()
+        );
     }
 }
