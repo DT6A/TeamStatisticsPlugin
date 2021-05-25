@@ -1,12 +1,13 @@
-package ru.hse.plugin.storage;
+package ru.hse.plugin.networking;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 import ru.hse.plugin.metrics.CharCounter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.WordCounter;
+import ru.hse.plugin.storage.UserInfo;
+import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
 
 import java.io.*;
@@ -14,25 +15,37 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JsonSender {
-    private final URL url;
 
-    public JsonSender(@NotNull URL url) {
-        this.url = url;
+    private String lastSendingTime;
+
+    public JsonSender() {
+        updateSendingTimeToCurrent();
     }
 
-    public URL getUrl() {
-        return url;
+    public JsonSender(String lastSendingTime) {
+        this.lastSendingTime = lastSendingTime;
     }
 
-    public boolean sendMetricInfo(byte[] out) {
+
+    public boolean sendMetricInfo(Map<String, String> metricInfo,
+                                  String token) {
+        metricInfo.put("time_from", getLastSendingTime());
+        updateSendingTimeToCurrent();
+        metricInfo.put("time_to", getLastSendingTime());
+        byte[] out = Serializer.convertMetricInfo(
+                metricInfo,
+                token
+        );
         try {
-            HttpURLConnection http = createHttpURLConnection();
+            HttpURLConnection http = createHttpURLConnection(URLs.POST_URL);
             return sendData(http, out);
         }
         catch (IOException e) {
@@ -40,10 +53,11 @@ public class JsonSender {
         }
     }
 
-    public String submitUserInfo(byte[] userInfo) throws WeNeedNameException {
+    public String submitUserInfo(UserInfo userInfo) throws WeNeedNameException {
+        byte[] out = Serializer.convertUserInfo(userInfo);
         try {
-            HttpURLConnection http = createHttpURLConnection();
-            if (!sendData(http, userInfo)) {
+            HttpURLConnection http = createHttpURLConnection(URLs.LOGIN_URL);
+            if (!sendData(http, out)) {
                 throw new WeNeedNameException("Cant submit user info");
             }
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -69,10 +83,9 @@ public class JsonSender {
     public Set<Metric> getNewMetrics() {
         Set<Metric> metrics = new HashSet<>();
         try {
-            HttpURLConnection http = createHttpURLConnection();
+            HttpURLConnection http = createHttpURLConnection(URLs.PLUGIN_GET_METRICS_URL);
             http.setRequestMethod("GET");
             if (http.getResponseCode() == 200) {
-                http.disconnect();
                 try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(http.getInputStream(), StandardCharsets.UTF_8)
                 )){
@@ -119,8 +132,22 @@ public class JsonSender {
         }
     }
 
-    private HttpURLConnection createHttpURLConnection() throws IOException {
+    private HttpURLConnection createHttpURLConnection(URL url) throws IOException {
         URLConnection con = url.openConnection();
         return (HttpURLConnection) con;
+    }
+
+    private void updateSendingTimeToCurrent() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss ");
+        Date date = new Date(System.currentTimeMillis());
+        lastSendingTime = formatter.format(date);
+    }
+
+    public String getLastSendingTime() {
+        return lastSendingTime;
+    }
+
+    public void addTimeIntervals() {
+
     }
 }

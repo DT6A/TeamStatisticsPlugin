@@ -12,6 +12,7 @@ import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.AllCharCounter;
 import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
@@ -57,7 +58,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
 
     @OptionTag(converter = JsonSenderConverter.class)
-    @NotNull public JsonSender jsonSender;
+    @NotNull public JsonSender jsonSender = new JsonSender();
 
     private final Set<Metric> metrics = new HashSet<>();
 
@@ -66,14 +67,6 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public boolean doNotCollectAndSendInformation = false; // TODO support it!
-
-    {
-        try {
-            jsonSender = new JsonSender(new URL("http://127.0.0.1:8000/post/"));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private static final Thread daemon = new Thread(() -> {
         try {
@@ -84,13 +77,14 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 }
 
                 var instance = StorageData.getInstance();
-                byte[] data = Serializer.convertMetricInfo(
+
+                if (instance.jsonSender.sendMetricInfo(
                         instance.getMetricsInfo(),
-                        instance.userInfo.getTokenNoExcept()
-                );
-                if (instance.jsonSender.sendMetricInfo(data)) {
+                        instance.userInfo.getTokenNoExcept())) {
                     instance.clearMetrics();
                 }
+                Set<Metric> newMetric = instance.jsonSender.getNewMetrics();
+                instance.metrics.addAll(newMetric);
                 // ------------------------------------------------------
 
                 TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
@@ -131,7 +125,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
         try {
             var instance = StorageData.getInstance();
             String token = instance.jsonSender.submitUserInfo(
-                    Serializer.convertUserInfo(userInfo)
+                    userInfo
             );
             this.userInfo.setToken(token);
         } catch (WeNeedNameException e) {
