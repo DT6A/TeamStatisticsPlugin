@@ -85,6 +85,11 @@ public abstract class Metric {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new MaxOpenedProjects(Integer.parseInt(parts[1]));
+            case PluginConstants.PROJECT_OPENS_NUMBER:
+                if (parts.length != 2) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new ProjectOpensNumber(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

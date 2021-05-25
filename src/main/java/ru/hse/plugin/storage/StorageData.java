@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
-import ru.hse.plugin.metrics.MaxOpenedProjects;
 import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.ProjectOpensNumber;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
@@ -36,7 +36,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new MaxOpenedProjects());
+    @NotNull public List<Metric> diffs = List.of(new ProjectOpensNumber());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -51,7 +51,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new MaxOpenedProjects());
+    @NotNull public List<Metric> accumulated = List.of(new ProjectOpensNumber());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
