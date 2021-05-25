@@ -13,9 +13,13 @@ import java.util.stream.Collectors;
 
 public abstract class Metric {
 
-    public abstract void update(
+    public void updateCharTyped(
             char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file
-    );
+    ) { }
+
+    public void updateProjectOpen(@NotNull Project project) { }
+
+    public void updateProjectClose(@NotNull Project project) { }
 
     public abstract void clear();
 
@@ -42,7 +46,7 @@ public abstract class Metric {
     public abstract String localStatisticString();
 
     protected <T> T cast(Object metric, Class<T> clazz) {
-        if (!clazz.isInstance(metric)) {
+        if (clazz.isInstance(metric)) {
             return clazz.cast(metric);
         } else {
             throw new RuntimeException("Argument metric has to be instance of " + clazz.getSimpleName());

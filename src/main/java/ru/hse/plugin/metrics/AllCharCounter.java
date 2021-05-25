@@ -2,9 +2,9 @@ package ru.hse.plugin.metrics;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.localstat.AllSymbolStatistics;
 import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.PluginConstants;
 
@@ -24,7 +24,7 @@ public class AllCharCounter extends Metric {
 
     public AllCharCounter(List<Integer> counters) {
         var values = Stream.concat(
-                IntStream.rangeClosed(0, 9).mapToObj(i -> (char)i),
+                IntStream.rangeClosed(0, 9).mapToObj(i -> Character.forDigit(i, 10)),
                 IntStream.rangeClosed('a', 'z').mapToObj(i -> (char)i)
         ).collect(Collectors.toList());
 
@@ -36,7 +36,7 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
-    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (!Character.isLetterOrDigit(charTyped)) {
             return;
         }
@@ -74,11 +74,12 @@ public class AllCharCounter extends Metric {
 
     @Override
     public MetricJComponentWrapper makeComponent(Metric additional) {
+        final var that = cast(additional, AllCharCounter.class);
         return new MetricJComponentWrapper() {
             private final JButton button = new JButton("Show");
 
             {
-                button.addActionListener(e -> Messages.showInfoMessage("All symbols button pressed", "Info"));
+                button.addActionListener(e -> AllSymbolStatistics.show(AllCharCounter.this, that));
             }
 
             @Override
@@ -102,6 +103,10 @@ public class AllCharCounter extends Metric {
         var sj = new StringJoiner(" ").add(PluginConstants.ALL_CHAR_COUNTER);
         sj.merge(getCounters());
         return sj.toString();
+    }
+
+    public Map<Character, Integer> getChars() {
+        return chars;
     }
 
     private StringJoiner getCounters() {

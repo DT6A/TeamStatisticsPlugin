@@ -48,7 +48,7 @@ public class WordCounter extends Metric {
     }
 
     @Override
-    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         // offset -- количество символов, от начала текста до каретки
         numberOfOccurrences += updateFromText(
                 charTyped,
