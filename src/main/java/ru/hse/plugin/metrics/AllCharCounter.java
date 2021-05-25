@@ -73,6 +73,7 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
+    @NotNull
     public MetricJComponentWrapper makeComponent(Metric additional) {
         final var that = cast(additional, AllCharCounter.class);
         return new MetricJComponentWrapper() {

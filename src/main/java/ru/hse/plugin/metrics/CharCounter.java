@@ -60,13 +60,14 @@ public class CharCounter extends Metric {
     }
 
     @Override
+    @NotNull
     public MetricJComponentWrapper makeComponent(Metric additional) {
+        CharCounter that = cast(additional, CharCounter.class);
         return new CounterJComponentWrapper() {
             @Override
             protected int count() {
                 int counter = CharCounter.this.numberOfOccurrences;
 
-                var that = cast(additional, CharCounter.class);
                 counter += that.numberOfOccurrences;
 
                 return counter;

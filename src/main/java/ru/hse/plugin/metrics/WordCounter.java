@@ -92,13 +92,14 @@ public class WordCounter extends Metric {
     }
 
     @Override
+    @NotNull
     public MetricJComponentWrapper makeComponent(Metric additional) {
+        WordCounter that = cast(additional, WordCounter.class);
         return new CounterJComponentWrapper() {
             @Override
             protected int count() {
                 int counter = WordCounter.this.numberOfOccurrences;
 
-                var that = cast(additional, WordCounter.class);
                 counter += that.numberOfOccurrences;
 
                 return counter;

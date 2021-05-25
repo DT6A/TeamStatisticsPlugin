@@ -16,6 +16,8 @@
     <applicationListeners>
         <listener class="ru.hse.plugin.signin.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="ru.hse.plugin.metrics.listeners.ProjectOpenCloseListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
 
