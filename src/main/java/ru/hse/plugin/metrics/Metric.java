@@ -13,9 +13,13 @@ import java.util.stream.Collectors;
 
 public abstract class Metric {
 
-    public abstract void update(
+    public void updateCharTyped(
             char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file
-    );
+    ) { }
+
+    public void updateProjectOpen(@NotNull Project project) { }
+
+    public void updateProjectClose(@NotNull Project project) { }
 
     public abstract void clear();
 
