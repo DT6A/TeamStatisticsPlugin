@@ -83,8 +83,15 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                         instance.userInfo.getTokenNoExcept())) {
                     instance.clearMetrics();
                 }
-                Set<Metric> newMetric = instance.jsonSender.getNewMetrics();
-                instance.metrics.addAll(newMetric);
+                Set<Metric> newMetrics = instance.jsonSender.getNewMetrics();
+                for (Metric metric : newMetrics) {
+                    if (!instance.metrics.contains(metric)) {
+                        // TODO make clone
+                        instance.metrics.add(metric);
+                        instance.diffs.add(metric);
+                        instance.accumulated.add(metric);
+                    }
+                }
                 // ------------------------------------------------------
 
                 TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
@@ -148,6 +155,10 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     public void loadState(@NotNull StorageData state) {
         XmlSerializerUtil.copyBean(state, this);
         metrics.addAll(diffs); // TODO мб это не надо, надо бы потестить, хотя вроде ниче не ломает
+    }
+
+    private void updateMetrics(Set<Metric> newMetrics) {
+
     }
 
     @Override
