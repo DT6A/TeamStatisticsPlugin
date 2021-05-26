@@ -62,8 +62,12 @@ public class UserInfoHolder implements UserInfo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         UserInfoHolder that = (UserInfoHolder) o;
         return login.equals(that.login) && password.equals(that.password);
     }

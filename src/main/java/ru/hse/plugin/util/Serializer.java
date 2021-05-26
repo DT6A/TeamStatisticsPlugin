@@ -14,7 +14,7 @@ public class Serializer {
         Map<String, String> userInfoMap = new HashMap<>();
         String login = userInfo.getLoginNoExcept();
         String password = userInfo.getPasswordNoExcept();
-        userInfoMap.put("login", login);
+        userInfoMap.put("username", login);
         userInfoMap.put("password", password);
         return JSONValue.toJSONString(userInfoMap).getBytes(StandardCharsets.UTF_8);
     }
