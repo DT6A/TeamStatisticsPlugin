@@ -36,7 +36,7 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
-    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (!Character.isLetterOrDigit(charTyped)) {
             return;
         }
@@ -73,6 +73,7 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
+    @NotNull
     public MetricJComponentWrapper makeComponent(Metric additional) {
         final var that = cast(additional, AllCharCounter.class);
         return new MetricJComponentWrapper() {

@@ -24,7 +24,7 @@ public class CharCounter extends Metric {
     }
 
     @Override
-    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (charTyped == character) {
             numberOfOccurrences++;
         }
@@ -60,13 +60,14 @@ public class CharCounter extends Metric {
     }
 
     @Override
+    @NotNull
     public MetricJComponentWrapper makeComponent(Metric additional) {
+        CharCounter that = cast(additional, CharCounter.class);
         return new CounterJComponentWrapper() {
             @Override
             protected int count() {
                 int counter = CharCounter.this.numberOfOccurrences;
 
-                var that = cast(additional, CharCounter.class);
                 counter += that.numberOfOccurrences;
 
                 return counter;

@@ -1,15 +1,16 @@
-package ru.hse.plugin.metrics;
+package ru.hse.plugin.metrics.listeners;
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.storage.StorageData;
 
 import java.util.List;
 
-public class TypedHandler extends TypedHandlerDelegate {
+public class TypedListener extends TypedHandlerDelegate {
 
 //    @NotNull
 //    @Override
@@ -36,7 +37,7 @@ public class TypedHandler extends TypedHandlerDelegate {
 //        Messages.showInfoMessage("Nice cock!!!!!!!!!", "ATTENTiON");
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
-            metric.update(c, project, editor, file);
+            metric.updateCharTyped(c, project, editor, file);
         }
         return Result.CONTINUE;
     }

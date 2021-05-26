@@ -48,7 +48,7 @@ public class WordCounter extends Metric {
     }
 
     @Override
-    public void update(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         // offset -- количество символов, от начала текста до каретки
         numberOfOccurrences += updateFromText(
                 charTyped,
@@ -92,13 +92,14 @@ public class WordCounter extends Metric {
     }
 
     @Override
+    @NotNull
     public MetricJComponentWrapper makeComponent(Metric additional) {
+        WordCounter that = cast(additional, WordCounter.class);
         return new CounterJComponentWrapper() {
             @Override
             protected int count() {
                 int counter = WordCounter.this.numberOfOccurrences;
 
-                var that = cast(additional, WordCounter.class);
                 counter += that.numberOfOccurrences;
 
                 return counter;
