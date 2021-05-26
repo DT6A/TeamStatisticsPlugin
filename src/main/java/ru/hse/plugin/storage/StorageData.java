@@ -14,11 +14,8 @@ import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.metrics.ProjectOpensNumber;
 import ru.hse.plugin.util.PluginConstants;
-import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -58,7 +55,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
 
     @OptionTag(converter = JsonSenderConverter.class)
-    @NotNull public JsonSender jsonSender;
+    @NotNull public JsonSender jsonSender = new JsonSender();
 
     private final Set<Metric> metrics = new HashSet<>();
 
