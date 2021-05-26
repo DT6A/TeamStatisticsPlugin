@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
-import ru.hse.plugin.metrics.AllCharCounter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.networking.JsonSender;
+import ru.hse.plugin.metrics.ProjectOpensNumber;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
@@ -37,7 +37,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new AllCharCounter());
+    @NotNull public List<Metric> diffs = List.of(new ProjectOpensNumber());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -52,13 +52,13 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new AllCharCounter());
+    @NotNull public List<Metric> accumulated = List.of(new ProjectOpensNumber());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
 
     @OptionTag(converter = JsonSenderConverter.class)
-    @NotNull public JsonSender jsonSender = new JsonSender();
+    @NotNull public JsonSender jsonSender;
 
     private final Set<Metric> metrics = new HashSet<>();
 
@@ -155,10 +155,6 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     public void loadState(@NotNull StorageData state) {
         XmlSerializerUtil.copyBean(state, this);
         metrics.addAll(diffs); // TODO мб это не надо, надо бы потестить, хотя вроде ниче не ломает
-    }
-
-    private void updateMetrics(Set<Metric> newMetrics) {
-
     }
 
     @Override

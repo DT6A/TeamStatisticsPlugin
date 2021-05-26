@@ -40,6 +40,7 @@ public abstract class Metric {
      */
     public abstract void mergeAndClear(Metric metric);
 
+    @NotNull
     public abstract MetricJComponentWrapper makeComponent(Metric additional);
 
     @NotNull
@@ -79,6 +80,16 @@ public abstract class Metric {
                 return new AllCharCounter(
                         Arrays.stream(parts).skip(1).map(Integer::parseInt).collect(Collectors.toList())
                 );
+            case PluginConstants.MAX_OPENED_PROJECTS:
+                if (parts.length != 2) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new MaxOpenedProjects(Integer.parseInt(parts[1]));
+            case PluginConstants.PROJECT_OPENS_NUMBER:
+                if (parts.length != 2) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new ProjectOpensNumber(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }
