@@ -7,6 +7,7 @@ import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
+import ru.hse.plugin.storage.UserInfoHolderBuilder;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.util.Util;
 import ru.hse.plugin.storage.EmptyUserInfo;
@@ -16,6 +17,7 @@ import ru.hse.plugin.storage.UserInfoHolder;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 
 public class SettingsComponent implements ActionListener {
@@ -72,7 +74,7 @@ public class SettingsComponent implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == signInButton) {
-            if (StorageData.getInstance().setUserInfo(getNewUserInfo())) {
+            if (StorageData.getInstance().setUserInfo(getNewUserInfoBuilder())) {
                 setVisibility();
                 loginField.setText("");
                 passwordField.setText("");
@@ -95,9 +97,8 @@ public class SettingsComponent implements ActionListener {
         return new EmptyUserInfo();
     }
 
-    // TODO Аналогично LoginDialog.java:89
-    private UserInfoHolder getNewUserInfo() {
-        return new UserInfoHolder(loginField.getText(), passwordField.getPassword(), "token");
+    private UserInfoHolderBuilder getNewUserInfoBuilder() {
+        return new UserInfoHolderBuilder(loginField.getText(), String.valueOf(passwordField.getPassword()));
     }
 
     private JPanel makePanel() {

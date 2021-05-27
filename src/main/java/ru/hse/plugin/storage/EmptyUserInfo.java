@@ -44,9 +44,6 @@ public class EmptyUserInfo implements UserInfo {
     }
 
     @Override
-    public void setToken(String token) { }
-
-    @Override
     public String toString() {
         return isLoginWindowNecessary ? "true" : "false";
     }

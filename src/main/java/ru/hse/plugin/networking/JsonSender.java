@@ -7,6 +7,7 @@ import ru.hse.plugin.metrics.CharCounter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.WordCounter;
 import ru.hse.plugin.storage.UserInfo;
+import ru.hse.plugin.storage.UserInfoHolderBuilder;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
 
@@ -59,8 +60,8 @@ public class JsonSender {
         }
     }
 
-    public String submitUserInfo(UserInfo userInfo) throws WeNeedNameException {
-        byte[] out = Serializer.convertUserInfo(userInfo);
+    public String submitUserInfo(UserInfoHolderBuilder userInfoHolderBuilder) throws WeNeedNameException {
+        byte[] out = Serializer.convertUserInfoForSubmit(userInfoHolderBuilder);
         try {
             HttpURLConnection http = createHttpURLConnection(URLs.LOGIN_URL);
             if (!sendData(http, out)) {
