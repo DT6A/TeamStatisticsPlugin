@@ -5,7 +5,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
+import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
+import ru.hse.plugin.metrics.editor.AllCharCounter;
+import ru.hse.plugin.metrics.editor.CharCounter;
+import ru.hse.plugin.metrics.editor.WordCounter;
+import ru.hse.plugin.metrics.project.MaxOpenedProjects;
+import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.util.PluginConstants;
 
 import java.util.Arrays;

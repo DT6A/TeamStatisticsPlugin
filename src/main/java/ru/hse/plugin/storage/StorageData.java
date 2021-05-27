@@ -11,7 +11,7 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.Metric;
-import ru.hse.plugin.metrics.ProjectOpensNumber;
+import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.util.PluginConstants;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;

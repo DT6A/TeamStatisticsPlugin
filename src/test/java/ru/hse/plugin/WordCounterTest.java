@@ -1,11 +1,9 @@
 package ru.hse.plugin;
 
-import jnr.ffi.annotations.In;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.hse.plugin.metrics.WordCounter;
+import ru.hse.plugin.metrics.editor.WordCounter;
 
-import java.io.SequenceInputStream;
 import java.lang.reflect.Method;
 
 import static org.junit.jupiter.api.Assertions.*;

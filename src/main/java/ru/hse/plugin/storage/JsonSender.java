@@ -4,9 +4,9 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import ru.hse.plugin.metrics.CharCounter;
+import ru.hse.plugin.metrics.editor.CharCounter;
 import ru.hse.plugin.metrics.Metric;
-import ru.hse.plugin.metrics.WordCounter;
+import ru.hse.plugin.metrics.editor.WordCounter;
 import ru.hse.plugin.util.WeNeedNameException;
 
 import java.io.*;
@@ -15,7 +15,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

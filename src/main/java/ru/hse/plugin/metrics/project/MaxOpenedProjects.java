@@ -1,11 +1,12 @@
-package ru.hse.plugin.metrics;
+package ru.hse.plugin.metrics.project;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.metrics.component.CounterJComponentWrapper;
-import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
-import ru.hse.plugin.metrics.services.ProjectCountingService;
+import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
+import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
+import ru.hse.plugin.metrics.commons.services.ProjectCountingService;
 import ru.hse.plugin.util.PluginConstants;
 
 import static java.lang.Math.max;

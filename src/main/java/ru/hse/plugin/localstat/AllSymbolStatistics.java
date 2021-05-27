@@ -6,7 +6,7 @@ import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.AllCharCounter;
+import ru.hse.plugin.metrics.editor.AllCharCounter;
 import ru.hse.plugin.util.Pair;
 import ru.hse.plugin.util.Util;
 

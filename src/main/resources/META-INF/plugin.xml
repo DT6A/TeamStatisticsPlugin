@@ -16,20 +16,20 @@
     <applicationListeners>
         <listener class="ru.hse.plugin.signin.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
-        <listener class="ru.hse.plugin.metrics.listeners.ProjectOpenCloseListener"
+        <listener class="ru.hse.plugin.metrics.commons.listeners.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="ru.hse.plugin.metrics.services.ProjectCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.ProjectCountingService"/>
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"
                                  displayName="Nikita Loh"/>
 
         <!-- Add your extensions here -->
-        <typedHandler implementation="ru.hse.plugin.metrics.listeners.TypedListener"/>
+        <typedHandler implementation="ru.hse.plugin.metrics.commons.listeners.TypedListener"/>
 <!--        <applicationService serviceImplementation="ru.hse.plugin.storage.StorageData"/>-->
 
 

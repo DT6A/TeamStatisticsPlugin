@@ -1,4 +1,4 @@
-package ru.hse.plugin.metrics.listeners;
+package ru.hse.plugin.metrics.commons.listeners;
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;

@@ -1,4 +1,4 @@
-package ru.hse.plugin.metrics.services;
+package ru.hse.plugin.metrics.commons.services;
 
 import static java.lang.Math.max;
 
