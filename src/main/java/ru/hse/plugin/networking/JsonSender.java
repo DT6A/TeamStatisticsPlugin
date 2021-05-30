@@ -1,15 +1,19 @@
-package ru.hse.plugin.storage;
+package ru.hse.plugin.networking;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.json.JSONException;
-import ru.hse.plugin.metrics.editor.CharCounter;
+import org.json.JSONObject;
 import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.editor.CharCounter;
 import ru.hse.plugin.metrics.editor.WordCounter;
+import ru.hse.plugin.storage.UserInfo;
+import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -88,7 +92,7 @@ public class JsonSender {
     public Set<Metric> getNewMetrics() {
         Set<Metric> metrics = new HashSet<>();
         try {
-            HttpURLConnection http = createHttpURLConnection();
+            HttpURLConnection http = createHttpURLConnection(URLs.PLUGIN_GET_METRICS_URL);
             http.setRequestMethod("GET");
             if (http.getResponseCode() == 200) {
                 http.disconnect();
