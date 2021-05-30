@@ -12,5 +12,7 @@ public final class PluginConstants {
 
     public static final String REGISTRATION_LINK = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
 
-    public static int DAEMON_SLEEP_SECONDS = 10;
+    public static final int DAEMON_SLEEP_SECONDS = 10;
+
+    public static final long GIT_JUST_MILLISECONDS = 1000;
 }
