@@ -52,7 +52,7 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
-    public String getInfo() { // TODO implement
+    public String getInfo() {
         return getCounters().toString();
     }
 

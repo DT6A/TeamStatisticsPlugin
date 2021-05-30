@@ -21,7 +21,7 @@ public class UserInfoConverter extends Converter<UserInfo> {
         }
         String[] fields = value.split(" ");
         if (fields.length != 3) {
-            throw new RuntimeException("Parse error: expected 2 spaces or \"" + // TODO смотри toString() в holder-е
+            throw new RuntimeException("Parse error: expected 2 spaces or \"" +
                     PluginConstants.EMPTY_USER_INFO + "\", found " + (fields.length - 1));
         }
         return new UserInfoHolder(fields[0], fields[1], fields[2]);

@@ -13,7 +13,7 @@ public class SettingsConfigurable implements Configurable {
     @Nls(capitalization = Nls.Capitalization.Title)
     @Override
     public String getDisplayName() {
-        return "Nikita Loh"; // TODO
+        return "Achievement Plugin EGOR LOH";
     }
 
     @Nullable

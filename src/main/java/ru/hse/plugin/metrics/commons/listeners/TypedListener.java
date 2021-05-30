@@ -30,9 +30,6 @@ public class TypedListener extends TypedHandlerDelegate {
 
     @NotNull
     @Override
-    // TODO эта штука не про все символы говорит, прошлая говорит,
-    //      но там проблема, что там document не видит изменения
-    //      (очев из ее названия)
     public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
 //        Messages.showInfoMessage("Nice cock!!!!!!!!!", "ATTENTiON");
         List<Metric> metrics = StorageData.getInstance().diffs;
