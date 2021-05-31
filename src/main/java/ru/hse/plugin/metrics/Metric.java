@@ -9,6 +9,7 @@ import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 import ru.hse.plugin.metrics.editor.AllCharCounter;
 import ru.hse.plugin.metrics.editor.CharCounter;
 import ru.hse.plugin.metrics.editor.WordCounter;
+import ru.hse.plugin.metrics.git.CommitCounter;
 import ru.hse.plugin.metrics.project.MaxOpenedProjects;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.util.PluginConstants;
@@ -95,6 +96,11 @@ public abstract class Metric {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new ProjectOpensNumber(Integer.parseInt(parts[1]));
+            case PluginConstants.COMMIT_COUNTER:
+                if (parts.length != 2) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new CommitCounter(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }
