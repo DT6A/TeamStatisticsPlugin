@@ -27,6 +27,8 @@ public abstract class Metric {
 
     public void updateProjectClose(@NotNull Project project) { }
 
+    public void justCommitted() { }
+
     public abstract void clear();
 
     public abstract String getInfo();

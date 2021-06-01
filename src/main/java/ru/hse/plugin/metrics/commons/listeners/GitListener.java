@@ -1,8 +1,11 @@
 package ru.hse.plugin.metrics.commons.listeners;
 
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.storage.StorageData;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class GitListener extends GitListenerBase {
     protected GitListener(Path location) {
@@ -13,7 +16,10 @@ public class GitListener extends GitListenerBase {
     @Override
     protected Runnable getCommitHandler() {
         return () -> {
-            throw new UnsupportedOperationException();
+            List<Metric> metrics = StorageData.getInstance().diffs;
+            for (Metric metric : metrics) {
+                metric.justCommitted();
+            }
         };
     }
 }
