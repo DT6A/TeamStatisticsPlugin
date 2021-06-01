@@ -10,7 +10,7 @@ import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
 import java.util.Objects;
 
-import static ru.hse.plugin.metrics.commons.NAMES.CHAR_COUNTER;
+import static ru.hse.plugin.metrics.commons.Names.CHAR_COUNTER;
 
 public class CharCounter extends Metric {
     private final char character;

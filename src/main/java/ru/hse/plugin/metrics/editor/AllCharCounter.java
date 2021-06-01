@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static ru.hse.plugin.metrics.commons.NAMES.ALL_CHAR_COUNTER;
+import static ru.hse.plugin.metrics.commons.Names.ALL_CHAR_COUNTER;
 
 public class AllCharCounter extends Metric {
     private final Map<Character, Integer> chars = new HashMap<>();

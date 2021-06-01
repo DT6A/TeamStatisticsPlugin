@@ -3,7 +3,7 @@ package ru.hse.plugin.converters;
 import com.intellij.util.xmlb.Converter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.commons.NAMES;
+import ru.hse.plugin.metrics.commons.Names;
 import ru.hse.plugin.storage.EmptyUserInfo;
 import ru.hse.plugin.storage.UserInfo;
 import ru.hse.plugin.storage.UserInfoHolder;
@@ -22,7 +22,7 @@ public class UserInfoConverter extends Converter<UserInfo> {
         String[] fields = value.split(" ");
         if (fields.length != 3) {
             throw new RuntimeException("Parse error: expected 2 spaces or \"" +
-                    NAMES.EMPTY_USER_INFO + "\", found " + (fields.length - 1));
+                    Names.EMPTY_USER_INFO + "\", found " + (fields.length - 1));
         }
         return new UserInfoHolder(fields[0], fields[1], fields[2]);
     }

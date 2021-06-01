@@ -5,7 +5,7 @@ import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
-import static ru.hse.plugin.metrics.commons.NAMES.COMMIT_COUNTER;
+import static ru.hse.plugin.metrics.commons.Names.COMMIT_COUNTER;
 
 public class CommitCounter extends Metric { // FIXME: не запускается ниоткуда (листенер) И не тестилось
     private int counter = 0;

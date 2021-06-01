@@ -16,7 +16,7 @@ import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static ru.hse.plugin.metrics.commons.NAMES.*;
+import static ru.hse.plugin.metrics.commons.Names.*;
 
 public abstract class Metric {
 

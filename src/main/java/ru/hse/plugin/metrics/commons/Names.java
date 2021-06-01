@@ -1,7 +1,7 @@
 package ru.hse.plugin.metrics.commons;
 
-public class NAMES {
-    private NAMES() { }
+public class Names {
+    private Names() { }
 
     public static final String WORD_COUNTER = "WordCounter";
     public static final String CHAR_COUNTER = "CharCounter";

@@ -9,7 +9,7 @@ import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 import ru.hse.plugin.metrics.commons.services.ProjectCountingService;
 
 import static java.lang.Math.max;
-import static ru.hse.plugin.metrics.commons.NAMES.MAX_OPENED_PROJECTS;
+import static ru.hse.plugin.metrics.commons.Names.MAX_OPENED_PROJECTS;
 
 public class MaxOpenedProjects extends Metric {
     private int maximum = 0;
