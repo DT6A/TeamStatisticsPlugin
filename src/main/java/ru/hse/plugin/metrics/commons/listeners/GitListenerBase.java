@@ -29,10 +29,6 @@ public abstract class GitListenerBase {
         justCommitted();
     }
 
-    public Path getLocation() {
-        return location;
-    }
-
     private void justCommitted() throws IOException {
         if (exists() && didJustCommit()) {
             getCommitHandler().run();
@@ -40,7 +36,8 @@ public abstract class GitListenerBase {
     }
 
     private boolean exists() throws IOException {
-        try (Git ignored = Git.open(location.toFile())) {
+        try  {
+            Git.open(location.toFile());
             return true;
         } catch (RepositoryNotFoundException ignored) { // простите
             return false;
@@ -48,23 +45,21 @@ public abstract class GitListenerBase {
     }
 
     private boolean didJustCommit() throws IOException {
-        try (Git git = Git.open(location.toFile())) {
-            Repository repository = git.getRepository();
+        Git git = Git.open(location.toFile());
+        Repository repository = git.getRepository();
 
-            ObjectId id = repository.resolve(Constants.HEAD);
+        ObjectId id = repository.resolve(Constants.HEAD);
 
-            if (id == null) {
-                return false;
-            }
-
-            try (RevWalk revWalk = new RevWalk(repository)) {
-                RevCommit commit = revWalk.parseCommit(id);
-                int commitTime = commit.getCommitTime();
-                PersonIdent committer = commit.getCommitterIdent();
-
-                return checkDidJustCommit(committer, commitTime, repository);
-            }
+        if (id == null) {
+            return false;
         }
+
+        RevWalk revWalk = new RevWalk(repository);
+        RevCommit commit = revWalk.parseCommit(id);
+        int commitTime = commit.getCommitTime();
+        PersonIdent committer = commit.getCommitterIdent();
+
+        return checkDidJustCommit(committer, commitTime, repository);
     }
 
     private static boolean checkDidJustCommit(PersonIdent committer, int commitTime, Repository repository) {

@@ -16,6 +16,11 @@ public class CommitCounter extends Metric { // FIXME: не запускаетс�
     }
 
     @Override
+    public void justCommitted() {
+        counter++;
+    }
+
+    @Override
     public void clear() {
         counter = 0;
     }

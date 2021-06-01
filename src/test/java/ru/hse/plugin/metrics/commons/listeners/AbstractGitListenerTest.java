@@ -62,19 +62,17 @@ public abstract class AbstractGitListenerTest {
     }
 
     protected void add(String filename) throws GitAPIException, IOException {
-        try (Git git = Git.open(playground)) {
-            git.add()
-                    .addFilepattern(filename)
-                    .call();
-        }
+        Git git = Git.open(playground);
+        git.add()
+                .addFilepattern(filename)
+                .call();
     }
 
     protected void commit(String message) throws GitAPIException, IOException {
-        try (Git git = Git.open(playground)) {
-            git.commit()
-                    .setMessage(message)
-                    .call();
-        }
+        Git git = Git.open(playground);
+        git.commit()
+                .setMessage(message)
+                .call();
     }
 
     protected void cloneRemote() throws IOException, URISyntaxException, GitAPIException {
@@ -88,19 +86,18 @@ public abstract class AbstractGitListenerTest {
     }
 
     protected void makeRemoteRepoWithCommit() throws GitAPIException, IOException {
-        try (Git git = Git.init().setDirectory(playground_remote).call()) {
-            File file = new File(playground_remote, "file.txt");
-            FileUtils.writeStringToFile(file, "content", Charset.defaultCharset());
+        Git git = Git.init().setDirectory(playground_remote).call();
+        File file = new File(playground_remote, "file.txt");
+        FileUtils.writeStringToFile(file, "content", Charset.defaultCharset());
 
-            git.add()
-                    .addFilepattern("file.txt")
-                    .call();
+        git.add()
+                .addFilepattern("file.txt")
+                .call();
 
-            git.commit()
-                    .setCommitter("Some weird name nobody will have so tests will work", "mail@gmail.com")
-                    .setMessage("add file.txt")
-                    .call();
-        }
+        git.commit()
+                .setCommitter("Some weird name nobody will have so tests will work", "mail@gmail.com")
+                .setMessage("add file.txt")
+                .call();
     }
 
     protected void createFile(@NotNull String fileName, @NotNull String content) throws IOException {
