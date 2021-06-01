@@ -5,7 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
+
+import static ru.hse.plugin.metrics.commons.NAMES.PROJECT_OPENS_NUMBER;
 
 public class ProjectOpensNumber extends Metric {
     private int counter = 0;
@@ -33,13 +34,13 @@ public class ProjectOpensNumber extends Metric {
 
     @Override
     public String toString() {
-        return PluginConstants.PROJECT_OPENS_NUMBER + " " + counter;
+        return PROJECT_OPENS_NUMBER + " " + counter;
     }
 
     @Override
     @NotNull
     public String getName() {
-        return PluginConstants.PROJECT_OPENS_NUMBER + "()";
+        return PROJECT_OPENS_NUMBER + "()";
     }
 
     @Override

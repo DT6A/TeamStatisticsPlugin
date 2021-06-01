@@ -3,7 +3,7 @@ package ru.hse.plugin.metrics.commons.listeners;
 import kotlin.jvm.internal.Ref;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Constants;
 
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +62,7 @@ class GitListenerTest extends AbstractGitListenerTest {
         createFile("filename.txt", "File content");
         add("filename.txt");
         commit("add filename.txt");
-        TimeUnit.MILLISECONDS.sleep((long) (1.5 * PluginConstants.GIT_JUST_MILLISECONDS));
+        TimeUnit.MILLISECONDS.sleep((long) (1.5 * Constants.GIT_JUST_MILLISECONDS));
         assertFalse(didJustCommit());
     }
 
@@ -84,7 +84,7 @@ class GitListenerTest extends AbstractGitListenerTest {
         createFile("new-file.txt", "File content 3");
         add("new-file.txt");
         commit("add filename.txt 3");
-        TimeUnit.MILLISECONDS.sleep((long) (1.5 * PluginConstants.GIT_JUST_MILLISECONDS));
+        TimeUnit.MILLISECONDS.sleep((long) (1.5 * Constants.GIT_JUST_MILLISECONDS));
         assertFalse(didJustCommit());
     }
 
@@ -127,7 +127,7 @@ class GitListenerTest extends AbstractGitListenerTest {
         createFile("filename.txt", "File content");
         add("filename.txt");
         commit("add filename.txt");
-        TimeUnit.MILLISECONDS.sleep((long) (1.5 * PluginConstants.GIT_JUST_MILLISECONDS));
+        TimeUnit.MILLISECONDS.sleep((long) (1.5 * Constants.GIT_JUST_MILLISECONDS));
         assertFalse(didJustCommit());
     }
 

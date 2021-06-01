@@ -7,9 +7,9 @@ import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 import ru.hse.plugin.metrics.commons.services.ProjectCountingService;
-import ru.hse.plugin.util.PluginConstants;
 
 import static java.lang.Math.max;
+import static ru.hse.plugin.metrics.commons.NAMES.MAX_OPENED_PROJECTS;
 
 public class MaxOpenedProjects extends Metric {
     private int maximum = 0;
@@ -35,13 +35,13 @@ public class MaxOpenedProjects extends Metric {
 
     @Override
     public String toString() {
-        return PluginConstants.MAX_OPENED_PROJECTS + " " + maximum;
+        return MAX_OPENED_PROJECTS + " " + maximum;
     }
 
     @Override
     @NotNull
     public String getName() {
-        return PluginConstants.MAX_OPENED_PROJECTS + "()";
+        return MAX_OPENED_PROJECTS + "()";
     }
 
     @Override

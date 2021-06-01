@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -15,6 +14,7 @@ import java.util.StringTokenizer;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static ru.hse.plugin.metrics.commons.NAMES.WORD_COUNTER;
 
 public class WordCounter extends Metric {
     private final String word;
@@ -72,7 +72,7 @@ public class WordCounter extends Metric {
     @NotNull
     @Override
     public String getName() {
-        return PluginConstants.WORD_COUNTER + "(" + word + ")";
+        return WORD_COUNTER + "(" + word + ")";
     }
 
     @Override
@@ -116,7 +116,7 @@ public class WordCounter extends Metric {
 
     @Override
     public String toString() {
-        return PluginConstants.WORD_COUNTER + " " + word + " " + numberOfOccurrences;
+        return WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }
 
     private int updateFromText(char charTyped,

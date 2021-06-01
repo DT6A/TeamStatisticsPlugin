@@ -7,9 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
 
 import java.util.Objects;
+
+import static ru.hse.plugin.metrics.commons.NAMES.CHAR_COUNTER;
 
 public class CharCounter extends Metric {
     private final char character;
@@ -43,8 +44,7 @@ public class CharCounter extends Metric {
 
     @Override
     public @NotNull String getName() {
-        //return "lines";
-        return PluginConstants.CHAR_COUNTER + "(" + Character.getNumericValue(character) + ")";
+        return CHAR_COUNTER + "(" + Character.getNumericValue(character) + ")";
     }
 
     @Override
@@ -84,7 +84,7 @@ public class CharCounter extends Metric {
 
     @Override
     public String toString() {
-        return PluginConstants.CHAR_COUNTER + " " + Character.getNumericValue(character) + " " + numberOfOccurrences;
+        return CHAR_COUNTER + " " + Character.getNumericValue(character) + " " + numberOfOccurrences;
     }
 
     @Override

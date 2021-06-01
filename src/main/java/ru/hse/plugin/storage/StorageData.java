@@ -12,10 +12,8 @@ import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.git.CommitCounter;
-import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.networking.JsonSender;
-import ru.hse.plugin.metrics.project.ProjectOpensNumber;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.WeNeedNameException;
 
 import java.util.*;
@@ -93,7 +91,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 }
                 // ------------------------------------------------------
 
-                TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
+                TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
             }
         } catch (InterruptedException ignored) { }
     });

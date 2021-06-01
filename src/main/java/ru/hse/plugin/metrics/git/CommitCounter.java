@@ -4,7 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
+
+import static ru.hse.plugin.metrics.commons.NAMES.COMMIT_COUNTER;
 
 public class CommitCounter extends Metric { // FIXME: не запускается ниоткуда (листенер) И не тестилось
     private int counter = 0;
@@ -32,12 +33,12 @@ public class CommitCounter extends Metric { // FIXME: не запускаетс�
 
     @Override
     public String toString() {
-        return PluginConstants.COMMIT_COUNTER + " " + counter;
+        return COMMIT_COUNTER + " " + counter;
     }
 
     @Override
     public @NotNull String getName() {
-        return PluginConstants.COMMIT_COUNTER + "()";
+        return COMMIT_COUNTER + "()";
     }
 
     @Override

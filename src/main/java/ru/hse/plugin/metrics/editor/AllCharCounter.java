@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.localstat.AllSymbolStatistics;
 import ru.hse.plugin.metrics.Metric;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -17,6 +16,8 @@ import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static ru.hse.plugin.metrics.commons.NAMES.ALL_CHAR_COUNTER;
 
 public class AllCharCounter extends Metric {
     private final Map<Character, Integer> chars = new HashMap<>();
@@ -58,7 +59,7 @@ public class AllCharCounter extends Metric {
 
     @Override
     public @NotNull String getName() {
-        return PluginConstants.ALL_CHAR_COUNTER + "()";
+        return ALL_CHAR_COUNTER + "()";
     }
 
     @Override
@@ -102,7 +103,7 @@ public class AllCharCounter extends Metric {
 
     @Override
     public String toString() {
-        var sj = new StringJoiner(" ").add(PluginConstants.ALL_CHAR_COUNTER);
+        var sj = new StringJoiner(" ").add(ALL_CHAR_COUNTER);
         sj.merge(getCounters());
         return sj.toString();
     }

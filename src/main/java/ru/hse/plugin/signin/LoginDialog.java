@@ -7,9 +7,9 @@ import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.util.PluginConstants;
-import ru.hse.plugin.util.Util;
 import ru.hse.plugin.storage.UserInfoHolder;
+import ru.hse.plugin.util.Constants;
+import ru.hse.plugin.util.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,7 +98,7 @@ public class LoginDialog extends DialogWrapper implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == signUpButton) {
-            Util.openLink(PluginConstants.REGISTRATION_LINK);
+            Util.openLink(Constants.REGISTRATION_LINK);
         }
     }
 }

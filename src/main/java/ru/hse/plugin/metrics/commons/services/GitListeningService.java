@@ -4,11 +4,12 @@ import ru.hse.plugin.metrics.commons.listeners.GitListener;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import static ru.hse.plugin.util.PluginConstants.*;
+import static ru.hse.plugin.util.Constants.GIT_CHECKS_PER_JUST;
+import static ru.hse.plugin.util.Constants.GIT_JUST_MILLISECONDS;
 import static ru.hse.plugin.util.Util.canonical;
 
 public class GitListeningService {

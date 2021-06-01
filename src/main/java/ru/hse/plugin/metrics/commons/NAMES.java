@@ -1,7 +1,7 @@
-package ru.hse.plugin.util;
+package ru.hse.plugin.metrics.commons;
 
-public final class PluginConstants {
-    private PluginConstants() {}
+public class NAMES {
+    private NAMES() { }
 
     public static final String WORD_COUNTER = "WordCounter";
     public static final String CHAR_COUNTER = "CharCounter";
@@ -10,11 +10,4 @@ public final class PluginConstants {
     public static final String MAX_OPENED_PROJECTS = "MaxOpenedProjects";
     public static final String PROJECT_OPENS_NUMBER = "ProjectOpensNumber";
     public static final String COMMIT_COUNTER = "CommitCounter";
-
-    public static final String REGISTRATION_LINK = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-
-    public static final int DAEMON_SLEEP_SECONDS = 10;
-
-    public static final long GIT_JUST_MILLISECONDS = 2000;
-    public static final double GIT_CHECKS_PER_JUST = 0.75;
 }

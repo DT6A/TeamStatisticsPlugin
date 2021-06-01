@@ -2,14 +2,13 @@ package ru.hse.plugin.metrics.commons.listeners;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Constants;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -48,7 +47,7 @@ public abstract class GitListenerBase {
         Git git = Git.open(location.toFile());
         Repository repository = git.getRepository();
 
-        ObjectId id = repository.resolve(Constants.HEAD);
+        ObjectId id = repository.resolve(org.eclipse.jgit.lib.Constants.HEAD);
 
         if (id == null) {
             return false;
@@ -64,7 +63,7 @@ public abstract class GitListenerBase {
 
     private static boolean checkDidJustCommit(PersonIdent committer, int commitTime, Repository repository) {
         long currentTime = new Date().getTime();
-        return currentTime - (long) commitTime * 1000 <= PluginConstants.GIT_JUST_MILLISECONDS
+        return currentTime - (long) commitTime * 1000 <= Constants.GIT_JUST_MILLISECONDS
                 && isMe(committer, repository);
     }
 
