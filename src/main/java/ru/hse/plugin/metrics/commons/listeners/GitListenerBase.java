@@ -29,6 +29,10 @@ public abstract class GitListenerBase {
         justCommitted();
     }
 
+    public Path getLocation() {
+        return location;
+    }
+
     private void justCommitted() throws IOException {
         if (exists() && didJustCommit()) {
             getCommitHandler().run();

@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class GitListener extends GitListenerBase {
-    protected GitListener(Path location) {
+    public GitListener(Path location) {
         super(location);
     }
 

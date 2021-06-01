@@ -3,12 +3,14 @@ package ru.hse.plugin.util;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -18,6 +20,11 @@ import java.util.stream.StreamSupport;
 
 public class Util {
     private Util() {}
+
+    @NotNull
+    public static Path canonical(Path path) {
+        return path.toAbsolutePath().normalize();
+    }
 
     public static void openLink(String link) {
         URI uri;

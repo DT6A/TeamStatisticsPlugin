@@ -11,6 +11,7 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.git.CommitCounter;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
@@ -35,7 +36,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new ProjectOpensNumber());
+    @NotNull public List<Metric> diffs = List.of(new CommitCounter());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -50,7 +51,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new ProjectOpensNumber());
+    @NotNull public List<Metric> accumulated = List.of(new CommitCounter());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();

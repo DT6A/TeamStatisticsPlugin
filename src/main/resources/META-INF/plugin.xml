@@ -18,11 +18,14 @@
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
         <listener class="ru.hse.plugin.metrics.commons.listeners.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="ru.hse.plugin.metrics.commons.starters.OpenCloseListenerStarter"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.ProjectCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.GitListeningService"/>
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"
