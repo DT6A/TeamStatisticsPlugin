@@ -44,11 +44,6 @@ public class JsonSender {
         updateSendingTimeToCurrent();
         metricInfo.put("time_to", getLastSendingTime());
 //        System.out.println("METRIC_SEND");
-       /* for (var metric : metricInfo.entrySet()) {
-            System.out.print(metric.getKey());
-            System.out.print(": ");
-            System.out.println(metric.getValue());
-        } */
         byte[] out = Serializer.convertMetricInfo(
                 metricInfo,
                 token

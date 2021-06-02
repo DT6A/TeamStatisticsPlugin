@@ -27,7 +27,7 @@ public class LoginDialog extends DialogWrapper implements ActionListener {
         signUpButton.addActionListener(this);
     }
 
-    public JPanel centralPanel = new JPanel(new GridBagLayout());
+    public final JPanel centralPanel = new JPanel(new GridBagLayout());
 
     public LoginDialog(@Nullable String message) {
         super(true);

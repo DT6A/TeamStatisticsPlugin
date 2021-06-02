@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.Collection;
@@ -34,6 +33,7 @@ public abstract class AbstractGitListenerTest {
     }
 
     private static void cleanPlayground(File pg) throws IOException {
+        //noinspection ResultOfMethodCallIgnored
         pg.mkdirs();
         Collection<File> files = FileUtils.listFilesAndDirs(
                 pg,
@@ -78,7 +78,7 @@ public abstract class AbstractGitListenerTest {
                 .call();
     }
 
-    protected void cloneRemote() throws IOException, URISyntaxException, GitAPIException {
+    protected void cloneRemote() throws GitAPIException {
         FileUtils.deleteQuietly(playground);
 
         Git.cloneRepository()

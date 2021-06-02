@@ -2,7 +2,6 @@ package ru.hse.plugin.util;
 
 import org.json.simple.JSONValue;
 import ru.hse.plugin.storage.UserInfo;
-import ru.hse.plugin.storage.UserInfoHolder;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

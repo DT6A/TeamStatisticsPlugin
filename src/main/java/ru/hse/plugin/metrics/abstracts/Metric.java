@@ -77,7 +77,6 @@ public abstract class Metric {
 
     @Nullable
     public static Metric fromString(@Nullable String metric) {
-        System.out.println(metric);
         if (metric == null) {
             return null;
         }

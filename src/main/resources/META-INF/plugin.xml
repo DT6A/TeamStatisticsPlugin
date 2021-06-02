@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.example.tamagachi-test</id>
-    <name>adisplay naame here</name>
-    <vendor email="asupport@yourcompany.com" url="http://www.yaourcompany.com">YourComapany</vendor>
+    <name>Adisplay Naame Here</name>
+    <vendor email="asupport@yourcompany.com" url="https://www.yaourcompany.com">YourComapany</vendor>
 
     <description><![CDATA[
     aEnter short descriptiaon for your plugin here.<br>
@@ -52,11 +52,11 @@
 
 
     <actions>
-        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"
-                text="Some label" description="Action description" icon="/Drawable/32.png">
-            <add-to-group group-id="ToolbarRunGroup" anchor="first" />
-            <!-- TODO получше группу найти или еще как-нибудь, потому что так логически это убого -->
-        </action>
+<!--        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"-->
+<!--                text="Some Label" description="Action description" icon="/Drawable/32.png">-->
+<!--            <add-to-group group-id="ToolbarRunGroup" anchor="first" />-->
+<!--            &lt;!&ndash; TODO получше группу найти или еще как-нибудь, потому что так логически это убого &ndash;&gt;-->
+<!--        </action>-->
 
 
 <!--        <group id="TopMenu" text="InputBox" description="Handling user input demo">-->

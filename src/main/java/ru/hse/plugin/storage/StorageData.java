@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("CanBeFinal")
 @State(
         name = "org.intellij.sdk.settings.StorageData",
         storages = {@Storage("StorageData.xml")}

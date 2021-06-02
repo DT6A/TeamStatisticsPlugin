@@ -10,6 +10,7 @@ import ru.hse.plugin.storage.StorageData;
 
 import java.util.List;
 
+@SuppressWarnings({"SpellCheckingInspection", "CommentedOutCode"})
 public class TypedListener extends TypedHandlerDelegate {
 
 //    @NotNull
@@ -28,6 +29,7 @@ public class TypedListener extends TypedHandlerDelegate {
 //        return Result.CONTINUE;
 //    }
 
+    @SuppressWarnings("SpellCheckingInspection")
     @NotNull
     @Override
     public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
