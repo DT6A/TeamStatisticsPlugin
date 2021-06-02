@@ -10,16 +10,17 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.editor.AllCharCounter;
 import ru.hse.plugin.networking.JsonSender;
-import ru.hse.plugin.metrics.ProjectOpensNumber;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.WeNeedNameException;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("CanBeFinal")
 @State(
         name = "org.intellij.sdk.settings.StorageData",
         storages = {@Storage("StorageData.xml")}
@@ -34,7 +35,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new ProjectOpensNumber());
+    @NotNull public List<Metric> diffs = List.of(new AllCharCounter());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -49,7 +50,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new ProjectOpensNumber());
+    @NotNull public List<Metric> accumulated = List.of(new AllCharCounter());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -91,7 +92,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 }
                 // ------------------------------------------------------
 
-                TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
+                TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
             }
         } catch (InterruptedException ignored) { }
     });
@@ -120,7 +121,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
-        diffs.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
+//        diffs.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
     }
 
     public boolean setUserInfo(UserInfoHolder userInfo)  {

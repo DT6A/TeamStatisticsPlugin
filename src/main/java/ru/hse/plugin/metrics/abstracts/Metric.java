@@ -1,15 +1,23 @@
-package ru.hse.plugin.metrics;
+package ru.hse.plugin.metrics.abstracts;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
+import ru.hse.plugin.metrics.editor.AllCharCounter;
+import ru.hse.plugin.metrics.editor.CharCounter;
+import ru.hse.plugin.metrics.editor.WordCounter;
+import ru.hse.plugin.metrics.git.CommitCounter;
+import ru.hse.plugin.metrics.git.SpecificBranchCommitCounter;
+import ru.hse.plugin.metrics.project.MaxOpenedProjects;
+import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import static ru.hse.plugin.metrics.commons.Names.*;
 
 public abstract class Metric {
 
@@ -20,6 +28,10 @@ public abstract class Metric {
     public void updateProjectOpen(@NotNull Project project) { }
 
     public void updateProjectClose(@NotNull Project project) { }
+
+    public void justCommitted() { }
+
+    public void justCommitted(String branchName) { }
 
     public abstract void clear();
 
@@ -46,6 +58,15 @@ public abstract class Metric {
     @NotNull
     public abstract String localStatisticString();
 
+    public abstract boolean isSame(@NotNull Metric metric);
+
+    @Override
+    public abstract boolean equals(Object o);
+
+    @Override
+    public abstract int hashCode();
+
+
     protected <T> T cast(Object metric, Class<T> clazz) {
         if (clazz.isInstance(metric)) {
             return clazz.cast(metric);
@@ -63,33 +84,43 @@ public abstract class Metric {
         String[] parts = metric.split(" ");
 
         switch (parts[0]) {
-            case PluginConstants.WORD_COUNTER:
+            case WORD_COUNTER:
                 if (parts.length != 3) {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new WordCounter(parts[1], Integer.parseInt(parts[2]));
-            case PluginConstants.CHAR_COUNTER:
+            case CHAR_COUNTER:
                 if (parts.length != 3) {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new CharCounter((char) Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
-            case PluginConstants.ALL_CHAR_COUNTER:
+            case ALL_CHAR_COUNTER:
                 if (parts.length != 10 + ('z' - 'a' + 1) + 1) {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new AllCharCounter(
                         Arrays.stream(parts).skip(1).map(Integer::parseInt).collect(Collectors.toList())
                 );
-            case PluginConstants.MAX_OPENED_PROJECTS:
+            case MAX_OPENED_PROJECTS:
                 if (parts.length != 2) {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new MaxOpenedProjects(Integer.parseInt(parts[1]));
-            case PluginConstants.PROJECT_OPENS_NUMBER:
+            case PROJECT_OPENS_NUMBER:
                 if (parts.length != 2) {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new ProjectOpensNumber(Integer.parseInt(parts[1]));
+            case COMMIT_COUNTER:
+                if (parts.length != 2) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new CommitCounter(Integer.parseInt(parts[1]));
+            case SPECIFIC_BRANCH_COMMIT_COUNTER:
+                if (parts.length != 3) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new SpecificBranchCommitCounter(Integer.parseInt(parts[1]), parts[2]);
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

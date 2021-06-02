@@ -1,12 +1,12 @@
-package ru.hse.plugin.metrics.listeners;
+package ru.hse.plugin.metrics.commons.listeners;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManagerListener;
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.metrics.Metric;
-import ru.hse.plugin.metrics.services.ProjectCountingService;
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.commons.services.ProjectCountingService;
 import ru.hse.plugin.storage.StorageData;
 
 import java.util.List;

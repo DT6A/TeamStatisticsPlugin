@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.example.tamagachi-test</id>
-    <name>adisplay naame here</name>
-    <vendor email="asupport@yourcompany.com" url="http://www.yaourcompany.com">YourComapany</vendor>
+    <name>Adisplay Naame Here</name>
+    <vendor email="asupport@yourcompany.com" url="https://www.yaourcompany.com">YourComapany</vendor>
 
     <description><![CDATA[
     aEnter short descriptiaon for your plugin here.<br>
@@ -16,20 +16,23 @@
     <applicationListeners>
         <listener class="ru.hse.plugin.signin.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
-        <listener class="ru.hse.plugin.metrics.listeners.ProjectOpenCloseListener"
+        <listener class="ru.hse.plugin.metrics.commons.listeners.ProjectOpenCloseListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="ru.hse.plugin.metrics.commons.starters.OpenCloseListenerStarter"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="ru.hse.plugin.metrics.services.ProjectCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.ProjectCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.GitListeningService"/>
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"
                                  displayName="Nikita Loh"/>
 
         <!-- Add your extensions here -->
-        <typedHandler implementation="ru.hse.plugin.metrics.listeners.TypedListener"/>
+        <typedHandler implementation="ru.hse.plugin.metrics.commons.listeners.TypedListener"/>
 <!--        <applicationService serviceImplementation="ru.hse.plugin.storage.StorageData"/>-->
 
 
@@ -49,11 +52,11 @@
 
 
     <actions>
-        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"
-                text="Some label" description="Action description" icon="/Drawable/32.png">
-            <add-to-group group-id="ToolbarRunGroup" anchor="first" />
-            <!-- TODO получше группу найти или еще как-нибудь, потому что так логически это убого -->
-        </action>
+<!--        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"-->
+<!--                text="Some Label" description="Action description" icon="/Drawable/32.png">-->
+<!--            <add-to-group group-id="ToolbarRunGroup" anchor="first" />-->
+<!--            &lt;!&ndash; TODO получше группу найти или еще как-нибудь, потому что так логически это убого &ndash;&gt;-->
+<!--        </action>-->
 
 
 <!--        <group id="TopMenu" text="InputBox" description="Handling user input demo">-->
