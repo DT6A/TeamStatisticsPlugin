@@ -10,9 +10,12 @@ public abstract class CountingMetric extends Metric {
 
     private int counter = 0;
 
-    protected CountingMetric() { }
+    protected CountingMetric() {
+        System.out.println("Counter is 0 cuz def cons called");
+    }
 
     protected CountingMetric(int counter) {
+        System.out.println("Counter is " + counter);
         this.counter = counter;
     }
 
@@ -46,6 +49,10 @@ public abstract class CountingMetric extends Metric {
         this.counter += that.counter;
 
         that.clear();
+    }
+
+    protected int getCounter() {
+        return counter;
     }
 
     @NotNull

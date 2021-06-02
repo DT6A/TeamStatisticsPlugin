@@ -4,6 +4,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -100,6 +103,25 @@ public abstract class AbstractGitListenerTest {
                 .call();
     }
 
+    protected void branch(String name) throws GitAPIException {
+        Git git = Git.init().setDirectory(playground).call();
+        git.branchCreate().setName(name).call();
+    }
+
+    protected void checkout(String name) throws GitAPIException {
+        Git git = Git.init().setDirectory(playground).call();
+        git.checkout().setName(name).call();
+    }
+
+    protected void checkoutOnCommit() throws GitAPIException, IOException {
+        Git git = Git.init().setDirectory(playground).call();
+        Repository repository = git.getRepository();
+
+        ObjectId id = repository.resolve(Constants.HEAD);
+
+        git.checkout().setName(id.getName()).call();
+    }
+
     protected void createFile(@NotNull String fileName, @NotNull String content) throws IOException {
         File file = new File(playground, fileName);
         FileUtils.writeStringToFile(file, content, Charset.defaultCharset());
@@ -121,5 +143,11 @@ public abstract class AbstractGitListenerTest {
         Method justCommitted = getGitListener().getClass().getSuperclass().getDeclaredMethod("justCommitted");
         justCommitted.setAccessible(true);
         justCommitted.invoke(getGitListener());
+    }
+
+    protected String getBranch() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method justCommitted = getGitListener().getClass().getSuperclass().getDeclaredMethod("getBranch");
+        justCommitted.setAccessible(true);
+        return (String) justCommitted.invoke(getGitListener());
     }
 }

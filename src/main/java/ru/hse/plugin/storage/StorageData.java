@@ -11,7 +11,7 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.git.CommitCounter;
+import ru.hse.plugin.metrics.editor.AllCharCounter;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.WeNeedNameException;
@@ -34,7 +34,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new CommitCounter());
+    @NotNull public List<Metric> diffs = List.of(new AllCharCounter());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -49,7 +49,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new CommitCounter());
+    @NotNull public List<Metric> accumulated = List.of(new AllCharCounter());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -120,7 +120,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
-        diffs.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
+//        diffs.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
     }
 
     public boolean setUserInfo(UserInfoHolder userInfo)  {

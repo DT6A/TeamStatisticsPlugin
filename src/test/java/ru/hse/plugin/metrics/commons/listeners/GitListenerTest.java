@@ -7,9 +7,9 @@ import ru.hse.plugin.util.Constants;
 
 import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GitListenerTest extends AbstractGitListenerTest {
     private final Ref.ObjectRef<Boolean> flag = new Ref.ObjectRef<>();
@@ -21,6 +21,12 @@ class GitListenerTest extends AbstractGitListenerTest {
         @Override
         protected Runnable getCommitHandler() {
             return () -> flag.element = true;
+        }
+
+        @NotNull
+        @Override
+        protected Consumer<String> getCommitOnBranchHandler() {
+            throw new UnsupportedOperationException();
         }
     };
 
@@ -129,6 +135,27 @@ class GitListenerTest extends AbstractGitListenerTest {
         commit("add filename.txt");
         TimeUnit.MILLISECONDS.sleep((long) (1.5 * Constants.GIT_JUST_MILLISECONDS));
         assertFalse(didJustCommit());
+    }
+
+    @Test
+    public void testGetBranch() throws Exception {
+        init();
+        createFile("filename.txt", "File content");
+        add("filename.txt");
+        commit("add filename.txt");
+        branch("not-master");
+        checkout("not-master");
+        assertEquals("not-master", getBranch());
+    }
+
+    @Test
+    public void testGetBranchOnCommit() throws Exception {
+        init();
+        createFile("filename.txt", "File content");
+        add("filename.txt");
+        commit("add filename.txt");
+        checkoutOnCommit();
+        assertNull(getBranch());
     }
 
     private void testCommitCalledHolder() throws Exception {

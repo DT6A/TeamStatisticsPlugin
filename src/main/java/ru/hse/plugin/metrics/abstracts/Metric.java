@@ -10,6 +10,7 @@ import ru.hse.plugin.metrics.editor.AllCharCounter;
 import ru.hse.plugin.metrics.editor.CharCounter;
 import ru.hse.plugin.metrics.editor.WordCounter;
 import ru.hse.plugin.metrics.git.CommitCounter;
+import ru.hse.plugin.metrics.git.SpecificBranchCommitCounter;
 import ru.hse.plugin.metrics.project.MaxOpenedProjects;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 
@@ -29,6 +30,8 @@ public abstract class Metric {
     public void updateProjectClose(@NotNull Project project) { }
 
     public void justCommitted() { }
+
+    public void justCommitted(String branchName) { }
 
     public abstract void clear();
 
@@ -77,6 +80,7 @@ public abstract class Metric {
 
     @Nullable
     public static Metric fromString(@Nullable String metric) {
+        System.out.println(metric);
         if (metric == null) {
             return null;
         }
@@ -116,6 +120,11 @@ public abstract class Metric {
                     throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
                 }
                 return new CommitCounter(Integer.parseInt(parts[1]));
+            case SPECIFIC_BRANCH_COMMIT_COUNTER:
+                if (parts.length != 3) {
+                    throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
+                }
+                return new SpecificBranchCommitCounter(Integer.parseInt(parts[1]), parts[2]);
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }
