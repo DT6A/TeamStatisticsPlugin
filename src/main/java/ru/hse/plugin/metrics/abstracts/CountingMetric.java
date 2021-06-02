@@ -44,7 +44,7 @@ public abstract class CountingMetric extends Metric {
     public void mergeAndClear(Metric metric) {
         CountingMetric that = cast(metric, getClass());
 
-        if (!this.equals(metric)) {
+        if (!this.isSame(metric)) {
             throw new RuntimeException("Metrics are expected to be same");
         }
 
@@ -67,6 +67,11 @@ public abstract class CountingMetric extends Metric {
                 return CountingMetric.this.counter + that.counter;
             }
         };
+    }
+
+    @Override
+    public boolean isSame(@NotNull Metric metric) {
+        return metric.getClass() == getClass();
     }
 
     @Override

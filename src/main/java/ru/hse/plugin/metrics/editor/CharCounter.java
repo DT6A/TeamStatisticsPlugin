@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 
 import java.util.Objects;
 
@@ -43,6 +44,15 @@ public class CharCounter extends CountingMetric {
     @Override
     protected String getClassName() {
         return CHAR_COUNTER;
+    }
+
+    @Override
+    public boolean isSame(@NotNull Metric metric) {
+        if (!super.isSame(metric)) {
+            return false;
+        }
+        CharCounter that = (CharCounter) metric;
+        return this.character == that.character;
     }
 
     @Override

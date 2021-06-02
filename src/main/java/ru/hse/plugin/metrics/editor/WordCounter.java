@@ -116,6 +116,16 @@ public class WordCounter extends Metric {
     }
 
     @Override
+    public boolean isSame(@NotNull Metric metric) {
+        if (getClass() != metric.getClass()) {
+            return false;
+        }
+
+        WordCounter that = (WordCounter) metric;
+        return this.caseSensitive == that.caseSensitive && this.word.equals(that.word);
+    }
+
+    @Override
     public String toString() {
         return WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }

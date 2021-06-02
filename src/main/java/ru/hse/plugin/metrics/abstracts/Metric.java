@@ -58,6 +58,8 @@ public abstract class Metric {
     @NotNull
     public abstract String localStatisticString();
 
+    public abstract boolean isSame(@NotNull Metric metric);
+
     @Override
     public abstract boolean equals(Object o);
 

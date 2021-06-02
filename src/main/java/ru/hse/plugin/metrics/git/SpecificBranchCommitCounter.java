@@ -2,6 +2,7 @@ package ru.hse.plugin.metrics.git;
 
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 
 import java.util.Objects;
 
@@ -47,6 +48,15 @@ public class SpecificBranchCommitCounter extends CountingMetric {
     @Override
     public String toString() {
         return getClassName() + " " + getCounter() + " " + branchName;
+    }
+
+    @Override
+    public boolean isSame(@NotNull Metric metric) {
+        if (!super.isSame(metric)) {
+            return false;
+        }
+        SpecificBranchCommitCounter that = (SpecificBranchCommitCounter) metric;
+        return this.branchName.equals(that.branchName);
     }
 
     @Override

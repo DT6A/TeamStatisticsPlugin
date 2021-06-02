@@ -99,6 +99,11 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
+    public boolean isSame(@NotNull Metric metric) {
+        return metric.getClass() == getClass();
+    }
+
+    @Override
     public String toString() {
         var sj = new StringJoiner(" ").add(ALL_CHAR_COUNTER);
         sj.merge(getCounters());
