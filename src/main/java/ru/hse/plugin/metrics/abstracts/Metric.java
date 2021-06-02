@@ -55,6 +55,18 @@ public abstract class Metric {
     @NotNull
     public abstract String localStatisticString();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o != null && getClass() == o.getClass();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+
     protected <T> T cast(Object metric, Class<T> clazz) {
         if (clazz.isInstance(metric)) {
             return clazz.cast(metric);
