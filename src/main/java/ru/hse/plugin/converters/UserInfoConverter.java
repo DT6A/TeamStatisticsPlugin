@@ -3,7 +3,7 @@ package ru.hse.plugin.converters;
 import com.intellij.util.xmlb.Converter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.commons.Names;
+import ru.hse.plugin.metrics.commons.util.Names;
 import ru.hse.plugin.storage.EmptyUserInfo;
 import ru.hse.plugin.storage.UserInfo;
 import ru.hse.plugin.storage.UserInfoHolder;

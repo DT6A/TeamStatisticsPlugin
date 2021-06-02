@@ -9,7 +9,7 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 
 import java.util.Objects;
 
-import static ru.hse.plugin.metrics.commons.Names.CHAR_COUNTER;
+import static ru.hse.plugin.metrics.commons.util.Names.CHAR_COUNTER;
 
 public class CharCounter extends CountingMetric {
     private final char character;

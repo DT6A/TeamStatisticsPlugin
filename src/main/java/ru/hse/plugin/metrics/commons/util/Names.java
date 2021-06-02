@@ -1,4 +1,4 @@
-package ru.hse.plugin.metrics.commons;
+package ru.hse.plugin.metrics.commons.util;
 
 public class Names {
     private Names() { }

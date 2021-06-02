@@ -3,7 +3,7 @@ package ru.hse.plugin.metrics.git;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
 
-import static ru.hse.plugin.metrics.commons.Names.COMMIT_COUNTER;
+import static ru.hse.plugin.metrics.commons.util.Names.COMMIT_COUNTER;
 
 public class CommitCounter extends CountingMetric {
     @NotNull

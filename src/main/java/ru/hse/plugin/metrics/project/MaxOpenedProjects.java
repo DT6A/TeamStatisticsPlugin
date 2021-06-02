@@ -11,7 +11,7 @@ import ru.hse.plugin.metrics.commons.services.ProjectCountingService;
 import java.util.Objects;
 
 import static java.lang.Math.max;
-import static ru.hse.plugin.metrics.commons.Names.MAX_OPENED_PROJECTS;
+import static ru.hse.plugin.metrics.commons.util.Names.MAX_OPENED_PROJECTS;
 
 public class MaxOpenedProjects extends Metric {
     private int maximum = 0;
