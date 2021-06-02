@@ -9,10 +9,7 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -123,5 +120,18 @@ public class AllCharCounter extends Metric {
             sj.add(counter == null ? "0" : counter.toString());
         }
         return sj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AllCharCounter that = (AllCharCounter) o;
+        return chars.equals(that.chars);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chars);
     }
 }

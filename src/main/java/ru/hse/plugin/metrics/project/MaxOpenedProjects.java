@@ -8,6 +8,8 @@ import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 import ru.hse.plugin.metrics.commons.services.ProjectCountingService;
 
+import java.util.Objects;
+
 import static java.lang.Math.max;
 import static ru.hse.plugin.metrics.commons.Names.MAX_OPENED_PROJECTS;
 
@@ -67,5 +69,18 @@ public class MaxOpenedProjects extends Metric {
     @Override
     public @NotNull String localStatisticString() {
         return "Maximum number of opened projects";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MaxOpenedProjects that = (MaxOpenedProjects) o;
+        return maximum == that.maximum;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(maximum);
     }
 }

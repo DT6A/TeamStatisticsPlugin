@@ -17,17 +17,18 @@ import static java.lang.Math.min;
 import static ru.hse.plugin.metrics.commons.Names.WORD_COUNTER;
 
 public class WordCounter extends Metric {
+    @NotNull
     private final String word;
     private final int length;
     private final boolean caseSensitive;
     private int numberOfOccurrences;
     private static final String CORRECT_WORD_REGEX = "[a-zA-Z0-9_]{2,}";
 
-    public WordCounter(String word, int numberOfOccurrences) {
+    public WordCounter(@NotNull String word, int numberOfOccurrences) {
         this(word, numberOfOccurrences, true);
     }
 
-    public WordCounter(String word, int numberOfOccurrences, boolean caseSensitive) {
+    public WordCounter(@NotNull String word, int numberOfOccurrences, boolean caseSensitive) {
         if (!word.matches(CORRECT_WORD_REGEX)) {
             throw new RuntimeException("Incorrect word for counting");
         }
@@ -181,19 +182,15 @@ public class WordCounter extends Metric {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         WordCounter that = (WordCounter) o;
-        return length == that.length && caseSensitive == that.caseSensitive && word.equals(that.word);
+        return length == that.length && caseSensitive == that.caseSensitive
+                && numberOfOccurrences == that.numberOfOccurrences && word.equals(that.word);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(word, length, caseSensitive);
+        return Objects.hash(word, length, caseSensitive, numberOfOccurrences);
     }
-
 }

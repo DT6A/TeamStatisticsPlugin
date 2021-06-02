@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
+import java.util.Objects;
+
 public abstract class CountingMetric extends Metric {
     @NotNull
     protected abstract String getClassName();
@@ -65,5 +67,18 @@ public abstract class CountingMetric extends Metric {
                 return CountingMetric.this.counter + that.counter;
             }
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CountingMetric that = (CountingMetric) o;
+        return counter == that.counter;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(counter);
     }
 }

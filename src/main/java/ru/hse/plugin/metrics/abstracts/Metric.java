@@ -59,15 +59,10 @@ public abstract class Metric {
     public abstract String localStatisticString();
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        return o != null && getClass() == o.getClass();
-    }
+    public abstract boolean equals(Object o);
 
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+    public abstract int hashCode();
 
 
     protected <T> T cast(Object metric, Class<T> clazz) {
