@@ -60,6 +60,11 @@ public class SpecificBranchCommitCounter extends CountingMetric {
     }
 
     @Override
+    public int hashSame() {
+        return Objects.hash(super.hashSame(), branchName);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

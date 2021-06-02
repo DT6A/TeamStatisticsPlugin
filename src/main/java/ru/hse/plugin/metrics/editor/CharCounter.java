@@ -56,6 +56,11 @@ public class CharCounter extends CountingMetric {
     }
 
     @Override
+    public int hashSame() {
+        return Objects.hash(super.hashSame(), character);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

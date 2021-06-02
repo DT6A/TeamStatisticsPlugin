@@ -104,6 +104,11 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
+    public int hashSame() {
+        return getClass().hashCode();
+    }
+
+    @Override
     public String toString() {
         var sj = new StringJoiner(" ").add(ALL_CHAR_COUNTER);
         sj.merge(getCounters());

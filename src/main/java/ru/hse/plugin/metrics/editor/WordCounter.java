@@ -126,6 +126,11 @@ public class WordCounter extends Metric {
     }
 
     @Override
+    public int hashSame() {
+        return Objects.hash(word, length, caseSensitive);
+    }
+
+    @Override
     public String toString() {
         return WORD_COUNTER + " " + word + " " + numberOfOccurrences;
     }

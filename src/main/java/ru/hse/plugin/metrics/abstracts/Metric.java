@@ -60,6 +60,8 @@ public abstract class Metric {
 
     public abstract boolean isSame(@NotNull Metric metric);
 
+    public abstract int hashSame();
+
     @Override
     public abstract boolean equals(Object o);
 
