@@ -3,7 +3,7 @@ package ru.hse.plugin.converters;
 import com.intellij.util.xmlb.Converter;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 
 public class MetricConverter extends Converter<Metric> {
     @Override

@@ -1,7 +1,7 @@
 package ru.hse.plugin.metrics.commons.listeners;
 
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.storage.StorageData;
 
 import java.nio.file.Path;

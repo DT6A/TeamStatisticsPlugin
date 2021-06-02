@@ -3,7 +3,7 @@ package ru.hse.plugin.networking;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.editor.CharCounter;
 import ru.hse.plugin.metrics.editor.WordCounter;
 import ru.hse.plugin.storage.UserInfo;

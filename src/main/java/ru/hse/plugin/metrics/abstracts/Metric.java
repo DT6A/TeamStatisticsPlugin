@@ -1,4 +1,4 @@
-package ru.hse.plugin.metrics;
+package ru.hse.plugin.metrics.abstracts;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;

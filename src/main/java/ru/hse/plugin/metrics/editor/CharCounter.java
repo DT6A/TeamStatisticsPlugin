@@ -4,21 +4,18 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.metrics.Metric;
-import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
-import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
+import ru.hse.plugin.metrics.abstracts.CountingMetric;
 
 import java.util.Objects;
 
 import static ru.hse.plugin.metrics.commons.Names.CHAR_COUNTER;
 
-public class CharCounter extends Metric {
+public class CharCounter extends CountingMetric {
     private final char character;
-    private int numberOfOccurrences;
-    // TODO test
-    public CharCounter(char character, int numberOfOccurrences) {
+
+    public CharCounter(char character, int counter) {
+        super(counter);
         this.character = character;
-        this.numberOfOccurrences = numberOfOccurrences;
     }
 
     public CharCounter(char character) {
@@ -28,63 +25,24 @@ public class CharCounter extends Metric {
     @Override
     public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         if (charTyped == character) {
-            numberOfOccurrences++;
+            inc();
         }
-    }
-
-    @Override
-    public void clear() {
-        numberOfOccurrences = 0;
-    }
-
-    @Override
-    public String getInfo() {
-        return String.valueOf(numberOfOccurrences);
     }
 
     @Override
     public @NotNull String getName() {
-        return CHAR_COUNTER + "(" + Character.getNumericValue(character) + ")";
+        return getClassName() + "(" + Character.getNumericValue(character) + ")";
     }
 
     @Override
-    public void mergeAndClear(Metric metric) {
-        CharCounter that = cast(metric, getClass());
-
-        if (this.character != that.character) {
-            throw new RuntimeException("Metrics are expected to be same");
-        }
-
-        this.numberOfOccurrences += that.numberOfOccurrences;
-
-        that.clear();
-    }
-
-    @Override
-    @NotNull
-    public MetricJComponentWrapper makeComponent(Metric additional) {
-        CharCounter that = cast(additional, CharCounter.class);
-        return new CounterJComponentWrapper() {
-            @Override
-            protected int count() {
-                int counter = CharCounter.this.numberOfOccurrences;
-
-                counter += that.numberOfOccurrences;
-
-                return counter;
-            }
-        };
-    }
-
-    @NotNull
-    @Override
-    public String localStatisticString() {
+    public @NotNull String localStatisticString() {
         return "Number of occurrences of '" + character + "'";
     }
 
+    @NotNull
     @Override
-    public String toString() {
-        return CHAR_COUNTER + " " + Character.getNumericValue(character) + " " + numberOfOccurrences;
+    protected String getClassName() {
+        return CHAR_COUNTER;
     }
 
     @Override

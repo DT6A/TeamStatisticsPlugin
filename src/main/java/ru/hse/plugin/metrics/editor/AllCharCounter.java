@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.localstat.AllSymbolStatistics;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
 import javax.swing.*;
