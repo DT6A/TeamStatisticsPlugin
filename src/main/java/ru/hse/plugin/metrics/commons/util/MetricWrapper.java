@@ -7,7 +7,7 @@ public class MetricWrapper {
     @NotNull
     private final Metric metric;
 
-    public MetricWrapper(@NotNull Metric metric) {
+    private MetricWrapper(@NotNull Metric metric) {
         this.metric = metric;
     }
 
@@ -19,5 +19,14 @@ public class MetricWrapper {
     @Override
     public int hashCode() {
         return metric.hashSame();
+    }
+
+    public static MetricWrapper wrap(@NotNull Metric metric) {
+        return new MetricWrapper(metric);
+    }
+
+    @NotNull
+    public Metric unwrap() {
+        return metric;
     }
 }
