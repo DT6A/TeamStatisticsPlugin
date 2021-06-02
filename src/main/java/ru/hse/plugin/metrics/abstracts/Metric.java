@@ -15,20 +15,16 @@ public abstract class Metric {
     ) { }
 
     public void updateProjectOpen(@NotNull Project project) { }
-
     public void updateProjectClose(@NotNull Project project) { }
 
     public void justCommitted() { }
-
     public void justCommitted(String branchName) { }
 
     public abstract void clear();
 
     public abstract String getInfo();
-
     @Override
     public abstract String toString();
-
     @NotNull
     public abstract String getName(); // Формат: 'ИмяКласс(поля, какого, то, конструктора)'
 
@@ -43,12 +39,10 @@ public abstract class Metric {
 
     @NotNull
     public abstract MetricJComponentWrapper makeComponent(Metric additional);
-
     @NotNull
     public abstract String localStatisticString();
 
     public abstract boolean isSame(@NotNull Metric metric);
-
     public abstract int hashSame();
 
     @Override
