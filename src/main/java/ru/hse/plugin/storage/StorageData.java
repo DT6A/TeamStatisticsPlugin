@@ -7,6 +7,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.common.MetricSameHashSet;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
@@ -58,7 +59,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @OptionTag(converter = JsonSenderConverter.class)
     @NotNull public JsonSender jsonSender = new JsonSender();
 
-    private final Set<Metric> metrics = new HashSet<>();
+    private final Set<Metric> metrics = new MetricSameHashSet();
 
     {
         metrics.addAll(diffs);
