@@ -1,4 +1,4 @@
-package ru.hse.plugin.metrics.editor;
+package ru.hse.plugin.metrics.typed;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;

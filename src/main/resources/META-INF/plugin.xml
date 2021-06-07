@@ -24,6 +24,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.ProjectCountingService"/>
         <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.GitListeningService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.EditorCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.EditorFactoryListenerAdder"/>
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"
@@ -39,10 +41,10 @@
 
 
     <actions>
-        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"
-                text="Some label" description="Action description" icon="/Drawable/32.png">
-            <add-to-group group-id="ToolbarRunGroup" anchor="first" />
-            <!-- TODO получше группу найти или еще как-нибудь, потому что так логически это убого -->
-        </action>
+<!--        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"-->
+<!--                text="Some label" description="Action description" icon="/Drawable/32.png">-->
+<!--            <add-to-group group-id="ToolbarRunGroup" anchor="first" />-->
+<!--            &lt;!&ndash; TODO получше группу найти или еще как-нибудь, потому что так логически это убого &ndash;&gt;-->
+<!--        </action>-->
     </actions>
 </idea-plugin>

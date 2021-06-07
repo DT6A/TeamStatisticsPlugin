@@ -2,7 +2,7 @@ package ru.hse.plugin;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.hse.plugin.metrics.editor.WordCounter;
+import ru.hse.plugin.metrics.typed.WordCounter;
 
 import java.lang.reflect.Method;
 

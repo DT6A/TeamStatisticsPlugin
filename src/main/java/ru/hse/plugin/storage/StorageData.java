@@ -12,7 +12,7 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.editor.AllCharCounter;
+import ru.hse.plugin.metrics.editor.EditorCounter;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.Pair;
@@ -40,7 +40,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new AllCharCounter());
+    @NotNull public List<Metric> diffs = List.of(new EditorCounter());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -55,7 +55,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new AllCharCounter());
+    @NotNull public List<Metric> accumulated = List.of(new EditorCounter());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();

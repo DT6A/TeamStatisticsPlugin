@@ -2,9 +2,10 @@ package ru.hse.plugin.metrics.commons.util;
 
 import org.jetbrains.annotations.Nullable;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.editor.AllCharCounter;
-import ru.hse.plugin.metrics.editor.CharCounter;
-import ru.hse.plugin.metrics.editor.WordCounter;
+import ru.hse.plugin.metrics.editor.EditorCounter;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
+import ru.hse.plugin.metrics.typed.CharCounter;
+import ru.hse.plugin.metrics.typed.WordCounter;
 import ru.hse.plugin.metrics.git.CommitCounter;
 import ru.hse.plugin.metrics.git.SpecificBranchCommitCounter;
 import ru.hse.plugin.metrics.project.MaxOpenedProjects;
@@ -53,6 +54,9 @@ public final class ConvertedMetricParser {
             case SPECIFIC_BRANCH_COMMIT_COUNTER:
                 validateLength(3, parts, metric);
                 return new SpecificBranchCommitCounter(Integer.parseInt(parts[1]), parts[2]);
+            case EDITOR_COUNTER:
+                validateLength(2, parts, metric);
+                return new EditorCounter(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }
