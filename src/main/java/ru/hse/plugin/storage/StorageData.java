@@ -1,5 +1,6 @@
 package ru.hse.plugin.storage;
 
+import com.intellij.completion.ngram.slp.util.Pair;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -15,7 +16,6 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.Constants;
-import ru.hse.plugin.util.Pair;
 import ru.hse.plugin.util.Util;
 import ru.hse.plugin.util.WeNeedNameException;
 
@@ -130,7 +130,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 accumulated.stream(),
                 diffs.stream(),
                 Pair::of
-        ).forEach(pair -> pair.getFirst().mergeAndClear(pair.getSecond()));
+        ).forEach(pair -> pair.left().mergeAndClear(pair.right()));
     }
 
     public boolean setUserInfo(UserInfoHolder userInfo)  {
