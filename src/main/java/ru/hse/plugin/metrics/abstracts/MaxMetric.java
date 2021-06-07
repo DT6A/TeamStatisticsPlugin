@@ -11,7 +11,6 @@ import static java.lang.Math.max;
 public abstract class MaxMetric extends Metric {
     @NotNull
     protected abstract String getClassName();
-    protected abstract int getCurrentValue();
 
     private int maximum;
 
@@ -23,8 +22,8 @@ public abstract class MaxMetric extends Metric {
         this.maximum = maximum;
     }
 
-    protected void updateMax() {
-        maximum = max(maximum, getCurrentValue());
+    protected void updateMax(int currentValue) {
+        maximum = max(maximum, currentValue);
     }
 
     @Override

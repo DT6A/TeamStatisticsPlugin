@@ -14,11 +14,6 @@ public class MaxOpenedEditors extends MaxMetric {
         return MAX_OPENED_EDITORS;
     }
 
-    @Override
-    protected int getCurrentValue() {
-        return ServiceManager.getService(EditorCountingService.class).getCounter();
-    }
-
     public MaxOpenedEditors() {
         super();
     }
@@ -29,7 +24,7 @@ public class MaxOpenedEditors extends MaxMetric {
 
     @Override
     public void editorCreate(@NotNull Editor editor) {
-        updateMax();
+        updateMax(ServiceManager.getService(EditorCountingService.class).getCounter());
     }
 
     @Override
