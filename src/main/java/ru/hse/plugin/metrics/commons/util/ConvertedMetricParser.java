@@ -80,6 +80,12 @@ public final class ConvertedMetricParser {
             case MAX_COPY_LENGTH:
                 validateLength(2, parts, metric);
                 return new MaxCopyLength(Integer.parseInt(parts[1]));
+            case SPECIFIC_LENGTH_PASTE_COUNTER:
+                validateLength(3, parts, metric);
+                return new SpecificLengthPasteCounter(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+            case SPECIFIC_LENGTH_COPY_COUNTER:
+                validateLength(3, parts, metric);
+                return new SpecificLengthCopyCounter(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

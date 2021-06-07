@@ -24,4 +24,6 @@ public class Names {
     public static final String PASTE_LENGTH_COUNTER = "PasteLengthCounter";
     public static final String MAX_PASTE_LENGTH = "MaxPasteLength";
     public static final String MAX_COPY_LENGTH = "MaxCopyLength";
+    public static final String SPECIFIC_LENGTH_PASTE_COUNTER = "SpecificLengthPasteCounter";
+    public static final String SPECIFIC_LENGTH_COPY_COUNTER = "SpecificLengthCopyCounter";
 }
