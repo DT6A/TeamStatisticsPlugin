@@ -2,15 +2,17 @@ package ru.hse.plugin.metrics.commons.util;
 
 import org.jetbrains.annotations.Nullable;
 import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.copypaste.CopyCounter;
+import ru.hse.plugin.metrics.copypaste.PasteCounter;
 import ru.hse.plugin.metrics.editor.EditorCounter;
 import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
-import ru.hse.plugin.metrics.typed.AllCharCounter;
-import ru.hse.plugin.metrics.typed.CharCounter;
-import ru.hse.plugin.metrics.typed.WordCounter;
 import ru.hse.plugin.metrics.git.CommitCounter;
 import ru.hse.plugin.metrics.git.SpecificBranchCommitCounter;
 import ru.hse.plugin.metrics.project.MaxOpenedProjects;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
+import ru.hse.plugin.metrics.typed.CharCounter;
+import ru.hse.plugin.metrics.typed.WordCounter;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -61,6 +63,12 @@ public final class ConvertedMetricParser {
             case MAX_OPENED_EDITORS:
                 validateLength(2, parts, metric);
                 return new MaxOpenedEditors(Integer.parseInt(parts[1]));
+            case COPY_COUNTER:
+                validateLength(2, parts, metric);
+                return new CopyCounter(Integer.parseInt(parts[1]));
+            case PASTE_COUNTER:
+                validateLength(2, parts, metric);
+                return new PasteCounter(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

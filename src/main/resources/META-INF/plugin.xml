@@ -37,6 +37,8 @@
 
         <toolWindow id="Statistics" secondary="true" icon="AllIcons.General.Modified" anchor="right"
                     factoryClass="ru.hse.plugin.localstat.ToolBarWindowFactory" />
+
+        <copyPastePreProcessor implementation="ru.hse.plugin.metrics.commons.listeners.CopyPasteListener"/>
     </extensions>
 
 
