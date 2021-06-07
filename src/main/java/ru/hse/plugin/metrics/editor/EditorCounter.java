@@ -22,7 +22,7 @@ public class EditorCounter extends CountingMetric {
     }
 
     @Override
-    public void editorOpen(@NotNull Editor editor) {
+    public void editorCreate(@NotNull Editor editor) {
         inc();
     }
 

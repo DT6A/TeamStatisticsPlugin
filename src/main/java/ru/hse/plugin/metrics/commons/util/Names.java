@@ -12,4 +12,5 @@ public class Names {
     public static final String COMMIT_COUNTER = "CommitCounter";
     public static final String SPECIFIC_BRANCH_COMMIT_COUNTER = "SpecificBranchCommitCounter";
     public static final String EDITOR_COUNTER = "EditorCounter";
+    public static final String MAX_OPENED_EDITORS = "MaxOpenedEditors";
 }

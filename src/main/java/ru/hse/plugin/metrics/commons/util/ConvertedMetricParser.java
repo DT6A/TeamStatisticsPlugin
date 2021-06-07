@@ -3,6 +3,7 @@ package ru.hse.plugin.metrics.commons.util;
 import org.jetbrains.annotations.Nullable;
 import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.editor.EditorCounter;
+import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
 import ru.hse.plugin.metrics.typed.AllCharCounter;
 import ru.hse.plugin.metrics.typed.CharCounter;
 import ru.hse.plugin.metrics.typed.WordCounter;
@@ -57,6 +58,9 @@ public final class ConvertedMetricParser {
             case EDITOR_COUNTER:
                 validateLength(2, parts, metric);
                 return new EditorCounter(Integer.parseInt(parts[1]));
+            case MAX_OPENED_EDITORS:
+                validateLength(2, parts, metric);
+                return new MaxOpenedEditors(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

@@ -20,7 +20,7 @@ public abstract class Metric {
     public void justCommitted() { }
     public void justCommitted(String branchName) { }
 
-    public void editorOpen(@NotNull Editor editor) { }
+    public void editorCreate(@NotNull Editor editor) { }
     public void editorRelease(@NotNull Editor editor) { }
 
     public abstract void clear();

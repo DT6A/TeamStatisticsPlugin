@@ -1,6 +1,7 @@
 package ru.hse.plugin.metrics.commons.services;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.editor.EditorFactory;
 import com.intellij.openapi.editor.event.EditorFactoryEvent;
 import com.intellij.openapi.editor.event.EditorFactoryListener;
@@ -26,15 +27,20 @@ public class EditorFactoryListenerAdder implements Disposable {
                 new EditorFactoryListener() {
                     @Override
                     public void editorCreated(@NotNull EditorFactoryEvent event) {
-                        System.out.println("Editor open");
+                        EditorCountingService counter = ServiceManager.getService(EditorCountingService.class);
+                        counter.inc();
+
                         List<Metric> metrics = StorageData.getInstance().diffs;
                         for (Metric metric : metrics) {
-                            metric.editorOpen(event.getEditor());
+                            metric.editorCreate(event.getEditor());
                         }
                     }
 
                     @Override
                     public void editorReleased(@NotNull EditorFactoryEvent event) {
+                        EditorCountingService counter = ServiceManager.getService(EditorCountingService.class);
+                        counter.dec();
+
                         List<Metric> metrics = StorageData.getInstance().diffs;
                         for (Metric metric : metrics) {
                             metric.editorRelease(event.getEditor());
