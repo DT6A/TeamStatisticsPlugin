@@ -3,7 +3,9 @@ package ru.hse.plugin.metrics.commons.util;
 import org.jetbrains.annotations.Nullable;
 import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.copypaste.CopyCounter;
+import ru.hse.plugin.metrics.copypaste.CopyLengthCounter;
 import ru.hse.plugin.metrics.copypaste.PasteCounter;
+import ru.hse.plugin.metrics.copypaste.PasteLengthCounter;
 import ru.hse.plugin.metrics.editor.EditorCounter;
 import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
 import ru.hse.plugin.metrics.git.CommitCounter;
@@ -69,6 +71,12 @@ public final class ConvertedMetricParser {
             case PASTE_COUNTER:
                 validateLength(2, parts, metric);
                 return new PasteCounter(Integer.parseInt(parts[1]));
+            case COPY_LENGTH_COUNTER:
+                validateLength(2, parts, metric);
+                return new CopyLengthCounter(Integer.parseInt(parts[1]));
+            case PASTE_LENGTH_COUNTER:
+                validateLength(2, parts, metric);
+                return new PasteLengthCounter(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

@@ -20,4 +20,6 @@ public class Names {
 
     public static final String COPY_COUNTER = "CopyCounter";
     public static final String PASTE_COUNTER = "PasteCounter";
+    public static final String COPY_LENGTH_COUNTER = "CopyLengthCounter";
+    public static final String PASTE_LENGTH_COUNTER = "PasteLengthCounter";
 }
