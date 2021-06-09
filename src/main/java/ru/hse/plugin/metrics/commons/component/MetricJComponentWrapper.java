@@ -1,4 +1,4 @@
-package ru.hse.plugin.metrics.component;
+package ru.hse.plugin.metrics.commons.component;
 
 import javax.swing.*;
 

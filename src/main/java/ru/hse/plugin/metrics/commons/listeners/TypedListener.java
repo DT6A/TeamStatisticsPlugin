@@ -1,15 +1,16 @@
-package ru.hse.plugin.metrics.listeners;
+package ru.hse.plugin.metrics.commons.listeners;
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.storage.StorageData;
 
 import java.util.List;
 
+@SuppressWarnings({"SpellCheckingInspection", "CommentedOutCode"})
 public class TypedListener extends TypedHandlerDelegate {
 
 //    @NotNull
@@ -28,6 +29,7 @@ public class TypedListener extends TypedHandlerDelegate {
 //        return Result.CONTINUE;
 //    }
 
+    @SuppressWarnings("SpellCheckingInspection")
     @NotNull
     @Override
     public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {

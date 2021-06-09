@@ -1,13 +1,13 @@
 package ru.hse.plugin.localstat;
 
+import com.intellij.completion.ngram.slp.util.Pair;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.uiDesigner.core.AbstractLayout;
 import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.metrics.AllCharCounter;
-import ru.hse.plugin.util.Pair;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
 import ru.hse.plugin.util.Util;
 
 import javax.swing.*;
@@ -51,20 +51,20 @@ public class AllSymbolStatistics extends DialogWrapper {
                     return Pair.of(e1.getKey(), e1.getValue() + e2.getValue());
                 }
                 )
-                .filter(p -> p.getSecond() != 0)
+                .filter(p -> p.right() != 0)
                 .sorted(
                         Comparator.comparingInt(
-                                (ToIntFunction<Pair<Character, Integer>>) Pair::getSecond
+                                (ToIntFunction<Pair<Character, Integer>>) Pair::right
                         ).reversed()
                 )
                 .forEach(pair -> {
                     panel.add(
-                            Util.makeDefaultLabel(String.valueOf(pair.getFirst())),
+                            Util.makeDefaultLabel(String.valueOf(pair.left())),
                             gridBag.nextLine().next().weightx(0.5)
                     );
 
                     panel.add(
-                            Util.makeDefaultLabel("#" + pair.getSecond()),
+                            Util.makeDefaultLabel("#" + pair.right()),
                             gridBag.next().weightx(0.5)
                     );
 

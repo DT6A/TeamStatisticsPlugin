@@ -1,21 +1,20 @@
-package ru.hse.plugin.metrics;
+package ru.hse.plugin.metrics.typed;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.localstat.AllSymbolStatistics;
-import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static ru.hse.plugin.metrics.commons.util.Names.ALL_CHAR_COUNTER;
 
 public class AllCharCounter extends Metric {
     private final Map<Character, Integer> chars = new HashMap<>();
@@ -57,7 +56,7 @@ public class AllCharCounter extends Metric {
 
     @Override
     public @NotNull String getName() {
-        return PluginConstants.ALL_CHAR_COUNTER + "()";
+        return ALL_CHAR_COUNTER + "()";
     }
 
     @Override
@@ -100,8 +99,18 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
+    public boolean isSame(@NotNull Metric metric) {
+        return metric.getClass() == getClass();
+    }
+
+    @Override
+    public int hashSame() {
+        return getClass().hashCode();
+    }
+
+    @Override
     public String toString() {
-        var sj = new StringJoiner(" ").add(PluginConstants.ALL_CHAR_COUNTER);
+        var sj = new StringJoiner(" ").add(ALL_CHAR_COUNTER);
         sj.merge(getCounters());
         return sj.toString();
     }
@@ -121,5 +130,18 @@ public class AllCharCounter extends Metric {
             sj.add(counter == null ? "0" : counter.toString());
         }
         return sj;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AllCharCounter that = (AllCharCounter) o;
+        return chars.equals(that.chars);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(chars);
     }
 }

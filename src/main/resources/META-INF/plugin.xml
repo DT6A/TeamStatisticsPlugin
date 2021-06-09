@@ -1,75 +1,52 @@
 <idea-plugin>
     <id>org.example.tamagachi-test</id>
-    <name>adisplay naame here</name>
-    <vendor email="asupport@yourcompany.com" url="http://www.yaourcompany.com">YourComapany</vendor>
+    <name>Adisplay Naame Here</name>
+    <vendor email="asupport@yourcompany.com" url="https://www.yaourcompany.com">YourComapany</vendor>
 
     <description><![CDATA[
     aEnter short descriptiaon for your plugin here.<br>
     <em>amost HTML tags maay be used</em>
     ]]></description>
 
-    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
 
     <applicationListeners>
         <listener class="ru.hse.plugin.signin.ProjectOpenCloseListener"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
-        <listener class="ru.hse.plugin.metrics.listeners.ProjectOpenCloseListener"
+        <listener class="ru.hse.plugin.metrics.commons.listeners.ProjectOpenCloseListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="ru.hse.plugin.metrics.commons.starters.OpenCloseListenerStarter"
                   topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </applicationListeners>
 
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="ru.hse.plugin.metrics.services.ProjectCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.ProjectCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.GitListeningService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.EditorCountingService"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.EditorFactoryListenerAdder"/>
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"
                                  displayName="Nikita Loh"/>
 
-        <!-- Add your extensions here -->
-        <typedHandler implementation="ru.hse.plugin.metrics.listeners.TypedListener"/>
-<!--        <applicationService serviceImplementation="ru.hse.plugin.storage.StorageData"/>-->
+        <typedHandler implementation="ru.hse.plugin.metrics.commons.listeners.TypedListener"/>
 
-
-        <!-- Declare the application level service -->
         <applicationService serviceImplementation="ru.hse.plugin.storage.StorageData"/>
-<!--        <applicationService serviceInterface="mypackage.MyApplicationService"-->
-<!--                            serviceImplementation="mypackage.MyApplicationServiceImpl" />-->
-
-        <!-- Declare the project level service -->
-<!--        <projectService serviceInterface="mypackage.MyProjectService"-->
-<!--                        serviceImplementation="mypackage.MyProjectServiceImpl" />-->
-
 
         <toolWindow id="Statistics" secondary="true" icon="AllIcons.General.Modified" anchor="right"
                     factoryClass="ru.hse.plugin.localstat.ToolBarWindowFactory" />
+
+        <copyPastePreProcessor implementation="ru.hse.plugin.metrics.commons.listeners.CopyPasteListener"/>
     </extensions>
 
 
     <actions>
-        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"
-                text="Some label" description="Action description" icon="/Drawable/32.png">
-            <add-to-group group-id="ToolbarRunGroup" anchor="first" />
-            <!-- TODO получше группу найти или еще как-нибудь, потому что так логически это убого -->
-        </action>
-
-
-<!--        <group id="TopMenu" text="InputBox" description="Handling user input demo">-->
-<!--            <add-to-group group-id="MainMenu" anchor="last"/>-->
-<!--            <action id="DisplayInputBox" class="ru.hse.plugin.Test01" text="InputBox Demo"/>-->
-<!--        </group>-->
-
-
-        <!-- Add your actions here -->
-<!--        <action id="org.intellij.sdk.action.PopupDialogAction" class="PopupDialogAction"-->
-<!--                text="Action Basics Plugin: Pop Dialog Action" description="SDK action example">-->
-<!--            <override-text place="MainMenu" text="Pop Dialog Action"/>-->
-<!--            <keyboard-shortcut first-keystroke="control alt A" second-keystroke="C" keymap="$default"/>-->
-<!--            <mouse-shortcut keystroke="control button3 doubleClick" keymap="$default"/>-->
-<!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+<!--        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"-->
+<!--                text="Some label" description="Action description" icon="/Drawable/32.png">-->
+<!--            <add-to-group group-id="ToolbarRunGroup" anchor="first" />-->
+<!--            &lt;!&ndash; TODO получше группу найти или еще как-нибудь, потому что так логически это убого &ndash;&gt;-->
 <!--        </action>-->
-<!--        <action id="HelloAction" class="HelloAction" text="Hello Action"/>-->
     </actions>
 </idea-plugin>

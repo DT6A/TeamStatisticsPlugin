@@ -1,17 +1,20 @@
 package ru.hse.plugin.networking;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.json.JSONException;
-import ru.hse.plugin.metrics.CharCounter;
-import ru.hse.plugin.metrics.Metric;
-import ru.hse.plugin.metrics.WordCounter;
+import org.json.JSONObject;
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.typed.CharCounter;
+import ru.hse.plugin.metrics.typed.WordCounter;
 import ru.hse.plugin.storage.UserInfo;
 import ru.hse.plugin.storage.UserInfoHolderBuilder;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -41,12 +44,7 @@ public class JsonSender {
         metricInfo.put("time_from", getLastSendingTime());
         updateSendingTimeToCurrent();
         metricInfo.put("time_to", getLastSendingTime());
-        System.out.println("METRIC_SEND");
-       /* for (var metric : metricInfo.entrySet()) {
-            System.out.print(metric.getKey());
-            System.out.print(": ");
-            System.out.println(metric.getValue());
-        } */
+//        System.out.println("METRIC_SEND");
         byte[] out = Serializer.convertMetricInfo(
                 metricInfo,
                 token
@@ -93,6 +91,7 @@ public class JsonSender {
             HttpURLConnection http = createHttpURLConnection(URLs.PLUGIN_GET_METRICS_URL);
             http.setRequestMethod("GET");
             if (http.getResponseCode() == 200) {
+                http.disconnect();
                 try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(http.getInputStream(), StandardCharsets.UTF_8)
                 )){

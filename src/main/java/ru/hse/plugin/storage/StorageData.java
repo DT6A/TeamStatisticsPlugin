@@ -1,5 +1,6 @@
 package ru.hse.plugin.storage;
 
+import com.intellij.completion.ngram.slp.util.Pair;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -7,19 +8,25 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.common.MetricSameHashSet;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
-import ru.hse.plugin.metrics.Metric;
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
 import ru.hse.plugin.networking.JsonSender;
-import ru.hse.plugin.metrics.ProjectOpensNumber;
-import ru.hse.plugin.util.PluginConstants;
+import ru.hse.plugin.util.Constants;
+import ru.hse.plugin.util.Util;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("CanBeFinal")
 @State(
         name = "org.intellij.sdk.settings.StorageData",
         storages = {@Storage("StorageData.xml")}
@@ -32,9 +39,8 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      * на этом вроде бы всё...
      */
 
-    // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new ProjectOpensNumber());
+    @NotNull public List<Metric> diffs = List.of(new MaxOpenedEditors());
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -49,7 +55,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new ProjectOpensNumber());
+    @NotNull public List<Metric> accumulated = List.of(new MaxOpenedEditors());
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -57,7 +63,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @OptionTag(converter = JsonSenderConverter.class)
     @NotNull public JsonSender jsonSender = new JsonSender();
 
-    private final Set<Metric> metrics = new HashSet<>();
+    private final Set<Metric> metrics = new MetricSameHashSet();
 
     {
         metrics.addAll(diffs);
@@ -91,13 +97,13 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 }
                 // ------------------------------------------------------
 
-                TimeUnit.SECONDS.sleep(PluginConstants.DAEMON_SLEEP_SECONDS);
+                TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
             }
         } catch (InterruptedException ignored) { }
     });
 
     static {
-        daemon.setDaemon(true); //TODO Но что эт значит...
+        daemon.setDaemon(true);
     }
 
     public StorageData() {}
@@ -120,7 +126,11 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
-        diffs.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
+        Util.zipWith(
+                accumulated.stream(),
+                diffs.stream(),
+                Pair::of
+        ).forEach(pair -> pair.left().mergeAndClear(pair.right()));
     }
 
     public boolean setUserInfo(UserInfoHolderBuilder userInfoBuilder)  {
@@ -151,7 +161,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @Override
     public void loadState(@NotNull StorageData state) {
         XmlSerializerUtil.copyBean(state, this);
-        metrics.addAll(diffs); // TODO мб это не надо, надо бы потестить, хотя вроде ниче не ломает
+        metrics.addAll(diffs);
     }
 
     @Override

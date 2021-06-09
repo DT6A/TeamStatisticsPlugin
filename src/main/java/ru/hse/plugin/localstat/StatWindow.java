@@ -2,7 +2,7 @@ package ru.hse.plugin.localstat;
 
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.util.ui.FormBuilder;
-import ru.hse.plugin.metrics.component.MetricJComponentWrapper;
+import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 import ru.hse.plugin.storage.StorageData;
 import ru.hse.plugin.util.Util;
 

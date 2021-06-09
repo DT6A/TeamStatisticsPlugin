@@ -13,6 +13,8 @@ import ru.hse.plugin.util.Util;
 import ru.hse.plugin.storage.EmptyUserInfo;
 import ru.hse.plugin.storage.StorageData;
 import ru.hse.plugin.storage.UserInfoHolder;
+import ru.hse.plugin.util.Constants;
+import ru.hse.plugin.util.Util;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -82,7 +84,7 @@ public class SettingsComponent implements ActionListener {
                 Messages.showInfoMessage("Could not sign in", "Plugin Information");
             }
         } else if (event.getSource() == signUpButton) {
-            Util.openLink(PluginConstants.REGISTRATION_LINK);
+            Util.openLink(Constants.REGISTRATION_LINK);
         } else if (event.getSource() == signOutButton) {
             StorageData.getInstance().setUserInfo(makeEmptyUserInfo());
             setVisibility();
