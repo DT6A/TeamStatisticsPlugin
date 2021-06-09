@@ -1,5 +1,6 @@
 package ru.hse.plugin.util;
 
+import com.intellij.completion.ngram.slp.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

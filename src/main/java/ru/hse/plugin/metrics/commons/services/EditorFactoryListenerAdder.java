@@ -16,10 +16,7 @@ public class EditorFactoryListenerAdder implements Disposable {
         Disposable disposable = Disposer.newDisposable();
         Disposer.register(this, disposable);
 
-        editorFactory.addEditorFactoryListener(
-                new MyEditorFactoryListener(),
-                disposable
-        );
+        editorFactory.addEditorFactoryListener(new MyEditorFactoryListener(), disposable);
 
         isAdded = true;
     }

@@ -21,8 +21,12 @@ public abstract class CountingMetric extends Metric {
         this.counter = counter;
     }
 
+    protected void inc(int diff) {
+        counter += diff;
+    }
+
     protected void inc() {
-        counter++;
+        inc(1);
     }
 
     @Override

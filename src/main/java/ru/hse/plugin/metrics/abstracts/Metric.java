@@ -1,6 +1,7 @@
 package ru.hse.plugin.metrics.abstracts;
 
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.RawText;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,9 @@ public abstract class Metric {
 
     public void editorCreate(@NotNull Editor editor) { }
     public void editorRelease(@NotNull Editor editor) { }
+
+    public void copy(PsiFile file, int[] startOffsets, int[] endOffsets, String text) { }
+    public void paste(Project project, PsiFile file, Editor editor, String text, RawText rawText) { }
 
     public abstract void clear();
 
