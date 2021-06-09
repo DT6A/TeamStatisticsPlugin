@@ -16,6 +16,7 @@ public class OpenCloseListenerStarter implements ProjectManagerListener {
         }
 
         ListenerStarter.addGit(Paths.get(path));
+        ListenerStarter.startEditorCount();
     }
 
 
