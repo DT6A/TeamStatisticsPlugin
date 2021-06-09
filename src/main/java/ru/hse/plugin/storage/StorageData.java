@@ -7,6 +7,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import com.intellij.util.xmlb.annotations.OptionTag;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.common.MetricSameHashSet;
 import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
@@ -14,9 +15,14 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.editor.AllCharCounter;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.Constants;
+import ru.hse.plugin.util.Pair;
+import ru.hse.plugin.util.Util;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -33,7 +39,6 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      * на этом вроде бы всё...
      */
 
-    // TODO mb do private, but nado chitat' kak serializovat'
     @OptionTag(converter = ListMetricConverter.class)
     @NotNull public List<Metric> diffs = List.of(new AllCharCounter());
 
@@ -58,7 +63,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @OptionTag(converter = JsonSenderConverter.class)
     @NotNull public JsonSender jsonSender = new JsonSender();
 
-    private final Set<Metric> metrics = new HashSet<>();
+    private final Set<Metric> metrics = new MetricSameHashSet();
 
     {
         metrics.addAll(diffs);
@@ -98,7 +103,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     });
 
     static {
-        daemon.setDaemon(true); //TODO Но что эт значит...
+        daemon.setDaemon(true);
     }
 
     public StorageData() {}
@@ -121,7 +126,11 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
-//        diffs.forEach(Metric::clear); // TODO чистить -> чистить + добавлять в accumulated
+        Util.zipWith(
+                accumulated.stream(),
+                diffs.stream(),
+                Pair::of
+        ).forEach(pair -> pair.getFirst().mergeAndClear(pair.getSecond()));
     }
 
     public boolean setUserInfo(UserInfoHolder userInfo)  {
@@ -152,7 +161,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @Override
     public void loadState(@NotNull StorageData state) {
         XmlSerializerUtil.copyBean(state, this);
-        metrics.addAll(diffs); // TODO мб это не надо, надо бы потестить, хотя вроде ниче не ломает
+        metrics.addAll(diffs);
     }
 
     @Override

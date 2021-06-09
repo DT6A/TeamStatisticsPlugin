@@ -9,7 +9,7 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 
 import java.util.Objects;
 
-import static ru.hse.plugin.metrics.commons.Names.CHAR_COUNTER;
+import static ru.hse.plugin.metrics.commons.util.Names.CHAR_COUNTER;
 
 public class CharCounter extends CountingMetric {
     private final char character;
@@ -53,6 +53,11 @@ public class CharCounter extends CountingMetric {
         }
         CharCounter that = (CharCounter) metric;
         return this.character == that.character;
+    }
+
+    @Override
+    public int hashSame() {
+        return Objects.hash(super.hashSame(), character);
     }
 
     @Override

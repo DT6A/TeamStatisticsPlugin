@@ -14,7 +14,7 @@ import java.util.StringTokenizer;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static ru.hse.plugin.metrics.commons.Names.WORD_COUNTER;
+import static ru.hse.plugin.metrics.commons.util.Names.WORD_COUNTER;
 
 public class WordCounter extends Metric {
     @NotNull
@@ -123,6 +123,11 @@ public class WordCounter extends Metric {
 
         WordCounter that = (WordCounter) metric;
         return this.caseSensitive == that.caseSensitive && this.word.equals(that.word);
+    }
+
+    @Override
+    public int hashSame() {
+        return Objects.hash(word, length, caseSensitive);
     }
 
     @Override

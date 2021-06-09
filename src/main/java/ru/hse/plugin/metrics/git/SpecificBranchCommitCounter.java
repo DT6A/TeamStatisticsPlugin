@@ -6,7 +6,7 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 
 import java.util.Objects;
 
-import static ru.hse.plugin.metrics.commons.Names.SPECIFIC_BRANCH_COMMIT_COUNTER;
+import static ru.hse.plugin.metrics.commons.util.Names.SPECIFIC_BRANCH_COMMIT_COUNTER;
 
 public class SpecificBranchCommitCounter extends CountingMetric {
     @NotNull
@@ -57,6 +57,11 @@ public class SpecificBranchCommitCounter extends CountingMetric {
         }
         SpecificBranchCommitCounter that = (SpecificBranchCommitCounter) metric;
         return this.branchName.equals(that.branchName);
+    }
+
+    @Override
+    public int hashSame() {
+        return Objects.hash(super.hashSame(), branchName);
     }
 
     @Override

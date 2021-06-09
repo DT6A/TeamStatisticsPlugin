@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
 
-import static ru.hse.plugin.metrics.commons.Names.PROJECT_OPENS_NUMBER;
+import static ru.hse.plugin.metrics.commons.util.Names.PROJECT_OPENS_NUMBER;
 
 public class ProjectOpensNumber extends CountingMetric {
     @NotNull

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static ru.hse.plugin.metrics.commons.Names.ALL_CHAR_COUNTER;
+import static ru.hse.plugin.metrics.commons.util.Names.ALL_CHAR_COUNTER;
 
 public class AllCharCounter extends Metric {
     private final Map<Character, Integer> chars = new HashMap<>();
@@ -101,6 +101,11 @@ public class AllCharCounter extends Metric {
     @Override
     public boolean isSame(@NotNull Metric metric) {
         return metric.getClass() == getClass();
+    }
+
+    @Override
+    public int hashSame() {
+        return getClass().hashCode();
     }
 
     @Override

@@ -17,7 +17,7 @@ import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static ru.hse.plugin.metrics.commons.Names.*;
+import static ru.hse.plugin.metrics.commons.util.Names.*;
 
 public abstract class Metric {
 
@@ -59,6 +59,8 @@ public abstract class Metric {
     public abstract String localStatisticString();
 
     public abstract boolean isSame(@NotNull Metric metric);
+
+    public abstract int hashSame();
 
     @Override
     public abstract boolean equals(Object o);
