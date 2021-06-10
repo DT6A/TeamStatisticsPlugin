@@ -13,7 +13,11 @@ public class MetricWrapper {
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof Metric && metric.isSame((Metric) o);
+        if (!(o instanceof MetricWrapper)) {
+            return false;
+        }
+        MetricWrapper that = (MetricWrapper) o;
+        return metric.isSame(that.unwrap());
     }
 
     @Override

@@ -197,8 +197,12 @@ public class WordCounter extends Metric {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         WordCounter that = (WordCounter) o;
         return length == that.length && caseSensitive == that.caseSensitive
                 && numberOfOccurrences == that.numberOfOccurrences && word.equals(that.word);

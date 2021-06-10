@@ -26,4 +26,5 @@ public class Names {
     public static final String MAX_COPY_LENGTH = "MaxCopyLength";
     public static final String SPECIFIC_LENGTH_PASTE_COUNTER = "SpecificLengthPasteCounter";
     public static final String SPECIFIC_LENGTH_COPY_COUNTER = "SpecificLengthCopyCounter";
+    public static final String LINE_COUNTER = "LineCounter";
 }
