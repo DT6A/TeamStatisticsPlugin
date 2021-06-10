@@ -1,5 +1,18 @@
 package ru.hse.plugin.metrics.commons.util;
 
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.copypaste.*;
+import ru.hse.plugin.metrics.editor.EditorCounter;
+import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
+import ru.hse.plugin.metrics.git.CommitCounter;
+import ru.hse.plugin.metrics.project.MaxOpenedProjects;
+import ru.hse.plugin.metrics.project.ProjectOpensNumber;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public class Names {
     private Names() { }
 
@@ -27,4 +40,24 @@ public class Names {
     public static final String SPECIFIC_LENGTH_PASTE_COUNTER = "SpecificLengthPasteCounter";
     public static final String SPECIFIC_LENGTH_COPY_COUNTER = "SpecificLengthCopyCounter";
     public static final String LINE_COUNTER = "LineCounter";
+
+    public static final Map<String, Supplier<Metric>> NON_PARAMETRIZED_METRICS_CONSTRUCTORS;
+
+    static {
+
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS = new HashMap<>();
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(COPY_COUNTER, CopyCounter::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(COPY_LENGTH_COUNTER, CopyLengthCounter::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(MAX_COPY_LENGTH, MaxCopyLength::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(MAX_PASTE_LENGTH, MaxPasteLength::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(PASTE_COUNTER, PasteCounter::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(PASTE_LENGTH_COUNTER, PasteLengthCounter::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(EDITOR_COUNTER, EditorCounter::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(MAX_OPENED_EDITORS, MaxOpenedEditors::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(COMMIT_COUNTER, CommitCounter::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(MAX_OPENED_PROJECTS, MaxOpenedProjects::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(PROJECT_OPENS_NUMBER, ProjectOpensNumber::new);
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS.put(ALL_CHAR_COUNTER, AllCharCounter::new);
+
+    }
 }
