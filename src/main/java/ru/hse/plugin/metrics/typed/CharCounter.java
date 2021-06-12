@@ -16,6 +16,9 @@ public class CharCounter extends CountingMetric {
 
     public CharCounter(char character, int counter) {
         super(counter);
+        if (character == '\n') {
+            throw new RuntimeException("Must use lineCounter");
+        }
         this.character = character;
     }
 
