@@ -7,14 +7,17 @@ import com.intellij.util.ui.GridBag;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.Nullable;
-import ru.hse.plugin.storage.UserInfoHolder;
+import ru.hse.plugin.storage.UserInfoHolderBuilder;
 import ru.hse.plugin.util.Constants;
+import ru.hse.plugin.util.Util;
+import ru.hse.plugin.storage.UserInfoHolder;
 import ru.hse.plugin.util.Util;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class LoginDialog extends DialogWrapper implements ActionListener {
     private final String message;
@@ -86,9 +89,8 @@ public class LoginDialog extends DialogWrapper implements ActionListener {
         return label;
     }
 
-    // TODO вот тут странно отдается пустой token, это заглушка, надо бы тут что-то с сервером делать уже
-    public UserInfoHolder getUserInfo() {
-        return new UserInfoHolder(login.getText(), password.getPassword(), "token");
+    public UserInfoHolderBuilder getUserInfoBuilder() {
+        return new UserInfoHolderBuilder(login.getText(), String.valueOf(password.getPassword()));
     }
 
     public boolean doNotAskAgain() {

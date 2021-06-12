@@ -74,10 +74,10 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     private static final Thread daemon = new Thread(() -> {
         try {
             while (!Thread.interrupted()) {
-                System.out.println("                hello from daemon!");
+              /*  System.out.println("                hello from daemon!");
                 for (var metric : StorageData.getInstance().diffs) {
                     System.out.println("                    " + metric);
-                }
+                } */
 
                 var instance = StorageData.getInstance();
 
@@ -133,15 +133,15 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
         ).forEach(pair -> pair.left().mergeAndClear(pair.right()));
     }
 
-    public boolean setUserInfo(UserInfoHolder userInfo)  {
-        this.userInfo = userInfo;
+    public boolean setUserInfo(UserInfoHolderBuilder userInfoBuilder)  {
+
         // TODO валидация
         try {
             var instance = StorageData.getInstance();
             String token = instance.jsonSender.submitUserInfo(
-                    userInfo
+                    userInfoBuilder
             );
-            this.userInfo.setToken(token);
+            this.userInfo = userInfoBuilder.create(token);
         } catch (WeNeedNameException e) {
             return false;
         }

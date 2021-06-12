@@ -14,7 +14,7 @@ public class LoginDialogHandler {
         }
         LoginDialog dialog = new LoginDialog(message);
         if (dialog.showAndGet()) {
-            if (StorageData.getInstance().setUserInfo(dialog.getUserInfo())) {
+            if (StorageData.getInstance().setUserInfo(dialog.getUserInfoBuilder())) {
                 Messages.showInfoMessage("You are signed in!", "Plugin Information");
             } else {
                 tryLogin("Could not sign in, try again");

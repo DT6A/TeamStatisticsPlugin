@@ -33,5 +33,4 @@ public interface UserInfo {
     boolean isSignedIn();
     boolean isLoginWindowNecessary();
     void setWindowNecessity(boolean necessity);
-    void setToken(String token);
 }

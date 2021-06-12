@@ -7,6 +7,7 @@ import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.typed.CharCounter;
 import ru.hse.plugin.metrics.typed.WordCounter;
 import ru.hse.plugin.storage.UserInfo;
+import ru.hse.plugin.storage.UserInfoHolderBuilder;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
 
@@ -57,8 +58,8 @@ public class JsonSender {
         }
     }
 
-    public String submitUserInfo(UserInfo userInfo) throws WeNeedNameException {
-        byte[] out = Serializer.convertUserInfo(userInfo);
+    public String submitUserInfo(UserInfoHolderBuilder userInfoHolderBuilder) throws WeNeedNameException {
+        byte[] out = Serializer.convertUserInfoForSubmit(userInfoHolderBuilder);
         try {
             HttpURLConnection http = createHttpURLConnection(URLs.LOGIN_URL);
             if (!sendData(http, out)) {
@@ -85,7 +86,7 @@ public class JsonSender {
     }
 
     public Set<Metric> getNewMetrics() {
-        Set<Metric> metrics = new HashSet<>();
+        Set<Metric> metrics = null;
         try {
             HttpURLConnection http = createHttpURLConnection(URLs.PLUGIN_GET_METRICS_URL);
             http.setRequestMethod("GET");
@@ -96,18 +97,7 @@ public class JsonSender {
                 )){
                     String json = bufferedReader.lines().collect(Collectors.joining());
                     JSONObject obj = new JSONObject(json);
-                    JSONArray charCounting = obj.getJSONArray("CHAR_COUNTING");
-                    JSONArray wordCounting = obj.getJSONArray("SUBSTRING_COUNTING");
-                    for (int i = 0; i < charCounting.length(); i++) {
-                        char character = charCounting.getString(i).charAt(0);
-                        CharCounter charCounter = new CharCounter(character);
-                        metrics.add(charCounter);
-                    }
-                    for (int i = 0; i < wordCounting.length(); i++) {
-                        String word = wordCounting.getString(i);
-                        WordCounter wordCounter = new WordCounter(word);
-                        metrics.add(wordCounter);
-                    }
+                    metrics = Serializer.addMetricFromJson(obj);
                 }
                 return metrics;
             }

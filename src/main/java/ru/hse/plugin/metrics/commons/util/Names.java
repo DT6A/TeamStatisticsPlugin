@@ -1,5 +1,19 @@
 package ru.hse.plugin.metrics.commons.util;
 
+import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.copypaste.*;
+import ru.hse.plugin.metrics.editor.EditorCounter;
+import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
+import ru.hse.plugin.metrics.git.CommitCounter;
+import ru.hse.plugin.metrics.project.MaxOpenedProjects;
+import ru.hse.plugin.metrics.project.ProjectOpensNumber;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public class Names {
     private Names() { }
 
@@ -26,4 +40,26 @@ public class Names {
     public static final String MAX_COPY_LENGTH = "MaxCopyLength";
     public static final String SPECIFIC_LENGTH_PASTE_COUNTER = "SpecificLengthPasteCounter";
     public static final String SPECIFIC_LENGTH_COPY_COUNTER = "SpecificLengthCopyCounter";
+    public static final String LINE_COUNTER = "LineCounter";
+
+    public static final Map<String, Supplier<Metric>> NON_PARAMETRIZED_METRICS_CONSTRUCTORS;
+
+    static {
+
+        NON_PARAMETRIZED_METRICS_CONSTRUCTORS = Map.ofEntries(
+                Map.entry(COPY_COUNTER, CopyCounter::new),
+                Map.entry(COPY_LENGTH_COUNTER, CopyLengthCounter::new),
+                Map.entry(MAX_COPY_LENGTH, MaxCopyLength::new),
+                Map.entry(MAX_PASTE_LENGTH, MaxPasteLength::new),
+                Map.entry(PASTE_COUNTER, PasteCounter::new),
+                Map.entry(PASTE_LENGTH_COUNTER, PasteLengthCounter::new),
+                Map.entry(EDITOR_COUNTER, EditorCounter::new),
+                Map.entry(MAX_OPENED_EDITORS, MaxOpenedEditors::new),
+                Map.entry(COMMIT_COUNTER, CommitCounter::new),
+                Map.entry(MAX_OPENED_PROJECTS, MaxOpenedProjects::new),
+                Map.entry(PROJECT_OPENS_NUMBER, ProjectOpensNumber::new),
+                Map.entry(ALL_CHAR_COUNTER, AllCharCounter::new)
+        );
+
+    }
 }
