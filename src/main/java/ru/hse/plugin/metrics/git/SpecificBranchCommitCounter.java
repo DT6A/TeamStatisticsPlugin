@@ -37,7 +37,7 @@ public class SpecificBranchCommitCounter extends CountingMetric {
 
     @Override
     public @NotNull String getName() {
-        return getClassName() + "()";
+        return getClassName() + "(" + branchName + ")";
     }
 
     @Override
