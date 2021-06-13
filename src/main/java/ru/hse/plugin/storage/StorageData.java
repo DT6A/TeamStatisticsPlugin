@@ -78,25 +78,32 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 for (var metric : StorageData.getInstance().diffs) {
                     System.out.println("                    " + metric);
                 } */
-
                 var instance = StorageData.getInstance();
-
-                if (instance.jsonSender.sendMetricInfo(
-                        instance.getMetricsInfo(),
-                        instance.userInfo.getTokenNoExcept())) {
-                    instance.clearMetrics();
-                }
-                Set<Metric> newMetrics = instance.jsonSender.getNewMetrics();
-                for (Metric metric : newMetrics) {
-                    if (!instance.metrics.contains(metric)) {
-                        // TODO make clone
-                        instance.metrics.add(metric);
-                        instance.diffs.add(metric);
-                        instance.accumulated.add(metric);
+               // System.out.print("Token: ");
+                //System.out.println(instance.userInfo.getTokenNoExcept());
+                if (instance.userInfo.getTokenNoExcept() != null) {
+                    if (instance.jsonSender.sendMetricInfo(
+                            instance.getMetricsInfo(),
+                            instance.userInfo.getTokenNoExcept())) {
+                        instance.clearMetrics();
                     }
+                    Set<Metric> newMetrics = instance.jsonSender.getNewMetrics(
+                            instance.userInfo.getTokenNoExcept()
+                    );
+                    if (newMetrics != null) {
+                        //  System.out.print("New metrics");
+                        for (Metric metric : newMetrics) {
+                            if (!instance.metrics.contains(metric)) {
+                                // TODO make clone
+                                instance.metrics.add(metric);
+                                instance.diffs.add(metric);
+                                instance.accumulated.add(metric);
+                            }
+                            System.out.println(metric.getName());
+                        }
+                    }
+                    // ------------------------------------------------------
                 }
-                // ------------------------------------------------------
-
                 TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
             }
         } catch (InterruptedException ignored) { }

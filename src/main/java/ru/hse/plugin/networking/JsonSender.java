@@ -85,13 +85,14 @@ public class JsonSender {
         }
     }
 
-    public Set<Metric> getNewMetrics() {
+    public Set<Metric> getNewMetrics(String token) {
+        System.out.println(token);
         Set<Metric> metrics = null;
         try {
             HttpURLConnection http = createHttpURLConnection(URLs.PLUGIN_GET_METRICS_URL);
-            http.setRequestMethod("GET");
-            if (http.getResponseCode() == 200) {
-                http.disconnect();
+            byte[] out = Serializer.convertToken(token);
+            sendData(http, out);
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(http.getInputStream(), StandardCharsets.UTF_8)
                 )){
