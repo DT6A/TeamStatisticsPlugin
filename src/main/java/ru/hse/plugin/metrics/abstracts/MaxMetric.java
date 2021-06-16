@@ -14,6 +14,10 @@ public abstract class MaxMetric extends Metric {
 
     private int maximum;
 
+    protected int getMaximum() {
+        return maximum;
+    }
+
     public MaxMetric() {
         this(0);
     }

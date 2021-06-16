@@ -35,4 +35,10 @@ public class CopyCounter extends CountingMetric {
     public @NotNull String localStatisticString() {
         return "Number of copies into clipboard";
     }
+
+    @Override
+    @NotNull
+    public CopyCounter copy() {
+        return new CopyCounter(getCounter());
+    }
 }

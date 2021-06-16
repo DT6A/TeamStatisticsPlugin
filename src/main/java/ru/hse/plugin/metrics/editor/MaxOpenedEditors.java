@@ -31,4 +31,10 @@ public class MaxOpenedEditors extends MaxMetric {
     public @NotNull String localStatisticString() {
         return "Maximum number of opened editors";
     }
+
+    @Override
+    @NotNull
+    public MaxOpenedEditors copy() {
+        return new MaxOpenedEditors(getMaximum());
+    }
 }
