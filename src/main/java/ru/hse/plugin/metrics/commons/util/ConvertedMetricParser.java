@@ -33,6 +33,9 @@ public final class ConvertedMetricParser {
             case WORD_COUNTER:
                 validateLength(3, parts, metric);
                 return new WordCounter(parts[1], Integer.parseInt(parts[2]));
+            case SUBSTRING_COUNTER:
+                validateLength(3, parts, metric);
+                return new SubstringCounter(parts[1], Integer.parseInt(parts[2]));
             case LINE_COUNTER:
                 validateLength(2, parts, metric);
                 return new LineCounter(Integer.parseInt(parts[1]));

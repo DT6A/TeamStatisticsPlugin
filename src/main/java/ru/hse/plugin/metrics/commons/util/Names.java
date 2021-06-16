@@ -22,6 +22,7 @@ public class Names {
     public static final String EMPTY_USER_INFO = "EmptyUserInfo";
 
     public static final String WORD_COUNTER = "WordCounter";
+    public static final String SUBSTRING_COUNTER = "SubstringCounter";
     public static final String CHAR_COUNTER = "CharCounter";
     public static final String ALL_CHAR_COUNTER = "AllCharCounter";
 
