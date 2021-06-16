@@ -29,4 +29,10 @@ public class MaxCopyLength extends MaxMetric {
     public @NotNull String localStatisticString() {
         return "Maximum paste length";
     }
+
+    @Override
+    @NotNull
+    public MaxCopyLength copy() {
+        return new MaxCopyLength(getMaximum());
+    }
 }

@@ -38,4 +38,10 @@ public class PasteCounter extends CountingMetric {
     public @NotNull String localStatisticString() {
         return "Number of pastes from clipboard";
     }
+
+    @Override
+    @NotNull
+    public PasteCounter copy() {
+        return new PasteCounter(getCounter());
+    }
 }

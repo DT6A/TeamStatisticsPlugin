@@ -77,4 +77,10 @@ public class SpecificBranchCommitCounter extends CountingMetric {
     public int hashCode() {
         return Objects.hash(super.hashCode(), branchName);
     }
+
+    @Override
+    @NotNull
+    public SpecificBranchCommitCounter copy() {
+        return new SpecificBranchCommitCounter(getCounter(), branchName);
+    }
 }

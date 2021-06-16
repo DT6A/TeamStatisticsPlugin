@@ -61,8 +61,15 @@ public abstract class Metric {
 
     @NotNull
     public abstract MetricJComponentWrapper makeComponent(Metric additional);
+
     @NotNull
     public abstract String localStatisticString();
+
+    @NotNull
+    public Metric copy() {
+        return null;
+        // FIXME make abstract & implement in all metrics
+    }
 
     public abstract boolean isSame(@NotNull Metric metric);
     public abstract int hashSame();

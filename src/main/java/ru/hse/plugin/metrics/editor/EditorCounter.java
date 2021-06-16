@@ -35,4 +35,10 @@ public class EditorCounter extends CountingMetric {
     public @NotNull String localStatisticString() {
         return "Number of editor opens";
     }
+
+    @Override
+    @NotNull
+    public EditorCounter copy() {
+        return new EditorCounter(getCounter());
+    }
 }

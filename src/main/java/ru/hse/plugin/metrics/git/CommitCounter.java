@@ -34,4 +34,10 @@ public class CommitCounter extends CountingMetric {
     public @NotNull String localStatisticString() {
         return "Number of commits";
     }
+
+    @Override
+    @NotNull
+    public CommitCounter copy() {
+        return new CommitCounter(getCounter());
+    }
 }
