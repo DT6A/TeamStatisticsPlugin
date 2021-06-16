@@ -2,6 +2,8 @@ package ru.hse.plugin.metrics.commons.util;
 
 import org.jetbrains.annotations.Nullable;
 import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.backspaces.DeletedLengthCounter;
+import ru.hse.plugin.metrics.backspaces.DeletionCounter;
 import ru.hse.plugin.metrics.copypaste.*;
 import ru.hse.plugin.metrics.editor.EditorCounter;
 import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
@@ -90,6 +92,12 @@ public final class ConvertedMetricParser {
             case SPECIFIC_LENGTH_COPY_COUNTER:
                 validateLength(3, parts, metric);
                 return new SpecificLengthCopyCounter(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+            case DELETED_LENGTH_COUNTER:
+                validateLength(2, parts, metric);
+                return new DeletedLengthCounter(Integer.parseInt(parts[1]));
+            case DELETION_COUNTER:
+                validateLength(2, parts, metric);
+                return new DeletionCounter(Integer.parseInt(parts[1]));
             default:
                 throw new RuntimeException("Parse error, could not parse \"" + metric + "\"");
         }

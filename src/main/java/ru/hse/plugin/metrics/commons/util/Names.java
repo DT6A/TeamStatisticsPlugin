@@ -1,6 +1,8 @@
 package ru.hse.plugin.metrics.commons.util;
 
 import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.backspaces.DeletedLengthCounter;
+import ru.hse.plugin.metrics.backspaces.DeletionCounter;
 import ru.hse.plugin.metrics.copypaste.*;
 import ru.hse.plugin.metrics.editor.EditorCounter;
 import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
@@ -9,8 +11,6 @@ import ru.hse.plugin.metrics.project.MaxOpenedProjects;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.metrics.typed.AllCharCounter;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -41,6 +41,8 @@ public class Names {
     public static final String SPECIFIC_LENGTH_PASTE_COUNTER = "SpecificLengthPasteCounter";
     public static final String SPECIFIC_LENGTH_COPY_COUNTER = "SpecificLengthCopyCounter";
     public static final String LINE_COUNTER = "LineCounter";
+    public static final String DELETED_LENGTH_COUNTER = "DeletedLengthCounter";
+    public static final String DELETION_COUNTER = "DeletionCounter";
 
     public static final Map<String, Supplier<Metric>> NON_PARAMETRIZED_METRICS_CONSTRUCTORS;
 
@@ -58,7 +60,9 @@ public class Names {
                 Map.entry(COMMIT_COUNTER, CommitCounter::new),
                 Map.entry(MAX_OPENED_PROJECTS, MaxOpenedProjects::new),
                 Map.entry(PROJECT_OPENS_NUMBER, ProjectOpensNumber::new),
-                Map.entry(ALL_CHAR_COUNTER, AllCharCounter::new)
+                Map.entry(ALL_CHAR_COUNTER, AllCharCounter::new),
+                Map.entry(DELETED_LENGTH_COUNTER, DeletedLengthCounter::new),
+                Map.entry(DELETION_COUNTER, DeletionCounter::new)
         );
 
     }

@@ -31,7 +31,8 @@ public class BackSpaceListener extends EditorWriteActionHandler {
 
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
-            metric.backspace(length);
+            metric.backspaceLength(length);
+            metric.backspaceDone();
         }
 
         originalHandler.execute(editor, caret, dataContext);

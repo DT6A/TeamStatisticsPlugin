@@ -27,7 +27,8 @@ public abstract class Metric {
     public void copy(PsiFile file, int[] startOffsets, int[] endOffsets, String text) { }
     public void paste(Project project, PsiFile file, Editor editor, String text, RawText rawText) { }
 
-    public void backspace(int length) { }
+    public void backspaceLength(int length) { }
+    public void backspaceDone() { }
 
     public abstract void clear();
 
