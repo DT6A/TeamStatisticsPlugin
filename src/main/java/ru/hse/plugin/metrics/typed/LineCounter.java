@@ -10,7 +10,7 @@ public class LineCounter extends CharCounter {
         super('\n', counter);
     }
 
-    public LineCounter(char character) {
+    public LineCounter() {
         super('\n');
     }
 

@@ -69,9 +69,15 @@ public class SpecificLengthPasteCounter extends CountingMetric {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         SpecificLengthPasteCounter that = (SpecificLengthPasteCounter) o;
         return length == that.length;
     }

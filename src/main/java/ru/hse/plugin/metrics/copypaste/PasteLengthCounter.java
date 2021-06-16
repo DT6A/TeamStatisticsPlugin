@@ -9,7 +9,7 @@ import ru.hse.plugin.metrics.abstracts.CountingMetric;
 
 import static ru.hse.plugin.metrics.commons.util.Names.PASTE_LENGTH_COUNTER;
 
-public class PasteLengthCounter extends CountingMetric { // TODO test + add to parser
+public class PasteLengthCounter extends CountingMetric {
     @NotNull
     @Override
     protected String getClassName() {

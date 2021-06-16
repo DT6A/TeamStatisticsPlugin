@@ -47,7 +47,6 @@
 <!--        <action id="your.action.id" class="ru.hse.plugin.common.MyToolBarButton"-->
 <!--                text="Some label" description="Action description" icon="/Drawable/32.png">-->
 <!--            <add-to-group group-id="ToolbarRunGroup" anchor="first" />-->
-<!--            &lt;!&ndash; TODO получше группу найти или еще как-нибудь, потому что так логически это убого &ndash;&gt;-->
 <!--        </action>-->
     </actions>
 </idea-plugin>

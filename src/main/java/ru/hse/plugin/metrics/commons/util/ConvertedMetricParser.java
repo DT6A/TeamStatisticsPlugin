@@ -11,10 +11,7 @@ import ru.hse.plugin.metrics.git.CommitCounter;
 import ru.hse.plugin.metrics.git.SpecificBranchCommitCounter;
 import ru.hse.plugin.metrics.project.MaxOpenedProjects;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
-import ru.hse.plugin.metrics.typed.AllCharCounter;
-import ru.hse.plugin.metrics.typed.CharCounter;
-import ru.hse.plugin.metrics.typed.LineCounter;
-import ru.hse.plugin.metrics.typed.WordCounter;
+import ru.hse.plugin.metrics.typed.*;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -39,6 +36,9 @@ public final class ConvertedMetricParser {
             case LINE_COUNTER:
                 validateLength(2, parts, metric);
                 return new LineCounter(Integer.parseInt(parts[1]));
+            case TOTAL_TYPED_COUNTER:
+                validateLength(2, parts, metric);
+                return new TotalTypedCounter(Integer.parseInt(parts[1]));
             case CHAR_COUNTER:
                 validateLength(3, parts, metric);
                 return new CharCounter((char) Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));

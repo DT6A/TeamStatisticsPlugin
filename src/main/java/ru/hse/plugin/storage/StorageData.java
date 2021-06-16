@@ -1,6 +1,7 @@
 package ru.hse.plugin.storage;
 
 import com.intellij.completion.ngram.slp.util.Pair;
+import java.util.*;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -13,8 +14,7 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.backspaces.DeletedLengthCounter;
-import ru.hse.plugin.metrics.backspaces.DeletionCounter;
+import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.Util;
@@ -41,7 +41,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new DeletionCounter(), new DeletedLengthCounter());
+    @NotNull public List<Metric> diffs = new ArrayList<>();
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -56,7 +56,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new DeletionCounter(), new DeletedLengthCounter());
+    @NotNull public List<Metric> accumulated = new ArrayList<>();
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -66,7 +66,13 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     private final Set<Metric> metrics = new MetricSameHashSet();
 
+    public Set<Metric> metrics() {
+        return metrics;
+    }
+
     {
+        diffs.add(new AllCharCounter());
+        accumulated.add(new AllCharCounter());
         metrics.addAll(diffs);
     }
 
@@ -75,35 +81,23 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     private static final Thread daemon = new Thread(() -> {
         try {
             while (!Thread.interrupted()) {
-                System.out.println("Diffs:");
+              /*  System.out.println("                hello from daemon!");
                 for (var metric : StorageData.getInstance().diffs) {
                     System.out.println("                    " + metric);
-                }
-                System.out.println("Accumulated: ");
-                for (var metric : StorageData.getInstance().accumulated) {
-                    System.out.println("                    " + metric);
-                }
-                System.out.println();
-
+                } */
                 var instance = StorageData.getInstance();
-                instance.clearMetrics();
-//
-//                if (instance.jsonSender.sendMetricInfo(
-//                        instance.getMetricsInfo(),
-//                        instance.userInfo.getTokenNoExcept())) {
-//                    instance.clearMetrics();
-//                }
-//                Set<Metric> newMetrics = instance.jsonSender.getNewMetrics();
-//                for (Metric metric : newMetrics) {
-//                    if (!instance.metrics.contains(metric)) {
-//                        // TODO make clone
-//                        instance.metrics.add(metric);
-//                        instance.diffs.add(metric);
-//                        instance.accumulated.add(metric);
-//                    }
-//                }
-                // ------------------------------------------------------
+               // System.out.print("Token: ");
+                //System.out.println(instance.userInfo.getTokenNoExcept());
+                if (instance.userInfo.getTokenNoExcept() != null) {
+                    System.out.println("Sending new metrics");
+                    for (var kvp : instance.getMetricsInfo().entrySet()) {
+                        System.out.println(kvp.getKey() + ": " + kvp.getValue());
+                    }
+                    Sender.sendMetrics();
 
+                    Sender.updateMetrics();
+                    // ------------------------------------------------------
+                }
                 TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
             }
         } catch (InterruptedException ignored) { }
