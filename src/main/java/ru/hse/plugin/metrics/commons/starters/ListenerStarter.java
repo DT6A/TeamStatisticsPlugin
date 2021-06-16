@@ -1,6 +1,7 @@
 package ru.hse.plugin.metrics.commons.starters;
 
 import com.intellij.openapi.components.ServiceManager;
+import ru.hse.plugin.metrics.commons.services.BackSpaceListenerAdder;
 import ru.hse.plugin.metrics.commons.services.EditorFactoryListenerAdder;
 import ru.hse.plugin.metrics.commons.services.GitListeningService;
 
@@ -11,6 +12,10 @@ public class ListenerStarter {
 
     public synchronized static void startEditorCount() {
         ServiceManager.getService(EditorFactoryListenerAdder.class).tryAdd();
+    }
+
+    public synchronized static void startBackSpaceCounter() {
+        ServiceManager.getService(BackSpaceListenerAdder.class).tryAdd();
     }
 
     public synchronized static void addGit(Path path) {

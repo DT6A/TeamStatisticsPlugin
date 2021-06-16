@@ -26,6 +26,7 @@
         <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.GitListeningService"/>
         <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.EditorCountingService"/>
         <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.EditorFactoryListenerAdder"/>
+        <applicationService serviceImplementation="ru.hse.plugin.metrics.commons.services.BackSpaceListenerAdder"/>
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"

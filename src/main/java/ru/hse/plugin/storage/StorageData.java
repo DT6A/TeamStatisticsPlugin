@@ -13,7 +13,6 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
 import ru.hse.plugin.metrics.typed.AllCharCounter;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.networking.Sender;
