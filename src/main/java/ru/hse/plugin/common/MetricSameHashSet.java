@@ -1,5 +1,6 @@
 package ru.hse.plugin.common;
 
+import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.commons.util.MetricWrapper;
 
@@ -38,6 +39,7 @@ public class MetricSameHashSet extends AbstractSet<Metric> {
     }
 
     @Override
+    @NotNull
     public Iterator<Metric> iterator() {
         final Iterator<MetricWrapper> wrapperIterator = delegate.iterator();
 

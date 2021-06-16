@@ -14,15 +14,14 @@ import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
 import ru.hse.plugin.networking.JsonSender;
+import ru.hse.plugin.networking.Sender;
 import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.Util;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new MaxOpenedEditors());
+    @NotNull public List<Metric> diffs = new ArrayList<>();
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -55,7 +54,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new MaxOpenedEditors());
+    @NotNull public List<Metric> accumulated = new ArrayList<>();
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -65,7 +64,13 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
 
     private final Set<Metric> metrics = new MetricSameHashSet();
 
+    public Set<Metric> metrics() {
+        return metrics;
+    }
+
     {
+        diffs.add(new AllCharCounter());
+        accumulated.add(new AllCharCounter());
         metrics.addAll(diffs);
     }
 
@@ -82,26 +87,13 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                // System.out.print("Token: ");
                 //System.out.println(instance.userInfo.getTokenNoExcept());
                 if (instance.userInfo.getTokenNoExcept() != null) {
-                    if (instance.jsonSender.sendMetricInfo(
-                            instance.getMetricsInfo(),
-                            instance.userInfo.getTokenNoExcept())) {
-                        instance.clearMetrics();
+                    System.out.println("Sending new metrics");
+                    for (var kvp : instance.getMetricsInfo().entrySet()) {
+                        System.out.println(kvp.getKey() + ": " + kvp.getValue());
                     }
-                    Set<Metric> newMetrics = instance.jsonSender.getNewMetrics(
-                            instance.userInfo.getTokenNoExcept()
-                    );
-                    if (newMetrics != null) {
-                        //  System.out.print("New metrics");
-                        for (Metric metric : newMetrics) {
-                            if (!instance.metrics.contains(metric)) {
-                                // TODO make clone
-                                instance.metrics.add(metric);
-                                instance.diffs.add(metric);
-                                instance.accumulated.add(metric);
-                            }
-                            System.out.println(metric.getName());
-                        }
-                    }
+                    Sender.sendMetrics();
+
+                    Sender.updateMetrics();
                     // ------------------------------------------------------
                 }
                 TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
