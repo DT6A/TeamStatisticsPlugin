@@ -13,7 +13,7 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
+import ru.hse.plugin.metrics.typed.CharCounter;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.Util;
@@ -40,7 +40,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> diffs = List.of(new MaxOpenedEditors());
+    @NotNull public List<Metric> diffs = List.of(new CharCounter('a'));
 
     /*
         TODO я чуть-чуть хочу поменять логику и уже начал это делать
@@ -55,7 +55,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
      */
 
     @OptionTag(converter = ListMetricConverter.class)
-    @NotNull public List<Metric> accumulated = List.of(new MaxOpenedEditors());
+    @NotNull public List<Metric> accumulated = List.of(new CharCounter('a'));
 
     @OptionTag(converter = UserInfoConverter.class)
     @NotNull public UserInfo userInfo = new EmptyUserInfo();
@@ -74,27 +74,33 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     private static final Thread daemon = new Thread(() -> {
         try {
             while (!Thread.interrupted()) {
-              /*  System.out.println("                hello from daemon!");
+                System.out.println("Diffs:");
                 for (var metric : StorageData.getInstance().diffs) {
                     System.out.println("                    " + metric);
-                } */
+                }
+                System.out.println("Accumulated: ");
+                for (var metric : StorageData.getInstance().accumulated) {
+                    System.out.println("                    " + metric);
+                }
+                System.out.println();
 
                 var instance = StorageData.getInstance();
-
-                if (instance.jsonSender.sendMetricInfo(
-                        instance.getMetricsInfo(),
-                        instance.userInfo.getTokenNoExcept())) {
-                    instance.clearMetrics();
-                }
-                Set<Metric> newMetrics = instance.jsonSender.getNewMetrics();
-                for (Metric metric : newMetrics) {
-                    if (!instance.metrics.contains(metric)) {
-                        // TODO make clone
-                        instance.metrics.add(metric);
-                        instance.diffs.add(metric);
-                        instance.accumulated.add(metric);
-                    }
-                }
+                instance.clearMetrics();
+//
+//                if (instance.jsonSender.sendMetricInfo(
+//                        instance.getMetricsInfo(),
+//                        instance.userInfo.getTokenNoExcept())) {
+//                    instance.clearMetrics();
+//                }
+//                Set<Metric> newMetrics = instance.jsonSender.getNewMetrics();
+//                for (Metric metric : newMetrics) {
+//                    if (!instance.metrics.contains(metric)) {
+//                        // TODO make clone
+//                        instance.metrics.add(metric);
+//                        instance.diffs.add(metric);
+//                        instance.accumulated.add(metric);
+//                    }
+//                }
                 // ------------------------------------------------------
 
                 TimeUnit.SECONDS.sleep(Constants.DAEMON_SLEEP_SECONDS);
