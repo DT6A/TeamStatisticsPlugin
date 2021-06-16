@@ -37,9 +37,16 @@ public class Serializer {
         return JSONValue.toJSONString(nameToMetric).getBytes(StandardCharsets.UTF_8);
     }
 
+    public static byte[] convertToken(String token) {
+        Map<String, String> data = new HashMap<>();
+        data.put("token", token);
+        return JSONValue.toJSONString(data).getBytes(StandardCharsets.UTF_8);
+    }
+
     public static Set<Metric> addMetricFromJson(JSONObject obj) {
         Set<Metric> metrics = new HashSet<>();
         addNonParametrizedMetrics(obj, metrics);
+       // System.out.println(metrics.size());
         JSONArray charCounting = obj.optJSONArray(Names.CHAR_COUNTER);
         if (charCounting != null) {
             for (int i = 0; i < charCounting.length(); i++) {

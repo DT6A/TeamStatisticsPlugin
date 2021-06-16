@@ -8,6 +8,8 @@ import ru.hse.plugin.metrics.git.CommitCounter;
 import ru.hse.plugin.metrics.project.MaxOpenedProjects;
 import ru.hse.plugin.metrics.project.ProjectOpensNumber;
 import ru.hse.plugin.metrics.typed.AllCharCounter;
+import ru.hse.plugin.metrics.typed.LineCounter;
+import ru.hse.plugin.metrics.typed.TotalTypedCounter;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -41,6 +43,7 @@ public class Names {
     public static final String SPECIFIC_LENGTH_PASTE_COUNTER = "SpecificLengthPasteCounter";
     public static final String SPECIFIC_LENGTH_COPY_COUNTER = "SpecificLengthCopyCounter";
     public static final String LINE_COUNTER = "LineCounter";
+    public static final String TOTAL_TYPED_COUNTER = "TotalTypedCounter";
 
     public static final Map<String, Supplier<Metric>> NON_PARAMETRIZED_METRICS_CONSTRUCTORS;
 
@@ -58,7 +61,9 @@ public class Names {
                 Map.entry(COMMIT_COUNTER, CommitCounter::new),
                 Map.entry(MAX_OPENED_PROJECTS, MaxOpenedProjects::new),
                 Map.entry(PROJECT_OPENS_NUMBER, ProjectOpensNumber::new),
-                Map.entry(ALL_CHAR_COUNTER, AllCharCounter::new)
+                Map.entry(ALL_CHAR_COUNTER, AllCharCounter::new),
+                Map.entry(LINE_COUNTER, LineCounter::new),
+                Map.entry(TOTAL_TYPED_COUNTER, TotalTypedCounter::new)
         );
 
     }
