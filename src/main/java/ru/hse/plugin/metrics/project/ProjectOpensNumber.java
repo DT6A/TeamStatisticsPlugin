@@ -36,4 +36,10 @@ public class ProjectOpensNumber extends CountingMetric {
     public @NotNull String localStatisticString() {
         return "Number of project opens";
     }
+
+    @Override
+    @NotNull
+    public ProjectOpensNumber copy() {
+        return new ProjectOpensNumber(getCounter());
+    }
 }

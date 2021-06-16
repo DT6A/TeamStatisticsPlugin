@@ -1,12 +1,8 @@
 package ru.hse.plugin.networking;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.typed.CharCounter;
-import ru.hse.plugin.metrics.typed.WordCounter;
-import ru.hse.plugin.storage.UserInfo;
 import ru.hse.plugin.storage.UserInfoHolderBuilder;
 import ru.hse.plugin.util.Serializer;
 import ru.hse.plugin.util.WeNeedNameException;
@@ -21,7 +17,6 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;

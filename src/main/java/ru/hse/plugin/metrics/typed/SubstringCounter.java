@@ -7,8 +7,6 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
-import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 import ru.hse.plugin.util.Algorithms;
 
 import java.util.Objects;
@@ -121,5 +119,11 @@ public class SubstringCounter extends CountingMetric {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), substring, length);
+    }
+
+    @Override
+    @NotNull
+    public SubstringCounter copy() {
+        return new SubstringCounter(substring, getCounter());
     }
 }

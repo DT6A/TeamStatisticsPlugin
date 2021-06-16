@@ -6,8 +6,6 @@ import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
-import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -174,5 +172,11 @@ public class WordCounter extends CountingMetric {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), word, length, caseSensitive);
+    }
+
+    @Override
+    @NotNull
+    public WordCounter copy() {
+        return new WordCounter(word, getCounter());
     }
 }

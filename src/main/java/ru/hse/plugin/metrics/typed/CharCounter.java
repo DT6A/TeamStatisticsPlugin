@@ -79,4 +79,10 @@ public class CharCounter extends CountingMetric {
     public int hashCode() {
         return Objects.hash(character);
     }
+
+    @Override
+    @NotNull
+    public CharCounter copy() {
+        return new CharCounter(character, getCounter());
+    }
 }

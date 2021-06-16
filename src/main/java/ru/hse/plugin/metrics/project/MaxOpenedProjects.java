@@ -31,4 +31,10 @@ public class MaxOpenedProjects extends MaxMetric {
     public @NotNull String localStatisticString() {
         return "Maximum number of opened projects";
     }
+
+    @Override
+    @NotNull
+    public MaxOpenedProjects copy() {
+        return new MaxOpenedProjects(getMaximum());
+    }
 }
