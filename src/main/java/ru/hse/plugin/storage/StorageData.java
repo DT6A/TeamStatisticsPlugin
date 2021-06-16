@@ -1,7 +1,6 @@
 package ru.hse.plugin.storage;
 
 import com.intellij.completion.ngram.slp.util.Pair;
-import java.util.*;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -14,16 +13,14 @@ import ru.hse.plugin.converters.JsonSenderConverter;
 import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.editor.MaxOpenedEditors;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
 import ru.hse.plugin.networking.JsonSender;
+import ru.hse.plugin.networking.Sender;
 import ru.hse.plugin.util.Constants;
 import ru.hse.plugin.util.Util;
 import ru.hse.plugin.util.WeNeedNameException;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
