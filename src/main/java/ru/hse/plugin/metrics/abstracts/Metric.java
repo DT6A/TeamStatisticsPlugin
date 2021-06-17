@@ -2,7 +2,6 @@ package ru.hse.plugin.metrics.abstracts;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.RawText;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
@@ -21,10 +20,7 @@ public abstract class Metric {
 
     public void updateBeforeCharTyped(
             char charTyped,
-            @NotNull Project project,
-            @NotNull Editor editor,
-            @NotNull PsiFile file,
-            @NotNull FileType fileType
+            @NotNull Editor editor
     ) { }
 
     public void updateProjectOpen(@NotNull Project project) { }

@@ -29,9 +29,9 @@ public class Sender {
                         instance.accumulated.add(metric.copy());
                     }
                 }
-                currentPluginMetrics.removeIf(currentServerMetrics::contains);
-                instance.accumulated.removeIf(currentServerMetrics::contains);
-                instance.diffs.removeIf(currentServerMetrics::contains);
+                currentPluginMetrics.removeIf(o -> !currentServerMetrics.contains(o));
+                instance.accumulated.removeIf(o -> !currentServerMetrics.contains(o));
+                instance.diffs.removeIf(o -> !currentServerMetrics.contains(o));
             }
         });
     }

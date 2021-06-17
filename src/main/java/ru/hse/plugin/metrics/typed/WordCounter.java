@@ -48,13 +48,15 @@ public class WordCounter extends CountingMetric {
     }
 
     @Override
-    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateBeforeCharTyped(char charTyped, @NotNull Editor editor) {
         // offset -- количество символов, от начала текста до каретки
-        inc(updateFromText(
+        int update = updateFromText(
                 charTyped,
                 editor.getDocument().getImmutableCharSequence(),
                 editor.getCaretModel().getOffset()
-        ));
+        );
+      //  System.out.println(update);
+        inc(update);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class WordCounter extends CountingMetric {
 
     @Override
     public boolean isSame(@NotNull Metric metric) {
-        if (super.isSame(metric)) {
+        if (!super.isSame(metric)) {
             return false;
         }
 

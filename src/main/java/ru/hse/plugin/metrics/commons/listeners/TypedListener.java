@@ -1,6 +1,7 @@
 package ru.hse.plugin.metrics.commons.listeners;
 
 import com.intellij.codeInsight.editorActions.TypedHandlerDelegate;
+import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
@@ -13,20 +14,29 @@ import java.util.List;
 
 public class TypedListener extends TypedHandlerDelegate {
 
-    @NotNull
     @Override
-    public Result beforeCharTyped(
-            char c,
-            @NotNull Project project,
-            @NotNull Editor editor,
-            @NotNull PsiFile file,
-            @NotNull FileType fileType) {
+    public boolean isImmediatePaintingEnabled(@NotNull Editor editor, char c, @NotNull DataContext context) {
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
-            metric.updateBeforeCharTyped(c, project, editor, file, fileType);
+            metric.updateBeforeCharTyped(c, editor);
         }
-        return Result.CONTINUE;
+        return super.isImmediatePaintingEnabled(editor, c, context);
     }
+
+//    @NotNull
+//    @Override
+//    public Result beforeCharTyped(
+//            char c,
+//            @NotNull Project project,
+//            @NotNull Editor editor,
+//            @NotNull PsiFile file,
+//            @NotNull FileType fileType) {
+//        List<Metric> metrics = StorageData.getInstance().diffs;
+//        for (Metric metric : metrics) {
+//            metric.updateBeforeCharTyped(c, editor);
+//        }
+//        return Result.CONTINUE;
+//    }
 
     @NotNull
     @Override

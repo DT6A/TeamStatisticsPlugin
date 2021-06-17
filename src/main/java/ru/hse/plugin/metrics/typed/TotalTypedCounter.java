@@ -1,9 +1,6 @@
 package ru.hse.plugin.metrics.typed;
 
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
 
@@ -21,10 +18,7 @@ public class TotalTypedCounter extends CountingMetric {
 
     public void updateBeforeCharTyped(
             char charTyped,
-            @NotNull Project project,
-            @NotNull Editor editor,
-            @NotNull PsiFile file,
-            @NotNull FileType fileType
+            @NotNull Editor editor
     ) {
         inc();
     }
