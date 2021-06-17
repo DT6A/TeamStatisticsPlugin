@@ -14,6 +14,7 @@ import ru.hse.plugin.converters.ListMetricConverter;
 import ru.hse.plugin.converters.UserInfoConverter;
 import ru.hse.plugin.metrics.abstracts.Metric;
 import ru.hse.plugin.metrics.typed.AllCharCounter;
+import ru.hse.plugin.metrics.typed.LineCounter;
 import ru.hse.plugin.networking.JsonSender;
 import ru.hse.plugin.networking.Sender;
 import ru.hse.plugin.util.Constants;
@@ -41,15 +42,15 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     @NotNull public List<Metric> diffs = new ArrayList<>();
 
     /*
-        TODO я чуть-чуть хочу поменять логику и уже начал это делать
-             теперь мы храним диффы метрик и отправляем их (как и раньше)
-             но теперь мы храним накопленную метрику:
-                 clear diff-ов - добавляем в accumulated
-                 поддерживаем что diff[i] ~ accumulated[i] ( => пороядок важен)
-                    Видимо надо будет хранить сет отдельно private полем (ну и хуй с ним)
-                 при включение проекта пытаемся подсосать accumulated с сервера,
-                    явно не отправляем никогда, потому что набираем просто диффами
-                 мб что-то еще, хз
+         я чуть-чуть хочу поменять логику и уже начал это делать
+         теперь мы храним диффы метрик и отправляем их (как и раньше)
+         но теперь мы храним накопленную метрику:
+             clear diff-ов - добавляем в accumulated
+             поддерживаем что diff[i] ~ accumulated[i] ( => пороядок важен)
+                Видимо надо будет хранить сет отдельно private полем (ну и хуй с ним)
+             при включение проекта пытаемся подсосать accumulated с сервера,
+                явно не отправляем никогда, потому что набираем просто диффами
+             мб что-то еще, хз
      */
 
     @OptionTag(converter = ListMetricConverter.class)
@@ -75,19 +76,14 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
         metrics.addAll(diffs);
     }
 
-    public boolean doNotCollectAndSendInformation = false; // TODO support it!
+    public boolean doNotCollectAndSendInformation = false;
 
     private static final Thread daemon = new Thread(() -> {
         try {
             while (!Thread.interrupted()) {
-              /*  System.out.println("                hello from daemon!");
-                for (var metric : StorageData.getInstance().diffs) {
-                    System.out.println("                    " + metric);
-                } */
                 var instance = StorageData.getInstance();
-               // System.out.print("Token: ");
-                //System.out.println(instance.userInfo.getTokenNoExcept());
-                if (instance.userInfo.getTokenNoExcept() != null) {
+
+                if (!instance.doNotCollectAndSendInformation && instance.userInfo.getTokenNoExcept() != null) {
                     System.out.println("Sending new metrics");
                     for (var kvp : instance.getMetricsInfo().entrySet()) {
                         System.out.println(kvp.getKey() + ": " + kvp.getValue());
@@ -136,8 +132,6 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public boolean setUserInfo(UserInfoHolderBuilder userInfoBuilder)  {
-
-        // TODO валидация
         try {
             var instance = StorageData.getInstance();
             String token = instance.jsonSender.submitUserInfo(

@@ -17,6 +17,10 @@ public class GitListener extends GitListenerBase {
     @Override
     protected Runnable getCommitHandler() {
         return () -> {
+            if (StorageData.getInstance().doNotCollectAndSendInformation) {
+                return;
+            }
+
             List<Metric> metrics = StorageData.getInstance().diffs;
             for (Metric metric : metrics) {
                 metric.justCommitted();
@@ -27,6 +31,10 @@ public class GitListener extends GitListenerBase {
     @Override
     protected @NotNull Consumer<String> getCommitOnBranchHandler() {
         return name -> {
+            if (StorageData.getInstance().doNotCollectAndSendInformation) {
+                return;
+            }
+
             List<Metric> metrics = StorageData.getInstance().diffs;
             for (Metric metric : metrics) {
                 metric.justCommitted(name);

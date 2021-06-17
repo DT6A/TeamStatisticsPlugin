@@ -13,6 +13,10 @@ import java.util.List;
 public class MyEditorFactoryListener implements EditorFactoryListener {
     @Override
     public void editorCreated(@NotNull EditorFactoryEvent event) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return;
+        }
+
         EditorCountingService counter = ServiceManager.getService(EditorCountingService.class);
         counter.inc();
 
@@ -24,6 +28,10 @@ public class MyEditorFactoryListener implements EditorFactoryListener {
 
     @Override
     public void editorReleased(@NotNull EditorFactoryEvent event) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return;
+        }
+
         EditorCountingService counter = ServiceManager.getService(EditorCountingService.class);
         counter.dec();
 

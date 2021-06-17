@@ -43,7 +43,7 @@ public abstract class GitListenerBase {
     }
 
     private void justCommittedOnBranch() throws IOException {
-        String branch = getBranch(); // TODO
+        String branch = getBranch();
         if (exists() && didJustCommit()) {
             getCommitOnBranchHandler().accept(branch);
         }
