@@ -66,10 +66,7 @@ public abstract class Metric {
     public abstract String localStatisticString();
 
     @NotNull
-    public Metric copy() {
-        return null;
-        // FIXME make abstract & implement in all metrics
-    }
+    public abstract Metric copy();
 
     public abstract boolean isSame(@NotNull Metric metric);
     public abstract int hashSame();
