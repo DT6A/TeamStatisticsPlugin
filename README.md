@@ -1,4 +1,4 @@
-# Doska
+# IntelliJ IDEA team statistics plugin
 
 ## Description
 
