@@ -83,7 +83,6 @@ public class JsonSender {
     }
 
     public Set<Metric> getNewMetrics(String token) {
-        System.out.println(token);
         Set<Metric> metrics = null;
         try {
             HttpURLConnection http = createHttpURLConnection(URLs.PLUGIN_GET_METRICS_URL);

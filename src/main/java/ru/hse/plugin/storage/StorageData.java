@@ -84,10 +84,7 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
                 var instance = StorageData.getInstance();
 
                 if (!instance.doNotCollectAndSendInformation && instance.userInfo.getTokenNoExcept() != null) {
-                    System.out.println("Sending new metrics");
-                    for (var kvp : instance.getMetricsInfo().entrySet()) {
-                        System.out.println(kvp.getKey() + ": " + kvp.getValue());
-                    }
+
                     Sender.sendMetrics();
 
                     Sender.updateMetrics();
@@ -122,8 +119,6 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
-        System.out.println(diffs);
-        System.out.println(accumulated);
         Util.zipWith(
                 accumulated.stream(),
                 diffs.stream(),

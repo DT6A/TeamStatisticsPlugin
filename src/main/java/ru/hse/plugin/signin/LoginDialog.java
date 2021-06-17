@@ -35,7 +35,7 @@ public class LoginDialog extends DialogWrapper implements ActionListener {
     public LoginDialog(@Nullable String message) {
         super(true);
         this.message = message;
-        setTitle("Nash Plugin");
+        setTitle("Team Statistics");
         init();
     }
 

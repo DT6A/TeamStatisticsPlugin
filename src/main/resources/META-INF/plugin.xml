@@ -30,7 +30,7 @@
 
         <applicationConfigurable parentId="tools" instance="ru.hse.plugin.signin.SettingsConfigurable"
                                  id="ru.hse.plugin.signin.SettingsConfigurable"
-                                 displayName="Nikita Loh"/>
+                                 displayName="Team Statistics"/>
 
         <typedHandler implementation="ru.hse.plugin.metrics.commons.listeners.TypedListener"/>
 
