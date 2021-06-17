@@ -48,7 +48,7 @@ public abstract class Metric {
     @Override
     public abstract String toString();
     @NotNull
-    public abstract String getName(); // Формат: 'ИмяКласс(поля, какого, то, конструктора)'
+    public abstract String getName();
 
     /**
      * @param metric - метрика (metric is instance getClass()), которую

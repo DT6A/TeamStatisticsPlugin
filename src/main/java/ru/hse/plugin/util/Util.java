@@ -77,6 +77,7 @@ public class Util {
                 ? Math.min(spliterator1.getExactSizeIfKnown(), spliterator2.getExactSizeIfKnown())
                 : -1;
 
+        System.out.println("Before return");
         return StreamSupport.stream(
                 Spliterators.spliterator(new Iterator<>() {
                          private final Iterator<A> iterator1 = Spliterators.iterator(spliterator1);
