@@ -1,11 +1,10 @@
 <idea-plugin>
-    <id>org.example.tamagachi-test</id>
-    <name>Adisplay Naame Here</name>
-    <vendor email="asupport@yourcompany.com" url="https://www.yaourcompany.com">YourComapany</vendor>
+    <id>ru.hse.plugin</id>
+    <name>Team Statistics</name>
+    <vendor email="not@set.com" url="https://github.com/DT6A/TeamStatisticsPlugin">HSE SPb</vendor>
 
     <description><![CDATA[
-    aEnter short descriptiaon for your plugin here.<br>
-    <em>amost HTML tags maay be used</em>
+    Plugin for collecting statistics in teams<br>
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
