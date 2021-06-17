@@ -35,7 +35,8 @@ public class AllCharCounter extends Metric {
     }
 
     @Override
-    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateBeforeCharTyped(char charTyped,
+                                      @NotNull Editor editor) {
         if (!Character.isLetterOrDigit(charTyped)) {
             return;
         }

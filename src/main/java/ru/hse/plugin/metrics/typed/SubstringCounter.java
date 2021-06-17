@@ -1,9 +1,6 @@
 package ru.hse.plugin.metrics.typed;
 
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
 import ru.hse.plugin.metrics.abstracts.Metric;
@@ -14,7 +11,6 @@ import java.util.Objects;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static ru.hse.plugin.metrics.commons.util.Names.SUBSTRING_COUNTER;
-import static ru.hse.plugin.metrics.commons.util.Names.WORD_COUNTER;
 import static ru.hse.plugin.util.Constants.BANNED_SYMBOL_FOR_Z_FUNCTION;
 
 public class SubstringCounter extends CountingMetric {
@@ -38,10 +34,7 @@ public class SubstringCounter extends CountingMetric {
 
     @Override
     public void updateBeforeCharTyped(char charTyped,
-                                @NotNull Project project,
-                                @NotNull Editor editor,
-                                @NotNull PsiFile file,
-                                @NotNull FileType fileType) {
+                                      @NotNull Editor editor) {
         // offset -- количество символов, от начала текста до каретки
         inc(updateFromText(
                 charTyped,
@@ -58,7 +51,7 @@ public class SubstringCounter extends CountingMetric {
     @NotNull
     @Override
     public String getName() {
-        return WORD_COUNTER + "(" + substring + ")";
+        return getClassName() + "(" + substring + ")";
     }
 
     @NotNull
@@ -69,7 +62,7 @@ public class SubstringCounter extends CountingMetric {
 
     @Override
     public boolean isSame(@NotNull Metric metric) {
-        if (getClass() != metric.getClass()) {
+        if (!super.isSame(metric)) {
             return false;
         }
 
@@ -94,10 +87,15 @@ public class SubstringCounter extends CountingMetric {
                 max(0, offset - length + 1),
                 min(text.length(), offset + length - 1)
         ).toString();
+      //  System.out.println("Char typed: " + charTyped);
+     //   System.out.println("Previous String {" + previousString + "}");
         String newString = previousString.substring(0, length - 1)
                 + charTyped
                 + previousString.substring(length);
-        return max(0, Algorithms.zFunction(newString, substring) - Algorithms.zFunction(previousString, substring));
+       // System.out.println("New String {" + newString + "}");
+        int diff =  max(0, Algorithms.zFunction(newString, substring) - Algorithms.zFunction(previousString, substring));
+       // System.out.println(diff);
+        return diff;
     }
 
 

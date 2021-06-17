@@ -68,8 +68,10 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     {
-        diffs.add(new AllCharCounter());
-        accumulated.add(new AllCharCounter());
+        if (diffs.isEmpty()) {
+            diffs.add(new AllCharCounter());
+            accumulated.add(new AllCharCounter());
+        }
         metrics.addAll(diffs);
     }
 

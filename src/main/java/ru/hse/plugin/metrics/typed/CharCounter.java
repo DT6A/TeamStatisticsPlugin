@@ -27,7 +27,8 @@ public class CharCounter extends CountingMetric {
     }
 
     @Override
-    public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+    public void updateBeforeCharTyped(char charTyped,
+                                      @NotNull Editor editor) {
         if (charTyped == character) {
             inc();
         }
