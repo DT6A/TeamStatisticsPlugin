@@ -61,8 +61,12 @@ public abstract class Metric {
 
     @NotNull
     public abstract MetricJComponentWrapper makeComponent(Metric additional);
+
     @NotNull
     public abstract String localStatisticString();
+
+    @NotNull
+    public abstract Metric copy();
 
     public abstract boolean isSame(@NotNull Metric metric);
     public abstract int hashSame();

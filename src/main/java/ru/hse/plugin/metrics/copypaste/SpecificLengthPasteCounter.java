@@ -86,4 +86,10 @@ public class SpecificLengthPasteCounter extends CountingMetric {
     public int hashCode() {
         return Objects.hash(super.hashCode(), length);
     }
+
+    @Override
+    @NotNull
+    public SpecificLengthPasteCounter copy() {
+        return new SpecificLengthPasteCounter(getCounter(), length);
+    }
 }

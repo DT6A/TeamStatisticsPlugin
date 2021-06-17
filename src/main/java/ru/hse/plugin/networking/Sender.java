@@ -24,10 +24,9 @@ public class Sender {
                 var currentPluginMetrics = instance.metrics();
                 for (Metric metric : currentServerMetrics) {
                     if (!instance.metrics().contains(metric)) {
-                        // TODO make clone
                         instance.metrics().add(metric);
                         instance.diffs.add(metric);
-                        instance.accumulated.add(metric);
+                        instance.accumulated.add(metric.copy());
                     }
                 }
                 currentPluginMetrics.removeIf(currentServerMetrics::contains);

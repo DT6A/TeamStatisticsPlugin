@@ -28,4 +28,10 @@ public class LineCounter extends CharCounter {
     public @NotNull String localStatisticString() {
         return "Number of lines";
     }
+
+    @Override
+    @NotNull
+    public LineCounter copy() {
+        return new LineCounter(getCounter());
+    }
 }

@@ -6,9 +6,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import ru.hse.plugin.metrics.abstracts.CountingMetric;
-import ru.hse.plugin.metrics.abstracts.Metric;
-
-import java.util.Objects;
 
 import static ru.hse.plugin.metrics.commons.util.Names.TOTAL_TYPED_COUNTER;
 
@@ -45,5 +42,11 @@ public class TotalTypedCounter extends CountingMetric {
     @Override
     public @NotNull String localStatisticString() {
         return "Number of total typed symbols";
+    }
+
+    @Override
+    @NotNull
+    public TotalTypedCounter copy() {
+        return new TotalTypedCounter(getCounter());
     }
 }

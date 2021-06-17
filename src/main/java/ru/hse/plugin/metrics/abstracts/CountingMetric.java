@@ -85,8 +85,12 @@ public abstract class CountingMetric extends Metric {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         CountingMetric that = (CountingMetric) o;
         return counter == that.counter;
     }

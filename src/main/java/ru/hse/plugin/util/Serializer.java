@@ -9,6 +9,7 @@ import ru.hse.plugin.metrics.copypaste.SpecificLengthCopyCounter;
 import ru.hse.plugin.metrics.copypaste.SpecificLengthPasteCounter;
 import ru.hse.plugin.metrics.git.SpecificBranchCommitCounter;
 import ru.hse.plugin.metrics.typed.CharCounter;
+import ru.hse.plugin.metrics.typed.SubstringCounter;
 import ru.hse.plugin.metrics.typed.WordCounter;
 import ru.hse.plugin.storage.UserInfo;
 import ru.hse.plugin.storage.UserInfoHolder;
@@ -57,6 +58,8 @@ public class Serializer {
         }
         addStringParametrizedMetric(obj, metrics,
                 Names.WORD_COUNTER, WordCounter::new);
+        addStringParametrizedMetric(obj, metrics,
+                Names.SUBSTRING_COUNTER, SubstringCounter::new);
         addStringParametrizedMetric(obj, metrics,
                 Names.SPECIFIC_BRANCH_COMMIT_COUNTER, SpecificBranchCommitCounter::new);
         addIntegerParametrizedMetric(obj, metrics,

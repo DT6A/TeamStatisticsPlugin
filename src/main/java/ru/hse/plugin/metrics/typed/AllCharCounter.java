@@ -144,4 +144,17 @@ public class AllCharCounter extends Metric {
     public int hashCode() {
         return Objects.hash(chars);
     }
+
+    @Override
+    @NotNull
+    public AllCharCounter copy() {
+        return new AllCharCounter(
+                Arrays.stream(
+                    getCounters()
+                    .toString()
+                    .split(" ")
+                )
+                .map(Integer::parseInt)
+                .collect(Collectors.toList()));
+    }
 }

@@ -4,9 +4,8 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
+import ru.hse.plugin.metrics.abstracts.CountingMetric;
 import ru.hse.plugin.metrics.abstracts.Metric;
-import ru.hse.plugin.metrics.commons.component.CounterJComponentWrapper;
-import ru.hse.plugin.metrics.commons.component.MetricJComponentWrapper;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -16,19 +15,19 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static ru.hse.plugin.metrics.commons.util.Names.WORD_COUNTER;
 
-public class WordCounter extends Metric {
+public class WordCounter extends CountingMetric {
     @NotNull
     private final String word;
     private final int length;
     private final boolean caseSensitive;
-    private int numberOfOccurrences;
     private static final String CORRECT_WORD_REGEX = "[a-zA-Z0-9_]{2,}";
 
     public WordCounter(@NotNull String word, int numberOfOccurrences) {
         this(word, numberOfOccurrences, true);
     }
 
-    public WordCounter(@NotNull String word, int numberOfOccurrences, boolean caseSensitive) {
+    public WordCounter(@NotNull String word, int counter, boolean caseSensitive) {
+        super(counter);
         if (!word.matches(CORRECT_WORD_REGEX)) {
             throw new RuntimeException("Incorrect word for counting");
         }
@@ -37,7 +36,6 @@ public class WordCounter extends Metric {
         }
         this.word = word;
         this.length = word.length();
-        this.numberOfOccurrences = numberOfOccurrences;
         this.caseSensitive = caseSensitive;
     }
 
@@ -52,72 +50,33 @@ public class WordCounter extends Metric {
     @Override
     public void updateCharTyped(char charTyped, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
         // offset -- количество символов, от начала текста до каретки
-        numberOfOccurrences += updateFromText(
+        inc(updateFromText(
                 charTyped,
                 editor.getDocument().getImmutableCharSequence(),
                 editor.getCaretModel().getOffset()
-        );
-
+        ));
     }
 
     @Override
-    public void clear() {
-        numberOfOccurrences = 0;
-    }
-
-    @Override
-    public String getInfo() {
-        return Integer.toString(numberOfOccurrences);
+    protected @NotNull String getClassName() {
+        return WORD_COUNTER;
     }
 
     @NotNull
     @Override
     public String getName() {
-        return WORD_COUNTER + "(" + word + ")";
-    }
-
-    @Override
-    public void mergeAndClear(Metric metric) {
-        WordCounter that = cast(metric, getClass());
-
-        if (!this.word.equals(that.word)) {
-            throw new RuntimeException("Metrics are expected to be same");
-        }
-
-        if (this.caseSensitive != that.caseSensitive) {
-            throw new RuntimeException("Metrics are expected to be same");
-        }
-
-        this.numberOfOccurrences += that.numberOfOccurrences;
-
-        that.clear();
-    }
-
-    @Override
-    @NotNull
-    public MetricJComponentWrapper makeComponent(Metric additional) {
-        WordCounter that = cast(additional, WordCounter.class);
-        return new CounterJComponentWrapper() {
-            @Override
-            protected int count() {
-                int counter = WordCounter.this.numberOfOccurrences;
-
-                counter += that.numberOfOccurrences;
-
-                return counter;
-            }
-        };
+        return getClassName() + "(" + word + ")";
     }
 
     @NotNull
     @Override
     public String localStatisticString() {
-        return "Number of occurrences of \"" + word + "\"";
+        return "Number of occurrences of word \"" + word + "\"";
     }
 
     @Override
     public boolean isSame(@NotNull Metric metric) {
-        if (getClass() != metric.getClass()) {
+        if (super.isSame(metric)) {
             return false;
         }
 
@@ -132,7 +91,7 @@ public class WordCounter extends Metric {
 
     @Override
     public String toString() {
-        return WORD_COUNTER + " " + word + " " + numberOfOccurrences;
+        return getClassName() + " " + word + " " + getCounter();
     }
 
     private int updateFromText(char charTyped,
@@ -203,13 +162,21 @@ public class WordCounter extends Metric {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        if (!super.equals(o)) {
+            return false;
+        }
         WordCounter that = (WordCounter) o;
-        return length == that.length && caseSensitive == that.caseSensitive
-                && numberOfOccurrences == that.numberOfOccurrences && word.equals(that.word);
+        return length == that.length && caseSensitive == that.caseSensitive && word.equals(that.word);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(word, length, caseSensitive, numberOfOccurrences);
+        return Objects.hash(super.hashCode(), word, length, caseSensitive);
+    }
+
+    @Override
+    @NotNull
+    public WordCounter copy() {
+        return new WordCounter(word, getCounter());
     }
 }

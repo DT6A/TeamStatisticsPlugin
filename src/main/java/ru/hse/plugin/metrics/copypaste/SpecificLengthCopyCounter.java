@@ -83,4 +83,10 @@ public class SpecificLengthCopyCounter  extends CountingMetric {
     public int hashCode() {
         return Objects.hash(super.hashCode(), length);
     }
+
+    @Override
+    @NotNull
+    public SpecificLengthCopyCounter copy() {
+        return new SpecificLengthCopyCounter(getCounter(), length);
+    }
 }

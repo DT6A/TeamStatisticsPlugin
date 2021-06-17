@@ -38,4 +38,10 @@ public class PasteLengthCounter extends CountingMetric {
     public @NotNull String localStatisticString() {
         return "Length of pastes from clipboard";
     }
+
+    @Override
+    @NotNull
+    public PasteLengthCounter copy() {
+        return new PasteLengthCounter(getCounter());
+    }
 }
