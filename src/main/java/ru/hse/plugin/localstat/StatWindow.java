@@ -13,17 +13,20 @@ import java.util.Date;
 import java.util.List;
 
 public class StatWindow {
-    private final JPanel panel;
+    private final JPanel panel = new JPanel();
     private final List<MetricJComponentWrapper> componentWrappers = new ArrayList<>();
     private final JButton updateButton = new JButton("Update");
 
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("d MMM yyyy HH:mm:ss");
-    private final JLabel lastUpdateOn = Util.makeDefaultLabel(SPACES + makeLastUpdatedOn());
+    private final JLabel lastUpdateOn = Util.makeDefaultLabel(makeLastUpdatedOn());
 
     {
         updateButton.addActionListener(e -> {
+            var built = build();
+            panel.removeAll();
+            panel.add(built);
             componentWrappers.forEach(MetricJComponentWrapper::update);
-            lastUpdateOn.setText(SPACES + makeLastUpdatedOn());
+            lastUpdateOn.setText(makeLastUpdatedOn());
         });
     }
 
@@ -34,6 +37,18 @@ public class StatWindow {
      */
 
     public StatWindow(ToolWindow toolWindow) {
+
+    }
+
+    public JComponent getContent() {
+        panel.removeAll();
+        panel.add(build());
+        return panel;
+    }
+
+    private JComponent build() {
+        componentWrappers.clear();
+
         var builder = FormBuilder.createFormBuilder();
 
         int size = StorageData.getInstance().accumulated.size();
@@ -45,7 +60,7 @@ public class StatWindow {
             var wrapper = accumulated.makeComponent(diff);
             componentWrappers.add(wrapper);
 
-            builder.addLabeledComponent(SPACES + accumulated.localStatisticString() + ":", wrapper.getComponent());
+            builder.addLabeledComponent(accumulated.localStatisticString() + ":", wrapper.getComponent());
         }
 
         builder.addComponent(
@@ -57,14 +72,8 @@ public class StatWindow {
 
         builder.addComponentFillVertically(new JPanel(), 0);
 
-        panel = builder.getPanel();
+        return builder.getPanel();
     }
-
-    public JComponent getContent() {
-        return panel;
-    }
-
-    private static final String SPACES = "    ";
 
     private static String makeLastUpdatedOn() {
         return "Last updated on " + dateFormatter.format(new Date());

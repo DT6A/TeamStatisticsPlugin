@@ -19,7 +19,16 @@ import static ru.hse.plugin.metrics.commons.util.Names.ALL_CHAR_COUNTER;
 public class AllCharCounter extends Metric {
     private final Map<Character, Integer> chars = new HashMap<>();
 
-    public AllCharCounter() {}
+    public AllCharCounter() {
+        var values = Stream.concat(
+                IntStream.rangeClosed(0, 9).mapToObj(i -> Character.forDigit(i, 10)),
+                IntStream.rangeClosed('a', 'z').mapToObj(i -> (char)i)
+        ).collect(Collectors.toList());
+
+        for (Character value : values) {
+            chars.put(value, 0);
+        }
+    }
 
     public AllCharCounter(List<Integer> counters) {
         var values = Stream.concat(
