@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static ru.hse.plugin.metrics.commons.util.Names.ALL_CHAR_COUNTER;
+
 public class JsonSender {
 
     private String lastSendingTime;
@@ -36,10 +38,10 @@ public class JsonSender {
 
     public boolean sendMetricInfo(Map<String, String> metricInfo,
                                   String token) {
+        metricInfo.remove(ALL_CHAR_COUNTER + "()");
         metricInfo.put("time_from", getLastSendingTime());
         updateSendingTimeToCurrent();
         metricInfo.put("time_to", getLastSendingTime());
-//        System.out.println("METRIC_SEND");
         byte[] out = Serializer.convertMetricInfo(
                 metricInfo,
                 token

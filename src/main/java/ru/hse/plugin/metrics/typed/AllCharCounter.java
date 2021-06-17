@@ -28,6 +28,7 @@ public class AllCharCounter extends Metric {
         for (Character value : values) {
             chars.put(value, 0);
         }
+        assert values.size() == 36;
     }
 
     public AllCharCounter(List<Integer> counters) {
@@ -37,6 +38,7 @@ public class AllCharCounter extends Metric {
         ).collect(Collectors.toList());
 
         assert values.size() == counters.size();
+        assert values.size() == 36;
 
         for (int i = 0; i < values.size(); i++) {
             chars.put(values.get(i), counters.get(i));
@@ -56,7 +58,7 @@ public class AllCharCounter extends Metric {
 
     @Override
     public void clear() {
-        chars.clear();
+        chars.entrySet().forEach(e -> e.setValue(0));
     }
 
     @Override

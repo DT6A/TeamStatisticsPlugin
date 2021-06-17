@@ -1,6 +1,7 @@
 package ru.hse.plugin.networking;
 
 import ru.hse.plugin.metrics.abstracts.Metric;
+import ru.hse.plugin.metrics.typed.AllCharCounter;
 import ru.hse.plugin.storage.StorageData;
 
 import java.util.Set;
@@ -29,9 +30,13 @@ public class Sender {
                         instance.accumulated.add(metric.copy());
                     }
                 }
-                currentPluginMetrics.removeIf(o -> !currentServerMetrics.contains(o));
-                instance.accumulated.removeIf(o -> !currentServerMetrics.contains(o));
-                instance.diffs.removeIf(o -> !currentServerMetrics.contains(o));
+                for (Metric metric : currentPluginMetrics) {
+                    if (!currentServerMetrics.contains(metric) && !(metric instanceof AllCharCounter)) {
+                        currentPluginMetrics.remove(metric);
+                        instance.accumulated.remove(metric);
+                        instance.diffs.remove(metric);
+                    }
+                }
             }
         });
     }

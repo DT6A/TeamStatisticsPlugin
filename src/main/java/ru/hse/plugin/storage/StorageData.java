@@ -126,6 +126,8 @@ public final class StorageData implements PersistentStateComponent<StorageData> 
     }
 
     public void clearMetrics() {
+        System.out.println(diffs);
+        System.out.println(accumulated);
         Util.zipWith(
                 accumulated.stream(),
                 diffs.stream(),
