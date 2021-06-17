@@ -27,7 +27,7 @@ public class MaxCopyLength extends MaxMetric {
 
     @Override
     public @NotNull String localStatisticString() {
-        return "Maximum paste length";
+        return "Maximum copy length";
     }
 
     @Override
