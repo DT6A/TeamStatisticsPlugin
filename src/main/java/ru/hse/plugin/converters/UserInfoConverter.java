@@ -27,11 +27,6 @@ public class UserInfoConverter extends Converter<UserInfo> {
         return new UserInfoHolder(fields[0], fields[1], fields[2]);
     }
 
-
-    /*
-     * TODO: пароли надо как-то не так хранить,
-     *       https://plugins.jetbrains.com/docs/intellij/persisting-sensitive-data.html#store-credentials
-     */
     @Nullable
     @Override
     public String toString(@NotNull UserInfo value) {

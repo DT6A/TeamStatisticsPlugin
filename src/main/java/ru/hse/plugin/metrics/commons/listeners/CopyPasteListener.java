@@ -16,6 +16,10 @@ public class CopyPasteListener implements CopyPastePreProcessor {
     @Nullable
     @Override
     public String preprocessOnCopy(PsiFile file, int[] startOffsets, int[] endOffsets, String text) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return text;
+        }
+
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
             metric.copy(file, startOffsets, endOffsets, text);
@@ -27,6 +31,10 @@ public class CopyPasteListener implements CopyPastePreProcessor {
     @NotNull
     @Override
     public String preprocessOnPaste(Project project, PsiFile file, Editor editor, String text, RawText rawText) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return text;
+        }
+
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
             metric.paste(project, file, editor, text, rawText);

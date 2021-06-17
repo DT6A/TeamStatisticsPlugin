@@ -16,6 +16,10 @@ public class TypedListener extends TypedHandlerDelegate {
 
     @Override
     public boolean isImmediatePaintingEnabled(@NotNull Editor editor, char c, @NotNull DataContext context) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return super.isImmediatePaintingEnabled(editor, c, context);
+        }
+
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
             metric.updateBeforeCharTyped(c, editor);
@@ -41,6 +45,10 @@ public class TypedListener extends TypedHandlerDelegate {
     @NotNull
     @Override
     public Result charTyped(char c, @NotNull Project project, @NotNull Editor editor, @NotNull PsiFile file) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return Result.CONTINUE;
+        }
+
         List<Metric> metrics = StorageData.getInstance().diffs;
         for (Metric metric : metrics) {
             metric.updateCharTyped(c, project, editor, file);

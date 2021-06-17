@@ -18,6 +18,10 @@ public class ProjectOpenCloseListener implements ProjectManagerListener {
             return;
         }
 
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return;
+        }
+
         ProjectCountingService counter = ServiceManager.getService(ProjectCountingService.class);
 
         counter.inc();
@@ -32,6 +36,10 @@ public class ProjectOpenCloseListener implements ProjectManagerListener {
     @Override
     public void projectClosed(@NotNull Project project) {
         if (ApplicationManager.getApplication().isUnitTestMode()) {
+            return;
+        }
+
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
             return;
         }
 

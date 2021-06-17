@@ -21,6 +21,10 @@ public class BackSpaceListener extends EditorWriteActionHandler {
 
     @Override
     public void executeWriteAction(@NotNull Editor editor, @Nullable Caret caret, DataContext dataContext) {
+        if (StorageData.getInstance().doNotCollectAndSendInformation) {
+            return;
+        }
+
         var selectedText = editor.getSelectionModel().getSelectedText();
         int length;
         if (selectedText != null) {
