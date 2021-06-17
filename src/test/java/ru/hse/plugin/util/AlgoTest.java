@@ -26,9 +26,11 @@ public class AlgoTest extends AbstractAlgoTest {
         testSubstringCount("abca", "abcabca");
     }
 
+    private static final int RANDOM_SEED = 12345;
+
     @Test
     public void stressSubstringCounterTest() {
-        Random random = new Random(12345);
+        Random random = new Random(RANDOM_SEED);
 
         for (int big = 0; big < BIG_ITER_NUM; big++) {
             String basicString = basicString(random);
