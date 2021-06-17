@@ -9,7 +9,7 @@ import java.util.function.ToIntBiFunction;
 public class AlgoTest extends AbstractAlgoTest {
     // word -> text -> int
     private ToIntBiFunction<String, String> testingFunction() {
-        throw new UnsupportedOperationException();
+        return (x, y) -> Algorithms.zFunction(y, x);
     }
 
     private static final int BIG_ITER_NUM = 200;
@@ -43,7 +43,6 @@ public class AlgoTest extends AbstractAlgoTest {
 
     private void testSubstringCount(String smallString, String basicString) {
         int expected = naiveSubstringCounter(smallString, basicString);
-        System.out.println(expected);
         int actual = testingFunction().applyAsInt(smallString, basicString);
         Assertions.assertEquals(expected, actual);
     }

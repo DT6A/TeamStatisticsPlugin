@@ -35,4 +35,10 @@ public class DeletionCounter extends CountingMetric {
     public String localStatisticString() {
         return "Number of deletions";
     }
+
+    @Override
+    @NotNull
+    public DeletionCounter copy() {
+        return new DeletionCounter(getCounter());
+    }
 }
